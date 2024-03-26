@@ -8,7 +8,7 @@ models.Base.metadata.create_all(bind=engine)
 
 @app.post("/users/", response_model=schemas.User,responses={
     400: {
-        "description": "Email already registered",
+        "description": "Email already registered or invalid email or password",
         "model": schemas.HTTPERROR,
         
     }
