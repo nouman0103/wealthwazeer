@@ -4,3 +4,5 @@ uvicorn
 SQLAlchemy
 uuid
 psycopg2
+passlib[bcrypt]
+python-jose[cryptography]
