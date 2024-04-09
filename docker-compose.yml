@@ -2,13 +2,15 @@ version: '3.8'
 services:
   db:
     image: postgres
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
   backend:
     build: ./backend
     ports:
