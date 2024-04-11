@@ -31,7 +31,7 @@ export default function Home() {
             type="password"
             className="w-80 mb-6"
           />
-          <GradientButton>Continue</GradientButton>
+          <GradientButton className="font-bold normal-case text-2xl">Continue</GradientButton>
 
         </div>
       </div>

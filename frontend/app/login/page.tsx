@@ -32,12 +32,10 @@ export default function Home() {
             type="password"
             className="w-80 mb-6"
           />
-          <TextButton href="/signup" className="normal-case text-base -mt-10 -mb-3 text-right ml-auto -mr-5  w-min whitespace-nowrap" disableRipple={true}>Forgot Password?</TextButton>
-          <GradientButton>Login</GradientButton>
+          <TextButton href="/signup" className="normal-case text-base -mt-10 -mb-3 text-right ml-auto -mr-5 font-light w-min whitespace-nowrap" disableRipple={true}>Forgot Password?</TextButton>
+          <GradientButton className="normal-case font-bold text-2xl">Login</GradientButton>
           <TranslucentButton startIcon={<SvgIcon><GoogleIcon/></SvgIcon>}>  Continue with Google</TranslucentButton>
-          <div className="flex flex-col text-center">
-            <TextButton href="/signup" className="normal-case" disableRipple={true}>Sign Up Instead</TextButton>
-            </div>
+          <TextButton href="/signup" className="normal-case h-11 -mt-3 font-light" disableRipple={true}>Sign Up Instead</TextButton>
         </div>
       </div>
     </main>
