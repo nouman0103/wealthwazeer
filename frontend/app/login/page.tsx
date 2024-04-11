@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Header from "../components/header";
 import womanUsingLaptop from '../assets/womenUsingLaptop.png';
-import {Button, TextField } from "@mui/material";
-import { GradientButton } from "../components/buttons";
-
+import {Button, TextField} from "@mui/material";
+import { GradientButton, TranslucentButton,TextButton} from "../components/buttons";
+import SvgIcon from '@mui/material/SvgIcon';
+import GoogleIcon from "../assets/GoogleIcon";
 
 export default function Home() {
   return (
@@ -31,8 +32,12 @@ export default function Home() {
             type="password"
             className="w-80 mb-6"
           />
+          <TextButton href="/signup" className="normal-case text-base -mt-10 -mb-3 text-right ml-auto -mr-5  w-min whitespace-nowrap" disableRipple={true}>Forgot Password?</TextButton>
           <GradientButton>Login</GradientButton>
-
+          <TranslucentButton startIcon={<SvgIcon><GoogleIcon/></SvgIcon>}>  Continue with Google</TranslucentButton>
+          <div className="flex flex-col text-center">
+            <TextButton href="/signup" className="normal-case" disableRipple={true}>Sign Up Instead</TextButton>
+            </div>
         </div>
       </div>
     </main>
