@@ -21,6 +21,14 @@ export default function Home() {
   };
 
   const onSignUp = () => {
+    if (!email || !password) {
+      setError("Email and password are required");
+      return;
+    }
+    if (email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) === null) {
+      setError("Invalid email address");
+      return;
+    }
     mutation.mutate();
   };
   const mutation = useMutation({
@@ -30,6 +38,7 @@ export default function Home() {
       setError(handleError(error));
     },
     onMutate: () => {
+      
       setError("");
     },
   });
