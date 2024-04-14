@@ -51,7 +51,7 @@ export default function Home() {
     <main className="min-h-screen bg-dark-bg-gr-to-purple">
       <Header />
       <div className="flex justify-between">
-        <div className="w-[50vw] h-[80vh]">
+        <div className="w-[50vw] h-[80vh] mt-5">
           <Image
             src={womanUsingLaptop}
             alt="Art"
