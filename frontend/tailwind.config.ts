@@ -13,6 +13,7 @@ const config: Config = {
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "dark-bg-gr-to-purple": "linear-gradient(106deg, #181823 36.4%, #1D1625 100%)",
         "glassmorphic-gradient": "linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%)",
+        "glassmorphic-gradient-hover": "linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.04) 100%)",
       },
       boxShadow: {
         "glassmorphic": "5px 8px 20px 0 rgba(0, 0, 0, 0.07)"
