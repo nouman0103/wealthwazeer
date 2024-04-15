@@ -30,7 +30,7 @@ export const GradientButton = styled(Button)<ButtonProps>(({ theme }) => ({
         background: 'linear-gradient(90deg, #CDC4EE 0%, #E8BCAE 100%)',
         border: 0,
         borderRadius: 7,
-        boxShadow: 'glassmorphic',
+        boxShadow: '5px 8px 20px 0 rgba(0, 0, 0, 0.07)',
         color: 'rgba(0, 0, 0, 0.80)',
         height: 54,
         padding: '0 30px',
@@ -40,12 +40,13 @@ export const GradientButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 export const TranslucentButton = styled(Button)<ButtonProps>(({ theme }) => ({
     '&.MuiButton-root': {
-        background: 'rgba(255, 255, 255, 0.05)',
-        border:' 1px solid rgba(255, 255, 255, 0.1)',
+        backgroundImage: 'linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%)',
+        border:' 1px solid rgba(255, 255, 255, 0.07)',
         borderRadius: 7,
         color: 'rgba(255, 255, 255, 0.80)',
         height: 54,
         padding: '0 30px',
         textTransform: 'none',
+        boxShadow: '5px 8px 20px 0 rgba(0, 0, 0, 0.07)',
     }
 }));
