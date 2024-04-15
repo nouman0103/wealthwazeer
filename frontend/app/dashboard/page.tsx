@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Drawer from "@/components/drawer";
+import { Box, Typography, LinearProgress } from '@mui/material'
 
 export default function Home() {
+  const progress = 423;
+  const goal =1000;
   return (
     <main className="min-h-screen bg-dark-bg-gr-to-purple flex">
       <Drawer />
