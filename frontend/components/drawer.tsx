@@ -31,7 +31,7 @@ const ListItem = ({ pathname, url, text, children, onClick, itemNum = 0 }: {
 
   return (
     <li ref={ref} className={`text-base  ${(pathname === url) ? "text-primaryPink" : "text-white text-opacity-50 hover:text-opacity-80 active:text-opacity-50"} font-normal z-20 ml-4 mt-3`}>
-      <Link href={"#"} prefetch={true} onClick={
+      <Link href={url} prefetch={true} onClick={
         () => {
           if (ref.current) {
             onClick?.(itemNum * 58);
@@ -81,7 +81,7 @@ const Drawer = () => {
             <GridViewRoundedIcon className='text-2xl' />
           </ListItem>
 
-          <ListItem pathname={pathname} url='/signup' text='Transactions' onClick={(height: number) => setCurrentBgOffset(height)} itemNum={1}>
+          <ListItem pathname={pathname} url='/transactions' text='Transactions' onClick={(height: number) => setCurrentBgOffset(height)} itemNum={1}>
             <ReceiptLongRoundedIcon className='text-2xl' />
           </ListItem>
 
