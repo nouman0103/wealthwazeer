@@ -11,13 +11,18 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "dark-bg-gr-to-purple": "linear-gradient(98deg, #121316 35.85%, #29072E 96.17%)"
+        "dark-bg-gr-to-purple": "linear-gradient(106deg, #181823 36.4%, #1D1625 100%)"
+      },
+      boxShadow: {
+        "glassmorphic": "5px 8px 20px 0 rgba(0, 0, 0, 0.07)"
+      },
+      opacity: {
+        "glassmorphic-bg": "2%"
       },
       // background colors:
       colors: {
-        
-      }
-
+        "primaryPink": "#FCBDFF",
+      },
     },
   },
   plugins: [],

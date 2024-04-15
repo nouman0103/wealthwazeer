@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const pathname = usePathname();
   return (
     <div>
-    <header className="flex fixed z-30 w-full justify-around gap-16 p-2  bg-white bg-opacity-[2%] border-b border-white border-opacity-10 backdrop-blur-lg shadow-sm">
+    <header className="flex fixed z-30 w-full justify-around gap-16 p-2  bg-white bg-opacity-[2%] border-b border-white border-opacity-10 backdrop-blur-lg shadow-glassmorphic">
       <div className="flex ml-auto">
         <Image src={Logo_BlackOutline} alt="Logo" height={50} />
         <text className="my-auto ml-3 text-2xl font-bold">WealthWazeer</text>

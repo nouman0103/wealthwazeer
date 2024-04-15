@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
-import Header from "../components/header";
-import womanUsingLaptop from "../assets/womenUsingLaptop.png";
+import Header from "@/components/header";
+import womanUsingLaptop from "@/assets/womenUsingLaptop.png";
 import { Button, TextField } from "@mui/material";
-import { GradientButton } from "../components/buttons";
+import { GradientButton } from "@/components/buttons";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";

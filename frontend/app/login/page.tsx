@@ -1,14 +1,14 @@
 import Image from "next/image";
-import Header from "../components/header";
-import womanUsingLaptop from "../assets/womenUsingLaptop.png";
+import Header from "@/components/header";
+import womanUsingLaptop from "@/assets/womenUsingLaptop.png";
 import { Button, TextField } from "@mui/material";
 import {
   GradientButton,
   TranslucentButton,
   TextButton,
-} from "../components/buttons";
+} from "@/components/buttons";
 import SvgIcon from "@mui/material/SvgIcon";
-import GoogleIcon from "../assets/GoogleIcon";
+import GoogleIcon from "@/assets/GoogleIcon";
 import Link from "next/link";
 
 export default function Home() {
@@ -54,6 +54,7 @@ export default function Home() {
                 <GoogleIcon />
               </SvgIcon>
             }
+            className="shadow-glassmorphic"
           >
             {" "}
             Continue with Google
