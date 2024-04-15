@@ -36,7 +36,8 @@ const Drawer = () => {
   const [currentBgOffset, setCurrentBgOffset] = React.useState(0);
 
   return (
-    <div className="w-60 min-h-screen bg-white bg-opacity-[2%] border-r border-white border-opacity-[10%] flex flex-col">
+    <>
+    <div className="w-60 fixed min-h-screen bg-white bg-opacity-[2%] border-r border-white border-opacity-[10%] flex flex-col">
       <div className="flex mx-auto mt-3 mb-9">
         <Image src={Logo_BlackOutline} alt="Logo" height={50} />
         <text className="my-auto ml-3 text-2xl font-medium text-white">WealthWazeer</text>
@@ -64,6 +65,8 @@ const Drawer = () => {
       </ul>
 
     </div>
+    <div className='w-60 min-h-screen'/>
+    </>
   );
 };
 
