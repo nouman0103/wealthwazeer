@@ -4,15 +4,32 @@ import Drawer from "@/components/drawer";
 export default function Home() {
   return (
     <main className="min-h-screen bg-dark-bg-gr-to-purple flex">
-      <Drawer/>
-      <div>
+      <Drawer />
+      <div className="p-10">
 
-        {
-          // work inside this div, and remove this comment including {}
-        }
-        <text>
-          This is a sample text. 
-        </text>
+        <div className="w-72 bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-8 flex flex-col gap-3">
+          <text className="text-lg font-medium text-white text-opacity-70">
+            Net Savings
+          </text>
+
+          <div className="mb-1">
+            <text className="text-xl mr-3 text-white text-opacity-70">
+              RS
+            </text>
+            <text className="text-4xl font-semibold">
+              1,321
+            </text>
+          </div>
+
+          <text className="text-goalYellow -mb-2">
+            Saving Goals: 1,500
+          </text>
+
+          <div className="w-full h-3 bg-glassmorphic-gradient border border-opacity-5 border-white shadow-glassmorphic rounded-full">
+            <div className="w-[38%] h-full bg-goalYellow shadow-innerShadow rounded-full" />
+          </div>
+        </div>
+
 
 
       </div>
