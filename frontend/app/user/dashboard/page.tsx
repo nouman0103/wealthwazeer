@@ -6,8 +6,6 @@ export default function Home() {
   const progress = 423;
   const goal =1000;
   return (
-    <main className="min-h-screen bg-dark-bg-gr-to-purple flex">
-      <Drawer />
       <div className="p-10">
 
         <div className="w-72 bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-8 flex flex-col gap-3">
@@ -36,6 +34,5 @@ export default function Home() {
 
 
       </div>
-    </main>
   );
 }

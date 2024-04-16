@@ -4,6 +4,7 @@ import "./globals.css";
 import ReactQueryProvider from "@/utls/ReactQueryProvider";
 import axios from "axios";
 import { MyThemeProvider } from "@/utls/ThemeProvider";
+import Drawer from "@/components/drawer";
 
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL;

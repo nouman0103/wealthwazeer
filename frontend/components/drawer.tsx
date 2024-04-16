@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image';
-import React, { useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import Logo_BlackOutline from '../assets/Logo_BlackOutline.svg';
 import Link from 'next/link';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
@@ -28,13 +28,17 @@ const ListItem = ({ pathname, url, text, children, onClick, itemNum = 0 }: {
   itemNum?: number
 }) => {
   const ref = useRef<HTMLLIElement>(null);
-
+  useEffect(() => {
+    if (pathname === url && ref.current) {
+      onClick?.(ref.current.offsetTop - (ref.current.clientHeight/2.8));
+    }
+  }, [pathname, url, ref, onClick, itemNum]);
   return (
     <li ref={ref} className={`text-base  ${(pathname === url) ? "text-primaryPink" : "text-white text-opacity-50 hover:text-opacity-80 active:text-opacity-50"} font-normal z-20 ml-4 mt-3`}>
       <Link href={url} prefetch={true} onClick={
         () => {
           if (ref.current) {
-            onClick?.(itemNum * 58);
+            onClick?.(ref.current.offsetTop -10);
           }
         }} className='w-full inline-flex'>
         {children}
@@ -77,11 +81,11 @@ const Drawer = () => {
             }
           >
           </div>
-          <ListItem pathname={pathname} url='/dashboard' text='Dashboard' onClick={(height: number) => setCurrentBgOffset(height)}>
+          <ListItem pathname={pathname} url='/user/dashboard' text='Dashboard' onClick={(height: number) => setCurrentBgOffset(height)}>
             <GridViewRoundedIcon className='text-2xl' />
           </ListItem>
 
-          <ListItem pathname={pathname} url='/transactions' text='Transactions' onClick={(height: number) => setCurrentBgOffset(height)} itemNum={1}>
+          <ListItem pathname={pathname} url='/user/transactions' text='Transactions' onClick={(height: number) => setCurrentBgOffset(height)} itemNum={1}>
             <ReceiptLongRoundedIcon className='text-2xl' />
           </ListItem>
 
@@ -141,4 +145,4 @@ const Drawer = () => {
   );
 };
 
-export default Drawer;
+export default memo(Drawer);

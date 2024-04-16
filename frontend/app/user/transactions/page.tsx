@@ -3,8 +3,6 @@ import Drawer from "@/components/drawer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-dark-bg-gr-to-purple flex">
-      <Drawer/>
       <div>
 
         {
@@ -16,6 +14,5 @@ export default function Home() {
 
 
       </div>
-    </main>
   );
 }
