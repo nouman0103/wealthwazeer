@@ -48,7 +48,7 @@ const ListItem = ({ pathname, url, text, children, onClick, itemNum = 0 }: {
   );
 };
 
-const Drawer = () => {
+const _Drawer = () => {
   // get the current open url
   const pathname = usePathname();
   const [currentBgOffset, setCurrentBgOffset] = React.useState(0);
@@ -63,8 +63,8 @@ const Drawer = () => {
   };
 
   return (
-    <>
-      <div className="w-52 fixed min-h-screen bg-glassmorphic-gradient border-r border-white border-opacity-[10%] flex flex-col">
+    <div>
+      <div className="w-56 fixed min-h-screen bg-glassmorphic-gradient border-r border-white border-opacity-[10%] flex flex-col">
         <div className="flex mx-auto mt-4 mb-6">
           <Image src={Logo_BlackOutline} alt="Logo" height={30} />
           <text className="my-auto ml-3 text-xl font-normal text-white">WealthWazeer</text>
@@ -140,9 +140,9 @@ const Drawer = () => {
 
 
       </div>
-      <div className='w-52 min-h-screen' />
-    </>
+      <div className='w-56 min-h-screen' />
+    </div>
   );
 };
 
-export default memo(Drawer);
+export const Drawer = memo(_Drawer);

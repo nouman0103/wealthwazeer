@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Drawer from "@/components/drawer";
+import {Drawer} from "@/components/drawer";
 
 export default function RootLayout({
   children,
@@ -8,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <main className="min-h-screen bg-dark-bg-gr-to-purple flex">
+      <main className="min-h-screen bg-dark-bg-gr-to-purple flex justify-start">
         <Drawer />
         {children}
         </main>

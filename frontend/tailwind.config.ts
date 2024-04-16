@@ -19,6 +19,9 @@ const config: Config = {
         "glassmorphic": "5px 8px 20px 0 rgba(0, 0, 0, 0.07)",
         "innerShadow": "0px 0px 7.8px 0px rgba(0, 0, 0, 0.39) inset",
       },
+      dropShadow: {
+        "glassmorphic": "drop-shadow(5 8px 20px rgb(0 0 0 / 0.05))",
+      },
       opacity: {
         "glassmorphic-bg": "2%"
       },
