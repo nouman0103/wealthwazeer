@@ -30,6 +30,9 @@ const config: Config = {
         "primaryPink": "#FCBDFF",
         "goalYellow": "#F8C032"
       },
+      borderWidth: {
+        '1.5' : '1.5px'
+      }
     },
   },
   plugins: [],
