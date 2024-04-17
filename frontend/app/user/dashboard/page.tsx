@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded';
 import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded';
@@ -32,9 +33,46 @@ const TransactionCards: React.FC<{ title: string, date: string, value: number, i
   )
 }
 
-const DashCard: React.FC<{ title: string, value: number, progressTitle: string, progress: number, progressColor: string }> = ({ title, value, progressTitle, progress, progressColor }) => {
+const GlassmorphicProgressBar: React.FC<{ progressTitle: string, progress: number, progressColor: string }> = ({ progressTitle, progress, progressColor }) => {
+  const bgColorVariants: { [key: string]: string } = {
+    goalYellow: 'bg-goalYellow',
+    softPink: 'bg-softPink',
+    red: 'bg-red-200',
+  };
+  const textColorVariants: { [key: string]: string } = {
+    goalYellow: 'text-goalYellow',
+    softPink: 'text-softPink',
+    red: 'text-red-200',
+  };
   return (
-    <div className="w-40 sm:w-44 md:w-48 lg:w-52 xl:w-56 2xl:w-60 h-min bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3">
+    <>
+      <text className={`${textColorVariants[progressColor]} text-xs sm:text-sm xl:text-base -mb-2`}>
+        {progressTitle}
+      </text>
+
+      <div className="w-full h-3 bg-glassmorphic-gradient border border-opacity-5 border-white shadow-glassmorphic rounded-full">
+        <div style={
+          {
+            width: `${progress}%`,
+          }
+        } className={`h-full ${bgColorVariants[progressColor]} shadow-innerShadow rounded-full`} />
+      </div>
+    </>
+  )
+}
+
+const DashCard: React.FC<{ title: string, value: number, bars: { title: string, value: number, color: string }[],}> = ({ title, value, bars }) => {
+
+
+  const [showAll, setShowAll] = React.useState(false);
+
+
+  return (
+    <div
+      className=" transition-all w-40 sm:w-44 md:w-48 lg:w-52 xl:w-56 2xl:w-60 h-min bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3"
+      onMouseEnter={() => setShowAll(true)}
+      onMouseLeave={() => setShowAll(false)}
+    >
       <text className="text-base xl:text-lg font-medium text-white text-opacity-70">
         {title}
       </text>
@@ -48,18 +86,14 @@ const DashCard: React.FC<{ title: string, value: number, progressTitle: string, 
         </text>
       </div>
 
-      <text className={`text-${progressColor} text-xs sm:text-sm xl:text-base -mb-2`}>
-        {progressTitle}
-      </text>
-
-      <div className="w-full h-3 bg-glassmorphic-gradient border border-opacity-5 border-white shadow-glassmorphic rounded-full">
-        <div style={
-          {
-            width: `${progress}%`,
-          }
-        } className={`h-full bg-${progressColor} shadow-innerShadow rounded-full`} />
+      <GlassmorphicProgressBar progressTitle={bars[0].title} progress={bars[0].value} progressColor={bars[0].color} />
+      <div className={`transition-all ${showAll ? 'h-auto' : 'h-0'} overflow-hidden`}>
+      {bars.slice(1).map((bar, index) => (
+        <GlassmorphicProgressBar key={index} progressTitle={bar.title} progress={bar.value} progressColor={bar.color} />
+      ))}
       </div>
-    </div>
+
+    </div >
   )
 
 }
@@ -72,9 +106,9 @@ export default function Home() {
     <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap">
       <div className='flex flex-col gap-2 lg:gap-4 2xl:gap-8'>
         <div className='flex gap-2 lg:gap-4 2xl:gap-8'>
-          <DashCard title='Net Savings' value={423} progressTitle='Saving Goals: 1,500' progress={65} progressColor="goalYellow" />
-          <DashCard title='Income' value={15000} progressTitle='85% Salary' progress={85} progressColor='softPink' />
-          <DashCard title='Total Spent' value={14642} progressTitle='38% Groceries' progress={38} progressColor='red-200' />
+          <DashCard title='Net Savings' value={423} bars={[{ title: 'Saving Goals: 1,500', value: 65, color: 'goalYellow'}, { title: 'Investments: 500', value: 65, color: 'softPink' }]} />
+          <DashCard title='Income' value={15000} bars={[{ title: '65% Salary', value: 65, color: 'softPink' }]} />
+          <DashCard title='Total Spent' value={14642} bars={[{ title: '85% Groceries', value: 85, color: 'red' }]} />
         </div>
         <div>
           <text>
