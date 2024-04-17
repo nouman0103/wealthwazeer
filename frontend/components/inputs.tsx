@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
