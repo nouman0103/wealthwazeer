@@ -108,8 +108,8 @@ export default function Home() {
   const goal = 1000;
   return (
     <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap flex-grow">
-      <div className='flex flex-col gap-2 lg:gap-4 2xl:gap-8'>
-        <div className='flex gap-2 lg:gap-4 2xl:gap-8'>
+      <div className='flex flex-col gap-2 lg:gap-4 2xl:gap-8 flex-wrap'>
+        <div className='flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap'>
           <DashCard title='Net Savings' value={423} bars={[{ title: 'Saving Goals: 1,500', value: 65, color: 'goalYellow' }, { title: 'Investments: 500', value: 65, color: 'softPink' }, { title: 'Emergency Fund: 500', value: 65, color: 'red' }]} />
           <DashCard title='Income' value={15000} bars={[{ title: '65% Salary', value: 65, color: 'softPink' }]} />
           <DashCard title='Total Spent' value={14642} bars={[{ title: '85% Groceries', value: 85, color: 'red' }]} />
