@@ -61,7 +61,7 @@ const GlassmorphicProgressBar: React.FC<{ progressTitle: string, progress: numbe
   )
 }
 
-const DashCard: React.FC<{ title: string, value: number, bars: { title: string, value: number, color: string }[],}> = ({ title, value, bars }) => {
+const DashCard: React.FC<{ title: string, value: number, bars: { title: string, value: number, color: string }[], }> = ({ title, value, bars }) => {
 
 
   const [showAll, setShowAll] = React.useState(false);
@@ -69,31 +69,35 @@ const DashCard: React.FC<{ title: string, value: number, bars: { title: string, 
 
   return (
     <div
-      className=" transition-all w-40 sm:w-44 md:w-48 lg:w-52 xl:w-56 2xl:w-60 h-min bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3"
+      className="relative h-48 w-60"
       onMouseEnter={() => setShowAll(true)}
       onMouseLeave={() => setShowAll(false)}
     >
-      <text className="text-base xl:text-lg font-medium text-white text-opacity-70">
-        {title}
-      </text>
-
-      <div className="mb-1">
-        <text className="text-xs xl:text-xl mr-3 text-white text-opacity-70">
-          RS
+      <div
+        className={`absolute transition-all z-0 hover:z-10 duration-500 w-60 h-min bg-glassmorphic-gradient hover:bg-glassmorphic-gradient-hover scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
+      >
+        <text className="text-base xl:text-lg font-medium text-white text-opacity-70">
+          {title}
         </text>
-        <text className="text-xl xl:text-3xl font-semibold">
-          {value.toLocaleString()}
-        </text>
-      </div>
 
-      <GlassmorphicProgressBar progressTitle={bars[0].title} progress={bars[0].value} progressColor={bars[0].color} />
-      <div className={`transition-all ${showAll ? 'h-auto' : 'h-0'} overflow-hidden`}>
-      {bars.slice(1).map((bar, index) => (
-        <GlassmorphicProgressBar key={index} progressTitle={bar.title} progress={bar.value} progressColor={bar.color} />
-      ))}
-      </div>
+        <div className="mb-1">
+          <text className="text-xs xl:text-xl mr-3 text-white text-opacity-70">
+            RS
+          </text>
+          <text className="text-xl xl:text-3xl font-semibold">
+            {value.toLocaleString()}
+          </text>
+        </div>
 
-    </div >
+        <GlassmorphicProgressBar progressTitle={bars[0].title} progress={bars[0].value} progressColor={bars[0].color} />
+        <div className={`flex flex-col gap-3 transition-all duration-300 ${showAll ? 'max-h-56 scale-y-100' : 'scale-y-0 max-h-0'} overflow-hidden`}>
+          {bars.slice(1).map((bar, index) => (
+            <GlassmorphicProgressBar key={index} progressTitle={bar.title} progress={bar.value} progressColor={bar.color} />
+          ))}
+        </div>
+
+      </div >
+    </div>
   )
 
 }
@@ -103,21 +107,21 @@ export default function Home() {
   const progress = 423;
   const goal = 1000;
   return (
-    <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap">
+    <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap flex-grow">
       <div className='flex flex-col gap-2 lg:gap-4 2xl:gap-8'>
         <div className='flex gap-2 lg:gap-4 2xl:gap-8'>
-          <DashCard title='Net Savings' value={423} bars={[{ title: 'Saving Goals: 1,500', value: 65, color: 'goalYellow'}, { title: 'Investments: 500', value: 65, color: 'softPink' }]} />
+          <DashCard title='Net Savings' value={423} bars={[{ title: 'Saving Goals: 1,500', value: 65, color: 'goalYellow' }, { title: 'Investments: 500', value: 65, color: 'softPink' }, { title: 'Emergency Fund: 500', value: 65, color: 'red' }]} />
           <DashCard title='Income' value={15000} bars={[{ title: '65% Salary', value: 65, color: 'softPink' }]} />
           <DashCard title='Total Spent' value={14642} bars={[{ title: '85% Groceries', value: 85, color: 'red' }]} />
         </div>
-        <div>
+        <div className='bg-glassmorphic-gradient backdrop backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3'>
           <text>
             Reports
           </text>
         </div>
       </div>
 
-      <div className='bg-glassmorphic-gradient backdrop backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3'>
+      <div className='bg-glassmorphic-gradient backdrop backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col flex-grow gap-2 xl:gap-3'>
         <div className='flex justify-between'>
           <text className='ml-2 text-base xl:text-lg font-medium text-white text-opacity-70'>
             Transactions

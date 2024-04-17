@@ -17,6 +17,7 @@ const config: Config = {
       },
       boxShadow: {
         "glassmorphic": "5px 8px 20px 0 rgba(0, 0, 0, 0.1)",
+        "glassmorphic-hover": "7px 10px 30px 0 rgba(0, 0, 0, 0.15)",
         "innerShadow": "0px 0px 7.8px 0px rgba(0, 0, 0, 0.39) inset",
       },
       dropShadow: {
