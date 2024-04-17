@@ -4,7 +4,7 @@ import womanUsingLaptop from "@/assets/womenUsingLaptop.png";
 import { Button, TextField } from "@mui/material";
 import {
   GradientButton,
-  TranslucentButton,
+  GlassmorphicButton,
   TextButton,
 } from "@/components/buttons";
 import SvgIcon from "@mui/material/SvgIcon";
@@ -52,7 +52,7 @@ export default function Home() {
           <GradientButton className="normal-case font-bold text-2xl">
             Login
           </GradientButton>
-          <TranslucentButton
+          <GlassmorphicButton
             startIcon={
               <SvgIcon>
                 <GoogleIcon />
@@ -60,9 +60,8 @@ export default function Home() {
             }
             className="shadow-glassmorphic"
           >
-            {" "}
-            Continue with Google
-          </TranslucentButton>
+            <text className="mx-auto">Continue with Google</text>
+          </GlassmorphicButton>
           <TextButton
             className="normal-case h-11 -mt-3 font-light"
             disableRipple={true}
