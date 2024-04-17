@@ -8,9 +8,9 @@ const TransactionCards: React.FC<{ title: string, date: string, value: number, i
   return (
     <div className='flex items-center px-3 py-2 bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border border-opacity-5 border-white'>
       {isArrowUp ? (
-        <OutgoingIcon/>
+        <OutgoingIcon />
       ) : (
-        <IncomingIcon/>
+        <IncomingIcon />
       )}
       <div className='flex-grow flex flex-col gap-1 ml-4'>
         <text className='text-xl font-medium text-white self-start max-w-48 truncate'>
