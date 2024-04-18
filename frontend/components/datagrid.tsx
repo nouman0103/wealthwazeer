@@ -28,7 +28,7 @@ export const OutgoingIcon = () => {
     );
 }
 
-const spopper = styled((props: PopperProps) => (
+export const spopper = styled((props: PopperProps) => (
     <Popper {...props} />
 ))(({ theme }) => ({
     backgroundColor: 'transparent',
