@@ -2,6 +2,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, TIMESTAMP
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
+from sqlalchemy.sql import func
 import time
 from ..db import Base
 
@@ -16,5 +17,12 @@ class User(Base):
     name = Column(String, nullable=False)
 
 
-    created_at = Column(TIMESTAMP, default=int(time.time()))
-    updated_at = Column(TIMESTAMP, default=int(time.time()))
+    created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+    updated_at = Column(TIMESTAMP, onupdate=func.current_timestamp())
+    
+    transaction = relationship("Transaction", back_populates="user")
+    partner = relationship("Partner", back_populates="user")
+    account = relationship("Account", back_populates="user")
+    #saving = relationship("Saving", back_populates="user")
+    #payment = relationship("Payment", back_populates="user")
+    

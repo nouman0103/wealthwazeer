@@ -14,6 +14,7 @@ class Partner(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     
     user = relationship("User", back_populates="partner")
+    transaction = relationship("Transaction", back_populates="partner")
     
     created_at = Column(TIMESTAMP, default=int(time.time()))
     updated_at = Column(TIMESTAMP, default=int(time.time()))

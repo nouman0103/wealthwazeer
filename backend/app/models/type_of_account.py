@@ -4,12 +4,13 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from ..db import Base
 import time
-class TypeOd(Base):
-    __tablename__ = "accountline"
+class TypeOfAccount(Base):
+    __tablename__ = "type_of_account"
     
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
-    type = Column(Enum('other', 'receivable', 'payable', 'liquidity'), nullable=False)
+    type = Column(Enum('other', 'receivable', 'payable', 'liquidity',name="type"), nullable=False)
+    account = relationship("Account", back_populates="type_of_account")
     
-    created_at = Column(TIMESTAMP, default=int(time.time()))
-    updated_at = Column(TIMESTAMP, default=int(time.time()))
+    created_at = Column(TIMESTAMP, default=(time.time()))
+    updated_at = Column(TIMESTAMP, default=(time.time()))
