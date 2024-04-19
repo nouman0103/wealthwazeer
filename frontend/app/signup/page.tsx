@@ -9,24 +9,27 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { handleError } from "@/utls/handleError";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContex";
 
 export default function Home() {
+  const { api } = useAuth();
   const signupUser = async () => {
-    axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
-
-    const response = await axios.post("/users", {
-      email: email,
-      password: password,
+    const response = await api.post("/users", {
+      name,
+      email,
+      password,
     });
     return response.data;
   };
 
   const onSignUp = () => {
-    if (!email || !password) {
-      setError("Email and password are required");
+    if (!email || !password || !name) {
+      setError("Name,Email and password are required");
       return;
     }
-    if (email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) === null) {
+    if (
+      email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) === null
+    ) {
       setError("Invalid email address");
       return;
     }
@@ -39,7 +42,6 @@ export default function Home() {
       setError(handleError(error));
     },
     onMutate: () => {
-      
       setError("");
     },
   });
@@ -82,7 +84,9 @@ export default function Home() {
           />
           <TextField
             label={
-              <text className="text-white text-opacity-80 text-xl">Email Address</text>
+              <text className="text-white text-opacity-80 text-xl">
+                Email Address
+              </text>
             }
             variant="standard"
             type="email"
@@ -92,7 +96,9 @@ export default function Home() {
           />
           <TextField
             label={
-              <text className="text-white text-opacity-80 text-xl">Password</text>
+              <text className="text-white text-opacity-80 text-xl">
+                Password
+              </text>
             }
             variant="standard"
             type="password"

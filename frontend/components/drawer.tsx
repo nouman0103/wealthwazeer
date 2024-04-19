@@ -17,6 +17,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {GlassmorphicMenu} from './menus';
 import Paper from '@mui/material/Paper';
+import { useAuth } from '@/context/AuthContex';
+import { useQueryClient } from '@tanstack/react-query';
 
 
 const ListItem = ({ pathname, url, text, children, onClick, itemNum = 0 }: {
@@ -52,6 +54,8 @@ const _Drawer = () => {
   // get the current open url
   const pathname = usePathname();
   const [currentBgOffset, setCurrentBgOffset] = React.useState(0);
+  const {user,setToken} = useAuth();
+  const queryClient = useQueryClient();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -61,6 +65,10 @@ const _Drawer = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const logOut = () => {
+    setToken(null);
+    queryClient.clear();
+  }
 
   return (
     <div>
@@ -111,10 +119,12 @@ const _Drawer = () => {
             className='flex gap-1 bg-glassmorphic-gradient shadow-glassmorphic border border-white border-opacity-5 rounded-2xl px-2 py-2 cursor-pointer hover:bg-glassmorphic-gradient-hover transition-all duration-700'
             onClick={handleClick}
           >
-            <Avatar sx={{ bgcolor: deepOrange[500] }} className='w-8 h-8 text-base my-auto mr-1'>N</Avatar>
+            <Avatar sx={{ bgcolor: deepOrange[500] }} className='w-8 h-8 text-base my-auto mr-1'>
+              {user?.name[0].toLocaleUpperCase()}
+            </Avatar>
             <div className='flex flex-col'>
-              <text className='text-white truncate w-28 text-opacity-80'>Nouman Iqbal</text>
-              <text className='text-white truncate w-28 text-sm text-opacity-50'>nouman0103@gmail.com</text>
+              <text className='text-white truncate w-28 text-opacity-80'>{user?.name}</text>
+              <text className='text-white truncate w-28 text-sm text-opacity-50'>{user?.email}</text>
             </div>
             <ArrowRightRoundedIcon className='text-white text-opacity-50 my-auto ml-auto pr-2' />
           </div>
@@ -133,7 +143,10 @@ const _Drawer = () => {
             }}
           >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={()=>{
+              logOut();
+              handleClose();
+            }}>Logout</MenuItem>
           </GlassmorphicMenu>
         </ul>
 

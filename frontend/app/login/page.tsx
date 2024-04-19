@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Header from "@/components/header";
 import womanUsingLaptop from "@/assets/womenUsingLaptop.png";
@@ -10,8 +11,38 @@ import {
 import SvgIcon from "@mui/material/SvgIcon";
 import GoogleIcon from "@/assets/GoogleIcon";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { useAuth } from "@/context/AuthContex";
 
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { setToken,api } = useAuth();
+  const login = async () => {
+    const formData = new FormData();
+    formData.append("username", email);
+    formData.append("password", password);
+    const response = await api.post("/token", formData, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return response.data;
+  };
+
+  const mutation = useMutation({
+    mutationFn: login,
+    mutationKey: ["login"],
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      setToken(data.access_token);
+    },
+  });
+
   return (
     <main className="min-h-screen bg-dark-bg-gr-to-purple">
       <Header />
@@ -26,8 +57,12 @@ export default function Home() {
         <div className="p-20 xl:mr-40 2xl:mr-48   flex flex-col gap-4 right-0">
           <text className="text-3xl font-semibold mb-3 mx-auto">Login</text>
           <TextField
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
             label={
-              <text className="text-white text-opacity-80 text-xl">Email Address</text>
+              <text className="text-white text-opacity-80 text-xl">
+                Email Address
+              </text>
             }
             variant="standard"
             type="email"
@@ -35,11 +70,15 @@ export default function Home() {
           />
           <TextField
             label={
-              <text className="text-white text-opacity-80 text-xl">Password</text>
+              <text className="text-white text-opacity-80 text-xl">
+                Password
+              </text>
             }
             variant="standard"
             type="password"
             className="w-80 mb-6"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           <TextButton
             className="normal-case text-base -mt-10 -mb-3 text-right ml-auto -mr-5 font-light w-min whitespace-nowrap"
@@ -49,7 +88,12 @@ export default function Home() {
               Forgot Password?
             </Link>
           </TextButton>
-          <GradientButton className="normal-case font-bold text-2xl">
+          <GradientButton
+            onClick={() => {
+              mutation.mutate();
+            }}
+            className="normal-case font-bold text-2xl"
+          >
             Login
           </GradientButton>
           <GlassmorphicButton
