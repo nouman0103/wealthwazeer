@@ -14,10 +14,14 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContex";
+import { handleError } from "@/utls/handleError";
+import { Axios, AxiosError } from "axios";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const { setToken,api } = useAuth();
   const login = async () => {
     const formData = new FormData();
@@ -34,13 +38,15 @@ export default function Home() {
   const mutation = useMutation({
     mutationFn: login,
     mutationKey: ["login"],
-    onError: (error) => {
-      console.error(error);
+    onError: (error:AxiosError) => {
+      setError(handleError(error));
     },
     onSuccess: (data) => {
-      console.log(data);
       setToken(data.access_token);
     },
+    onMutate: () => {
+      setError("");
+    }
   });
 
   return (
@@ -55,14 +61,21 @@ export default function Home() {
           />
         </div>
         <div className="p-20 xl:mr-40 2xl:mr-48   flex flex-col gap-4 right-0">
-          <text className="text-3xl font-semibold mb-3 mx-auto">Login</text>
+          <span className="text-3xl font-semibold mb-3 mx-auto">Login</span>
+          {
+            error && (
+              <span className="text-red-500 text-lg">
+                {error}
+              </span>
+            )
+          }
           <TextField
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             label={
-              <text className="text-white text-opacity-80 text-xl">
+              <span className="text-white text-opacity-80 text-xl">
                 Email Address
-              </text>
+              </span>
             }
             variant="standard"
             type="email"
@@ -104,7 +117,7 @@ export default function Home() {
             }
             className="shadow-glassmorphic"
           >
-            <text className="mx-auto">Continue with Google</text>
+            <span className="mx-auto">Continue with Google</span>
           </GlassmorphicButton>
           <TextButton
             className="normal-case h-11 -mt-3 font-light"
