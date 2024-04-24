@@ -39,7 +39,7 @@ const ListItem = ({
   const ref = useRef<HTMLLIElement>(null);
   useEffect(() => {
     if (pathname === url && ref.current) {
-      onClick?.(ref.current.offsetTop - ref.current.clientHeight / 2.8);
+      onClick?.(ref.current.offsetTop - ref.current.clientHeight / 4.8);
     }
   }, [pathname, url, ref, onClick, itemNum]);
   return (
@@ -56,7 +56,7 @@ const ListItem = ({
         prefetch={true}
         onClick={() => {
           if (ref.current) {
-            onClick?.(ref.current.offsetTop - 10);
+            onClick?.(ref.current.offsetTop + 50);
           }
         }}
         className="w-full inline-flex"
@@ -148,7 +148,7 @@ const _Drawer = () => {
 
           <ListItem
             pathname={pathname}
-            url="/signup"
+            url="/user/contacts"
             text="Contacts"
             onClick={(height: number) => setCurrentBgOffset(height)}
             itemNum={4}
@@ -168,14 +168,6 @@ const _Drawer = () => {
         </ul>
 
         <ul className="mx-2 flex-col flex gap-4 relative mt-auto mb-5 ">
-          <ListItem
-            pathname={pathname}
-            url="/signup"
-            text="Settings"
-            onClick={() => {}}
-          >
-            <SettingsRoundedIcon className="ml-3 text-2xl" />
-          </ListItem>
           <div
             className="flex gap-1 bg-glassmorphic-gradient shadow-glassmorphic border border-white border-opacity-5 rounded-2xl px-2 py-2 cursor-pointer hover:bg-glassmorphic-gradient-hover transition-all duration-700"
             onClick={handleClick}
