@@ -16,6 +16,7 @@ class Friend(Base):
     user = relationship("User", back_populates="friend")
     friend = relationship("User", back_populates="friend")
     
+    
     created_at = Column(TIMESTAMP, default=int(time.time()))
     updated_at = Column(TIMESTAMP, default=int(time.time()))
     

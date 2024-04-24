@@ -1,7 +1,8 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, TIMESTAMP
-from sqlalchemy.sql.expression import CheckConstraint
+from sqlalchemy import CheckConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.sql import func
 import uuid
 from ..db import Base
 import time
@@ -28,10 +29,12 @@ class AccountLine(Base):
     account_id = Column(UUID(as_uuid=True), ForeignKey("account.id"), nullable=False)
     account = relationship("Account", back_populates="accountline")
     
-    created_at = Column(TIMESTAMP, default=int(time.time()))
-    updated_at = Column(TIMESTAMP, default=int(time.time()))
+    created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+    updated_at = Column(TIMESTAMP, onupdate=func.current_timestamp())
     
-    __table_args__ = (CheckConstraint(debit*credit == 0, name = "check_debit_credit_zero"))
+    __table_args__ = (
+        CheckConstraint('debit*credit = 0', name='check_debit_credit'),
+    )
     
     
     

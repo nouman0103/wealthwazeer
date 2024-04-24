@@ -42,4 +42,11 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Sessio
 @app.get("/users/me/", response_model=schemas.User)
 def get_current_user(current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
     return current_user
-    
+
+@app.get("/accounts/", response_model=schemas.AccountDetail)
+def get_account_detail(current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_account_detail(db=db, user_id=current_user.id)
+
+@app.post("/accounts/", response_model=schemas.Account)
+def create_account(account: schemas.AccountCreate, current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.create_account(db=db, account=account, user_id=current_user.id)

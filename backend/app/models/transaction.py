@@ -14,6 +14,7 @@ class Transaction(Base):
     
     user = relationship("User", back_populates="transaction")
     partner = relationship("Partner", back_populates="transaction")
+    accountline = relationship("AccountLine", back_populates="transaction")
     
     created_at = Column(TIMESTAMP, default=int(time.time()))
     updated_at = Column(TIMESTAMP, default=int(time.time()))

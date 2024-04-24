@@ -20,12 +20,12 @@ export const AccountCard = ({ accountName, money }: AccountCardProps) => {
   );
 };
 
-export const AddAccountCard = () => {
+export const AddAccountCard = ({accountType, onClick}: {accountType: string, onClick: () => void}) => {
   return (
-    <div className="flex w-64 mx-auto bg-glassmorphic-gradient rounded-3xl border-4 border-dashed border-gray-500 transform transition-transform duration-500 ease-in-out motion-safe:hover:scale-110 justify-center items-center">
+    <div className="flex w-64 mx-auto bg-glassmorphic-gradient rounded-3xl border-4 border-dashed border-gray-500 transform transition-transform duration-500 ease-in-out motion-safe:hover:scale-110 justify-center items-center" onClick={onClick}>
       <div className="flex flex-col gap-x-8 gap-y-7 p-6">
         <text className="text-2xl text-white text-opacity-70 font-medium text-center">
-          New Account
+          New {accountType} Account
         </text>
         <div className="flex justify-center">
           <AddIcon />
