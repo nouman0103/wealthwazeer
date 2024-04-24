@@ -93,7 +93,6 @@ const AuthProviderComponent = ({ children }: { children: React.ReactNode }) => {
       setToken(null);
     }
   }, [error]);
-  console.log(data);
 
   return (
     <AuthContext.Provider value={{ user:data, token, setToken, api }}>
