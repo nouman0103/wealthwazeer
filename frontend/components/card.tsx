@@ -1,36 +1,103 @@
-"use client";
+import React from 'react';
+import { List, ListItem, ListItemIcon, ListItemText, Avatar, IconButton, Divider } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import AddIcon from '@mui/icons-material/Add';
 
-import React from "react";
-import AddIcon from "@mui/icons-material/Add";
-
-interface AccountCardProps {
-  accountName: string;
-  money: number;
+interface Contact {
+  name: string;
 }
-export const AccountCard = ({ accountName, money }: AccountCardProps) => {
+
+interface Friend {
+  name: string;
+  email: string;
+}
+
+const ContactItem: React.FC<Contact> = ({ name }) => {
   return (
-    <div className="flex mx-auto pt-3 pl-2 pb-3 pr-10 w-64 bg-glassmorphic-gradient rounded-3xl border-solid border-1 backdrop-filter backdrop-blur-sm shadow-glassmorphic">
-      <div className="flex flex-col gap-x-8 gap-y-7 p-6">
-        <text className="text-xl text-white text-opacity-70 font-medium leading-3 text-left align-middle overflow-visible break-word">
-          {accountName}
-        </text>
-        <text className="text-2xl text-white font-lg">PKR {money}</text>
-      </div>
-    </div>
+    <ListItem>
+      <ListItemIcon>
+        <Avatar>{name[0]}</Avatar>
+      </ListItemIcon>
+      <ListItemText primary={name} />
+      <IconButton edge="end">
+        <MoreVertIcon />
+      </IconButton>
+    </ListItem>
   );
 };
 
-export const AddAccountCard = () => {
+const FriendItem: React.FC<Friend> = ({ name, email }) => {
   return (
-    <div className="flex w-64 mx-auto bg-glassmorphic-gradient rounded-3xl border-4 border-dashed border-gray-500 transform transition-transform duration-500 ease-in-out motion-safe:hover:scale-110 justify-center items-center">
-      <div className="flex flex-col gap-x-8 gap-y-7 p-6">
-        <text className="text-2xl text-white text-opacity-70 font-medium text-center">
-          New Account
-        </text>
-        <div className="flex justify-center">
-          <AddIcon />
+    <ListItem>
+      <ListItemIcon>
+        <Avatar>{name[0]}</Avatar>
+      </ListItemIcon>
+      <ListItemText primary={name} secondary={email} />
+      <IconButton edge="end">
+        <MoreVertIcon />
+      </IconButton>
+    </ListItem>
+  );
+};
+
+export default function Home() {
+  const contacts: Contact[] = [
+    { name: "Alice Smith" },
+    { name: "Bob Johnson" },
+    { name: "Charlie Davis" }
+  ];
+
+  const friends: Friend[] = [
+    { name: "John Doe", email: "john@example.com" },
+    { name: "Jane Doe", email: "jane@example.com" },
+    { name: "Michael Smith", email: "michael@example.com" }
+  ];
+
+  return (
+    <div className="p-8 flex flex-col gap-5 flex-grow overflow-hidden">
+      <div className="flex justify-between">
+        <div className="text-2xl font-semibold text-white text-opacity-80 my-auto">
+          Contacts
+        </div>
+        <div className="flex items-center space-x-4">
+          <button className="text-sm text-white rounded-full bg-blue-500 px-3 py-1">
+            + Add Contact
+          </button>
+          <IconButton>
+            <SearchIcon />
+          </IconButton>
         </div>
       </div>
+      <Divider />
+
+      <List>
+        {contacts.map((contact, index) => (
+          <ContactItem key={index} {...contact} />
+        ))}
+      </List>
+
+      <Divider />
+
+      <div className="text-xl font-semibold text-white mt-5">Friends</div>
+      <div className="flex items-center space-x-4">
+        <button className="text-sm text-white rounded-full bg-blue-500 px-3 py-1">
+          + Add Friend
+        </button>
+      </div>
+
+      <div>
+        <div className="text-white font-semibold mt-5">Requests</div>
+        {/* Requests List */}
+      </div>
+      <div>
+        <div className="text-white font-semibold mt-5">Friend Cards</div>
+        <List>
+          {friends.map((friend, index) => (
+            <FriendItem key={index} {...friend} />
+          ))}
+        </List>
+      </div>
     </div>
   );
-};
+}
