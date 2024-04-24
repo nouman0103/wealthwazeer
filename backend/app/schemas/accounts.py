@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
 from pydantic import BaseModel
-from typing import List, Optional,Annotated
+from typing import List, Optional,Annotated,Literal
 
 
 class AccountBase(BaseModel):
@@ -13,4 +13,7 @@ class Account(AccountBase):
 
 class AccountDetail(BaseModel):
     accounts : List[Account]
+
+class AccountCreate(AccountBase):
+    account_type: Literal["Income" , "Expenses" , "Bank and Cash"]
     
