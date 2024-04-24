@@ -6,8 +6,25 @@ import Divider from "@mui/material/Divider";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { GlassmorphicDialog } from "@/components/dialogs";
-import { Button, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormControlLabelProps, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, styled, TextField } from "@mui/material";
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  FormControlLabel,
+  FormControlLabelProps,
+  FormLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  styled,
+  TextField,
+} from "@mui/material";
 import { GlassmorphicInputField } from "@/components/inputs";
+import { AddAccountPopup } from "./AddAccountPopup";
 
 type Account = {
   name: string;
@@ -17,10 +34,6 @@ type Account = {
 type AccountDetail = {
   accounts: Account[];
 };
-
-
-
-
 
 export default function Home() {
   const { api } = useAuth();
@@ -45,31 +58,21 @@ export default function Home() {
     setNewAccountPopupOpen(false);
   };
 
-  const formControlLabelSX = {
-    '&.MuiFormControlLabel-root .MuiFormControlLabel-label': {
-      fontSize: "20px",
-      fontWeight: 400,
-    }
-  };
-
   const [selectedAccountType, setSelectedAccountType] = useState("Bank");
   const handleAccountTypeChange = (accountType: number) => {
     if (accountType === 1) {
-      setSelectedAccountType("Bank");
-    }
-    else if (accountType === 2) {
+      setSelectedAccountType("Bank and Cash");
+    } else if (accountType === 2) {
       setSelectedAccountType("Income");
-    }
-    else {
-      setSelectedAccountType("Expense");
+    } else {
+      setSelectedAccountType("Expenses");
     }
     setNewAccountPopupOpen(true);
   };
 
-
   return (
     <>
-      <div className="p-8 flex flex-col gap-5 flex-grow overflow-hidden">
+      <div className="p-8 flex flex-col gap-5 flex-grow overflow-hidden cursor-pointer">
         <div className="flex justify-between">
           <span className="text-2xl font-semibold text-white text-opacity-80 my-auto">
             Accounts
@@ -91,8 +94,12 @@ export default function Home() {
                   />
                 );
               })}
-            <AddAccountCard accountType="Bank" onClick={() => {handleAccountTypeChange(1)}} />
-
+            <AddAccountCard
+              accountType="Bank"
+              onClick={() => {
+                handleAccountTypeChange(1);
+              }}
+            />
           </div>
           <Divider orientation="vertical" flexItem />
 
@@ -110,7 +117,12 @@ export default function Home() {
                   />
                 );
               })}
-            <AddAccountCard accountType="Income" onClick={() => {handleAccountTypeChange(2)}} />
+            <AddAccountCard
+              accountType="Income"
+              onClick={() => {
+                handleAccountTypeChange(2);
+              }}
+            />
           </div>
           <Divider orientation="vertical" flexItem />
           <div className="flex flex-col flex-wrap gap-8">
@@ -127,12 +139,17 @@ export default function Home() {
                   />
                 );
               })}
-            <AddAccountCard accountType="Expense" onClick={() => {handleAccountTypeChange(3)}} />
+            <AddAccountCard
+              accountType="Expenses"
+              onClick={() => {
+                handleAccountTypeChange(3);
+              }}
+            />
           </div>
         </div>
       </div>
 
-      <GlassmorphicDialog
+      {/* <GlassmorphicDialog
         open={newAccountPopupOpen}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
@@ -166,9 +183,9 @@ export default function Home() {
               name="radio-buttons-group"
               className="ml-4"
             >
-              <FormControlLabel value="Bank" control={<Radio size="small"/>} label="Bank Account" sx={formControlLabelSX}/>
+              <FormControlLabel value="Bank and Cash" control={<Radio size="small"/>} label="Bank Account" sx={formControlLabelSX}/>
               <FormControlLabel value="Income" control={<Radio size="small"/>} label="Income Account" sx={formControlLabelSX}/>
-              <FormControlLabel value="Expense" control={<Radio size="small"/>} label="Expense Account" sx={formControlLabelSX}/>
+              <FormControlLabel value="Expenses" control={<Radio size="small"/>} label="Expense Account" sx={formControlLabelSX}/>
             </RadioGroup>
           </FormControl>
           <div className="h-1" />
@@ -181,7 +198,13 @@ export default function Home() {
             Create
           </Button>
         </DialogActions>
-      </GlassmorphicDialog>
+      </GlassmorphicDialog> */}
+      {newAccountPopupOpen &&
+      <AddAccountPopup
+        open={newAccountPopupOpen}
+        handleClose={handleClose}
+        selectedAccountType={selectedAccountType}
+      />}
     </>
   );
 }
