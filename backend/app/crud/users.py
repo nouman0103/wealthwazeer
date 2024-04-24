@@ -19,9 +19,21 @@ def create_user(db: Session, user: schemas.UserCreate) -> schemas.User:
     if re.match(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$", user.password) is None:
         raise HTTPException(status_code=400, detail="Invalid password")
     db_user = models.User(email=user.email, hashed_password=hashed_password, name=user.name)
+    income_account  = models.Account(name="Income", account_type="Income")
+    expense_account = models.Account(name="Expense", account_type="Expenses")
+    cash_account = models.Account(name="Cash", account_type="Bank and Cash")
+    default_payable_account = models.Account(name="Default Payable", account_type="Payable")
+    default_receivable_account = models.Account(name="Default Receivable", account_type="Receivable")
+    
+    db_user.account.append(income_account)
+    db_user.account.append(expense_account)
+    db_user.account.append(cash_account)
+    db_user.account.append(default_payable_account)
+    db_user.account.append(default_receivable_account)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    
     return schemas.User(id=db_user.id, email=db_user.email, is_active=db_user.is_active, name=db_user.name)
 
 def authenticate_user(db: Session, email: str, password: str):

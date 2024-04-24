@@ -20,5 +20,5 @@ class Payment(Base):
     created_at = Column(TIMESTAMP, default=int(time.time()))
     updated_at = Column(TIMESTAMP, default=int(time.time()))
     date = Column(TIMESTAMP, default=int(time.time()))
-    
+
     __table_args__ = (CheckConstraint(amount > 0, name = "check_amount_positive"),)
