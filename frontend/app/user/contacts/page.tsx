@@ -4,7 +4,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 
-const ContactItem = ({ name }) => {
+interface Contact {
+  name: string;
+}
+
+interface Friend {
+  name: string;
+  email: string;
+}
+
+const ContactItem: React.FC<Contact> = ({ name }) => {
   return (
     <ListItem>
       <ListItemIcon>
@@ -18,7 +27,7 @@ const ContactItem = ({ name }) => {
   );
 };
 
-const FriendItem = ({ name, email }) => {
+const FriendItem: React.FC<Friend> = ({ name, email }) => {
   return (
     <ListItem>
       <ListItemIcon>
@@ -33,13 +42,13 @@ const FriendItem = ({ name, email }) => {
 };
 
 export default function Home() {
-  const contacts = [
+  const contacts: Contact[] = [
     { name: "Alice Smith" },
     { name: "Bob Johnson" },
     { name: "Charlie Davis" }
   ];
 
-  const friends = [
+  const friends: Friend[] = [
     { name: "John Doe", email: "john@example.com" },
     { name: "Jane Doe", email: "jane@example.com" },
     { name: "Michael Smith", email: "michael@example.com" }
