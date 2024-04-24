@@ -5,6 +5,7 @@ import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded';
 
 import { IncomingIcon, OutgoingIcon } from '@/components/datagrid';
 import { LineChart } from '@mui/x-charts/LineChart';
+import Link from 'next/link';
 
 const years = [
   new Date(2024, 4, 10),
@@ -145,7 +146,7 @@ export default function Home() {
   const customize = {
     height: 380,
     stackingOrder: 'descending',
-    margin: { bottom: 100},
+    margin: { bottom: 100 },
   };
   return (
     <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap flex-grow">
@@ -191,7 +192,7 @@ export default function Home() {
               ]}
               slotProps={{
                 legend: {
-                  position: {vertical: "bottom", horizontal: "middle"},
+                  position: { vertical: "bottom", horizontal: "middle" },
                   labelStyle: {
                     fontSize: 16,
                     fill: 'rgba(255,255,255,60%)',
@@ -202,7 +203,7 @@ export default function Home() {
                     left: 0,
                     right: 0,
                   },
-                  
+
                   classes: {
                     'mark': "stroke-grey-900 opacity-50",
                     'series': "", // Add the missing 'series' property
@@ -237,9 +238,11 @@ export default function Home() {
           <text className='ml-2 text-base xl:text-lg font-medium text-white text-opacity-70'>
             Transactions
           </text>
-          <text className='mr-2 text-xs my-auto font-medium text-primaryPink'>
-            See all
-          </text>
+          <Link href={'./transactions'}>
+            <text className='mr-2 text-xs my-auto font-medium text-primaryPink scale-100 hover:scale-105 active:scale-95 transition-all '>
+              See all
+            </text>
+          </Link>
         </div>
         <div className='flex flex-col gap-4'>
           <TransactionCards title='Spotify Premium' date='11:00 am, 15/04' value={400} isArrowUp={true} />
