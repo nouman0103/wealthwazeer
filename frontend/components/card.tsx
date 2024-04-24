@@ -9,12 +9,13 @@ interface AccountCardProps {
 }
 export const AccountCard = ({ accountName, money }: AccountCardProps) => {
   return (
-    <div className="flex mx-auto pt-3 pl-2 pb-3 pr-10 w-64 bg-glassmorphic-gradient rounded-3xl border-solid border-1 backdrop-filter backdrop-blur-sm shadow-glassmorphic">
-      <div className="flex flex-col gap-x-8 gap-y-7 p-6">
-        <text className="text-xl text-white text-opacity-70 font-medium leading-3 text-left align-middle overflow-visible break-word">
-          {accountName}
-        </text>
-        <text className="text-2xl text-white font-lg">PKR {money}</text>
+    <div className="flex flex-col px-8 py-8 gap-4 mx-auto w-64 bg-glassmorphic-gradient rounded-3xl border border-opacity-5 border-white shadow-glassmorphic">
+      <span className="text-xl text-white text-opacity-50 font-medium truncate">
+        {accountName}
+      </span>
+      <div className="flex gap-3">
+        <span className="text-sm font-semibold mt-3 text-white">RS</span>
+        <span className="text-3xl font-semibold text-white font-lg">{money}</span>
       </div>
     </div>
   );
@@ -22,15 +23,11 @@ export const AccountCard = ({ accountName, money }: AccountCardProps) => {
 
 export const AddAccountCard = ({accountType, onClick}: {accountType: string, onClick: () => void}) => {
   return (
-    <div className="flex w-64 mx-auto bg-glassmorphic-gradient rounded-3xl border-4 border-dashed border-gray-500 transform transition-transform duration-500 ease-in-out motion-safe:hover:scale-110 justify-center items-center" onClick={onClick}>
-      <div className="flex flex-col gap-x-8 gap-y-7 p-6">
-        <text className="text-2xl text-white text-opacity-70 font-medium text-center">
-          New {accountType} Account
+    <div className="flex flex-col w-64 px-2 py-8 gap-4 mx-auto bg-white bg-opacity-[1%] rounded-3xl border-4 border-dashed border-white border-opacity-15 transition-all hover:bg-glassmorphic-gradient-hover scale-100 hover:scale-105 active:scale-100 active:bg-black active:bg-opacity-10" onClick={onClick}>
+        <text className="text-xl text-white text-opacity-50 text-center">
+          New {accountType.toLowerCase()} account
         </text>
-        <div className="flex justify-center">
-          <AddIcon />
-        </div>
-      </div>
+        <AddIcon className="text-2xl text-white text-opacity-50 mx-auto"/>
     </div>
   );
 };
