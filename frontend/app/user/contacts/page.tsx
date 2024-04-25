@@ -204,14 +204,12 @@ export default function Home() {
         </div>
 
         <Divider orientation="vertical" flexItem />
-        <div>
+        <div className='flex flex-col flex-grow'>
           <List>
             {friends.map((friend, index) => (
               <Requests key={index} {...friend} />
             ))}
           </List>
-        </div>
-        <div>
           <List>
             {friends.map((friend, index) => (
               <FriendItem key={index} {...friend} />
