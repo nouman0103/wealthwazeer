@@ -1,170 +1,20 @@
-import React from 'react';
-import { List, Avatar, IconButton, Divider } from '@mui/material';
+"use client";
+import React, { useState } from 'react';
+import { List, Avatar, IconButton, Divider, ListItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import { Close as CloseIcon, Done as DoneIcon } from '@mui/icons-material';
 import { GlassmorphicButton } from '@/components/buttons';
-import {GlassmorphicInputField} from '@/components/inputs';
+import { GlassmorphicInputField } from '@/components/inputs';
 import SearchIconRounded from '@mui/icons-material/SearchRounded';
 import { Fragment } from 'react';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { ContactInterface, ContactItem, FriendInterface, FriendItem, SentRequests } from './contactItems';
+import {AddContactPopup} from './AddContactPopup';
 
-interface Contact {
-  name: string;
-}
-
-interface Friend {
-  name: string;
-  email: string;
-}
-
-
-const PendingRequests: React.FC<Friend> = ({ name, email }) => {
-  const getAvatarColor = (initial: string): string => {
-    const colors = ['#F87171', '#FBBF24', '#60A5FA', '#34D399', '#A78BFA', '#F472B6', '#6EE7B7', '#93C5FD', '#FCD34D', '#EDE9FE'];
-    const charCode = initial.charCodeAt(0) % colors.length;
-    return colors[charCode];
-  };
-
-  const avatarStyle = {
-    backgroundColor: getAvatarColor(name[0]),
-    color: '#fff',
-    marginRight: '20px',
-    borderRadius: '50%'
-  };
-
-  return (
-    <div className="friend-item bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border-opacity-5 border-white p-2 mb-4">
-      <div className='contact-content flex items-center justify-between'>
-        <Avatar style={avatarStyle}>
-          {name[0]}
-        </Avatar>
-          <div className="name text-white text-sm  flex-grow">
-            {name}
-          </div>
-          <div className=" text-white text-sm flex-grow">
-            {email}
-          </div>
-        
-        <div className="options flex items-center">
-          <IconButton style={{ backgroundColor: 'transparent', padding: 4 }}>
-            <CloseIcon style={{ color: '#FF0000', fontSize: 18 }} />
-          </IconButton>
-          <IconButton style={{ backgroundColor: 'transparent', padding: 4 }}>
-            <DoneIcon style={{ color: '#6EE7B7', fontSize: 18 }} />
-          </IconButton>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const SentRequests: React.FC<Friend> = ({ name, email }) => {
-  const getAvatarColor = (initial: string): string => {
-    const colors = ['#F87171', '#FBBF24', '#60A5FA', '#34D399', '#A78BFA', '#F472B6', '#6EE7B7', '#93C5FD', '#FCD34D', '#EDE9FE'];
-    const charCode = initial.charCodeAt(0) % colors.length;
-    return colors[charCode];
-  };
-
-  const avatarStyle = {
-    backgroundColor: getAvatarColor(name[0]),
-    color: '#fff',
-    marginRight: '20px',
-    borderRadius: '50%'
-  };
-
-  return (
-    <div className="friend-item bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border-opacity-5 border-white p-2 mb-4">
-      <div className='contact-content flex items-center justify-between'>
-        <Avatar style={avatarStyle}>
-          {name[0]}
-        </Avatar>
-          <div className="name text-white text-sm  flex-grow">
-            {name}
-          </div>
-          <div className=" text-white text-sm flex-grow">
-            {email}
-          </div>
-        
-        <div className="options flex items-center">
-          <IconButton style={{ backgroundColor: 'transparent', padding: 4 }}>
-            <CloseIcon style={{ color: '#FF0000', fontSize: 18 }} />
-          </IconButton>
-        </div>
-      </div>
-    </div>
-  );
-};
-const ContactItem: React.FC<Contact> = ({ name }) => {
-  const getAvatarColor = (initial: string): string => {
-    const colors = ['#F87171', '#FBBF24', '#60A5FA', '#34D399', '#A78BFA', '#F472B6', '#6EE7B7', '#93C5FD', '#FCD34D', '#EDE9FE'];
-    const charCode = initial.charCodeAt(0) % colors.length;
-    return colors[charCode];
-  };
-
-  const avatarStyle = {
-    backgroundColor: getAvatarColor(name[0]),
-    color: '#fff',
-    marginRight: '20px',
-    borderRadius: '50%'
-  };
-
-  return (
-    <div className="contact-item bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border border-opacity-5 border-white p-2 mb-4">
-      <div className="contact-content flex items-center justify-between">
-        <Avatar style={avatarStyle}>
-          {name[0]}
-        </Avatar>
-        <div className="name text-white text-sm flex-grow mr-20">
-          {name}
-        </div>
-        <div className="options">
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const FriendItem: React.FC<Friend> = ({ name, email }) => {
-  const getAvatarColor = (initial: string): string => {
-    const colors = ['#F87171', '#FBBF24', '#60A5FA', '#34D399', '#A78BFA', '#F472B6', '#6EE7B7', '#93C5FD', '#FCD34D', '#EDE9FE'];
-    const charCode = initial.charCodeAt(0) % colors.length;
-    return colors[charCode];
-  };
-
-  const avatarStyle = {
-    backgroundColor: getAvatarColor(name[0]),
-    color: '#fff',
-    marginRight: '20px',
-    borderRadius: '50%'
-  };
-
-  return (
-    <div className="friend-item bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border border-opacity-5 border-white p-2 mb-2">
-      <div className='contact-content flex items-center justify'>
-        <Avatar style={avatarStyle}>
-          {name[0]}
-        </Avatar>
-        <div className="name text-white text-sm flex-grow">
-          {name}
-        </div>
-        <div className="text-white text-sm  flex-grow ">
-          {email}
-        </div >
-        <div className="options">
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default function Home() {
-  const contacts: Contact[] = [
+  const contacts: ContactInterface[] = [
     { name: "Alice Smith" },
     { name: "Bob Johnson" },
     { name: "Charlie Davis" },
@@ -174,108 +24,118 @@ export default function Home() {
 
   ];
 
-  const friends: Friend[] = [
+  const friends: FriendInterface[] = [
     { name: "John Doe", email: "john@example.com" },
     { name: "Jane Doe", email: "jane@example.com" },
     { name: "June Doe", email: "june@example.com" }
 
   ];
 
+  const [selectedTab, setSelectedTab] = useState<'pendingRequests' | 'sentRequests'>('pendingRequests');
+  const selectedTabStyles = 'border border-white border-opacity-10 bg-strongGlass  shadow-strongGlass';
+  const unselectedTabStyles = 'hover:bg-white hover:bg-opacity-10 border-opacity-0';
+
+  const [newContactPopupOpen, setNewContactPopupOpen] = useState(false);
+
   return (
-    <div className="p-8 flex flex-col gap-5 flex-grow overflow-hidden mb-1">
-      <div className="flex">
-        <div className="text-2xl font-medium text-white my-auto mr-40">
+    <div className="p-8 flex gap-5 flex-grow overflow-hidden mb-1">
+
+      <div className='flex flex-col'>
+        <span className="text-2xl font-medium text-white mb-4">
           Contacts
+        </span>
+        <div className="flex justify-between">
+          <GlassmorphicButton fontSize={16} startIcon={<AddRoundedIcon className='mr-2' />} onClick={() => setNewContactPopupOpen(true)}>
+            Add Contact
+          </GlassmorphicButton>
+          <div className='my-auto'>
+            <GlassmorphicInputField
+              label={
+                <Fragment>
+                  <SearchIconRounded className='text-white text-opacity-80 text-sm mr-2 my-auto' fontSize="inherit" />
+                  <span className='text-white text-opacity-60 text-base'>Search for contacts</span>
+                </Fragment>
+              }
+              size='small'
+              className='w-44'
+            />
+          </div>
         </div>
-        <div className="text-2xl  ml-40 font-medium text-white my-auto">
-          Friends
-        </div>
+
+        <List>
+          {contacts.map((contact, index) => (
+            <ContactItem key={index} {...contact} />
+          ))}
+        </List>
       </div>
 
-      <div className="flex gap-5">
+      <Divider orientation="vertical" flexItem />
+
+      <div className='flex flex-col flex-grow'>
+        <span className="text-2xl font-medium text-white mb-4">
+          Friends
+        </span>
         <div>
-          <div className="flex justify-between mb-3">
-            <div className='flex gap-20 '>
-            <GlassmorphicButton fontSize={16}>
-             Add Account
-           </GlassmorphicButton>
-            </div>
-            <div className="flex justify-end">
-          <GlassmorphicInputField
-          label={
-            <Fragment>
-              <SearchIconRounded className='w- text-white text-opacity-80 text-3xlmr-2  mb-2 ' />
-              <text className='text-white text-opacity-80 -mt-[2px]'>Search for contacts</text>
-            </Fragment>
-          }
-            size='small'
-            className='w-96'
-          />
-         </div>
+          <GlassmorphicButton fontSize={16} startIcon={<AddRoundedIcon className='mr-2'/>} className='mr-auto'>
+            Add Friend
+          </GlassmorphicButton>
         </div>
 
-          <List>
-            {contacts.map((contact, index) => (
-              <ContactItem key={index} {...contact} />
+
+        <div className="mt-5 bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white flex-grow p-4 mb-2">
+          <div className="flex space-between">
+            <div className='flex w-72 h-14 p-1 bg-white bg-opacity-5 mr-auto rounded-full'>
+              <div className={`w-1/2 rounded-full py-3 text-center cursor-pointer ${(selectedTab === 'pendingRequests') ? selectedTabStyles : unselectedTabStyles}`} onClick={() => setSelectedTab('pendingRequests')}>
+                Pending requests
+              </div>
+              <div className={`w-1/2 rounded-full py-3 text-center cursor-pointer ${(selectedTab === 'sentRequests') ? selectedTabStyles : unselectedTabStyles}`} onClick={() => setSelectedTab('sentRequests')}>
+                Requests sent
+              </div>
+            </div>
+            <div className='my-auto'>
+              <GlassmorphicInputField
+                label={
+                  <Fragment>
+                    <SearchIconRounded className='text-white text-opacity-80 text-sm mr-2 my-auto' fontSize="inherit" />
+                    <span className=' text-white text-base text-opacity-80'>Search in requests</span>
+                  </Fragment>
+                }
+                size='small'
+                className='w-72 ml-auto my-auto'
+              />
+            </div>
+          </div>
+          <List disablePadding>
+            {friends.map((friend, index) => (
+              <ListItem disablePadding sx={{ width: "100%" }}>
+                <SentRequests key={index} {...friend} />
+              </ListItem>
             ))}
           </List>
         </div>
 
-        <Divider orientation="vertical" flexItem />
-        <div className ="flex-grow">
-        <div className='w- flex mb-2'>
-            <GlassmorphicButton fontSize={16}>
-             Add Friend
-             </GlassmorphicButton>
-          </div>
-
-
-        <div className="friend-item bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border border-opacity-5 border-white flex-grow p-4 mb-2">
-      
-         
-        <div className="flex justify-end ">
+        <div className="flex justify-end my-5">
           <GlassmorphicInputField
-          label={
-            <Fragment>
-              <SearchIconRounded className='w- text-white text-opacity-80 text-3xl mr-2  mb-2 ' />
-              <text className=' text-white text-opacity-80 -mt-[2px]'>Search in requests</text>
-            </Fragment>
-          }
+            label={
+              <Fragment>
+                <SearchIconRounded className='text-white text-opacity-80 text-sm mr-2 my-auto' fontSize="inherit" />
+                <span className=' text-white text-base text-opacity-80'>Search in friends</span>
+              </Fragment>
+            }
             size='small'
-            className='w-96'
+            className='w-72 my-auto'
           />
-         </div>
-          <div className='flex flex-col flex-grow'>
-            <List>
-              {friends.map((friend, index) => (
-                <SentRequests key={index} {...friend} />
-              ))}
-            </List>
-          </div>
-          </div>
-          
-          <div className="flex justify-end">
-          <GlassmorphicInputField
-          label={
-            <Fragment>
-              <SearchIconRounded className='text-white text-opacity-80 text-3xl mr-2  mb-2 ' />
-              <text className='text-white text-opacity-80 -mt-[2px]'>Search for friends</text>
-            </Fragment>
-          }
-            size='small'
-            className='w-96'
-          />
-         </div>
+        </div>
 
-          <div className='flex flex-col flex-grow'>
-          <List>
+        <div className='flex flex-col flex-grow'>
+          <List disablePadding>
             {friends.map((friend, index) => (
               <FriendItem key={index} {...friend} />
             ))}
           </List>
-          </div>
         </div>
       </div>
+      <AddContactPopup open={newContactPopupOpen} handleClose={() => setNewContactPopupOpen(false)} />
     </div>
   );
 }
