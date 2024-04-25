@@ -93,14 +93,19 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
+          <div className="ml-auto -my-3">
           <TextButton
-            className="normal-case text-base -mt-10 -mb-3 text-right ml-auto -mr-5 font-light w-min whitespace-nowrap"
             disableRipple={true}
+            sx={{
+              fontWeight: 400,
+              textTransform: "none",
+            }}
           >
-            <Link href="/forgot-password" prefetch={true}>
+            <span className="text-sm text-right -mr-5">
               Forgot Password?
-            </Link>
+            </span>
           </TextButton>
+          </div>
           <GradientButton
             onClick={() => {
               mutation.mutate();
@@ -120,12 +125,17 @@ export default function Home() {
             <span className="mx-auto">Continue with Google</span>
           </GlassmorphicButton>
           <TextButton
-            className="normal-case h-11 -mt-3 font-light"
             disableRipple={true}
+            sx={{
+              fontWeight: 400,
+              height: "2.75rem",
+              textTransform: "none",
+              marginTop: "-0.5rem"
+            }}
           >
             <Link href="/signup" prefetch={true}>
               Sign Up Instead
-            </Link>
+              </Link>
           </TextButton>
         </div>
       </div>

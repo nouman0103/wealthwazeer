@@ -39,7 +39,7 @@ export const GradientButton = styled(Button)<ButtonProps>(({ theme }) => ({
         transition: 'all 0.3s',
     },
     '&.MuiButton-root:hover': {
-        fontWeight: 700,
+        color: 'rgba(164, 89, 67, 1)'
     },
 
 }));
