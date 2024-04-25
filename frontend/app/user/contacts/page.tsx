@@ -1,10 +1,12 @@
 import React from 'react';
 import { List, Avatar, IconButton, Divider } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import { Close as CloseIcon, Done as DoneIcon } from '@mui/icons-material';
 import { GlassmorphicButton } from '@/components/buttons';
+import {GlassmorphicInputField} from '@/components/inputs';
+import SearchIconRounded from '@mui/icons-material/SearchRounded';
+import { Fragment } from 'react';
 
 interface Contact {
   name: string;
@@ -15,41 +17,6 @@ interface Friend {
   email: string;
 }
 
-interface AddButtonProps {
-  title: string;
-}
-
-interface SearchButtonProps {
-  title: string;
-}
-
-const SearchButton: React.FC<SearchButtonProps> = ({ title }) => {
-  return (
-    <div className="bg-glassmorphic-gradient rounded-full border-opacity-5 border-white p-2 flex items-center space-x-2">
-      <IconButton size="small">
-        <SearchIcon fontSize="small" />
-      </IconButton>
-      <span className="text-white text-sm text-opacity-70">
-        {title}
-      </span>
-    </div>
-  );
-};
-
-const AddButton: React.FC<AddButtonProps> = ({ title }) => {
-  return (
-    <div className="flex items-center space-x-8">
-      <div className="bg-glassmorphic-gradient border-opacity-5 border-white p-2 flex items-center space-x-0 rounded-lg mr-10">
-        <IconButton size="small">
-          <AddIcon style={{ fontSize: '2rem', color: 'white', opacity: 0.7, marginRight: '0.5rem', marginTop: 'auto', marginBottom: 'auto' }} />
-          <span className="text-white text-sm text-opacity-70 my-auto">{
-            title}
-          </span>
-        </IconButton>
-      </div>
-    </div>
-  );
-};
 
 const PendingRequests: React.FC<Friend> = ({ name, email }) => {
   const getAvatarColor = (initial: string): string => {
@@ -147,7 +114,7 @@ const ContactItem: React.FC<Contact> = ({ name }) => {
         <Avatar style={avatarStyle}>
           {name[0]}
         </Avatar>
-        <div className="name text-white text-sm flex-grow mr-40">
+        <div className="name text-white text-sm flex-grow mr-20">
           {name}
         </div>
         <div className="options">
@@ -228,9 +195,24 @@ export default function Home() {
       <div className="flex gap-5">
         <div>
           <div className="flex justify-between mb-3">
-            <AddButton title="Add Account" />
-            <SearchButton title="Search Contacts" />
-          </div>
+            <div className='flex gap-20 '>
+            <GlassmorphicButton fontSize={16}>
+             Add Account
+           </GlassmorphicButton>
+            </div>
+            <div className="flex justify-end">
+          <GlassmorphicInputField
+          label={
+            <Fragment>
+              <SearchIconRounded className='w- text-white text-opacity-80 text-3xlmr-2  mb-2 ' />
+              <text className='text-white text-opacity-80 -mt-[2px]'>Search for contacts</text>
+            </Fragment>
+          }
+            size='small'
+            className='w-96'
+          />
+         </div>
+        </div>
 
           <List>
             {contacts.map((contact, index) => (
@@ -240,17 +222,29 @@ export default function Home() {
         </div>
 
         <Divider orientation="vertical" flexItem />
-
         <div className ="flex-grow">
-        <div className="friend-item bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border border-opacity-5 border-white flex-grow p-4 mb-2">
-          <div className="flex flex-col mb-3">
-            <AddButton title="Add friend" />
-          </div>
-        
-          <div className="flex justify-end mb-3"> 
-            <SearchButton title="Search in requests" /> 
+        <div className='w- flex mb-2'>
+            <GlassmorphicButton fontSize={16}>
+             Add Friend
+             </GlassmorphicButton>
           </div>
 
+
+        <div className="friend-item bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border border-opacity-5 border-white flex-grow p-4 mb-2">
+      
+         
+        <div className="flex justify-end ">
+          <GlassmorphicInputField
+          label={
+            <Fragment>
+              <SearchIconRounded className='w- text-white text-opacity-80 text-3xl mr-2  mb-2 ' />
+              <text className=' text-white text-opacity-80 -mt-[2px]'>Search in requests</text>
+            </Fragment>
+          }
+            size='small'
+            className='w-96'
+          />
+         </div>
           <div className='flex flex-col flex-grow'>
             <List>
               {friends.map((friend, index) => (
@@ -259,10 +253,20 @@ export default function Home() {
             </List>
           </div>
           </div>
+          
+          <div className="flex justify-end">
+          <GlassmorphicInputField
+          label={
+            <Fragment>
+              <SearchIconRounded className='text-white text-opacity-80 text-3xl mr-2  mb-2 ' />
+              <text className='text-white text-opacity-80 -mt-[2px]'>Search for friends</text>
+            </Fragment>
+          }
+            size='small'
+            className='w-96'
+          />
+         </div>
 
-          <div className="flex justify-end mb-3"> 
-            <SearchButton title="Search for friends" /> 
-          </div>
           <div className='flex flex-col flex-grow'>
           <List>
             {friends.map((friend, index) => (
