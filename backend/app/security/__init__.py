@@ -43,7 +43,7 @@ def create_access_token(data: models.User, expires_delta: Union[timedelta, None]
     encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
     return encoded_jwt
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)) -> schemas.User:
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",

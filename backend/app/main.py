@@ -1,4 +1,4 @@
-from typing import Union,Optional,Annotated 
+from typing import Union,Optional,Annotated ,List
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException,Depends
 from . import crud, models, schemas,security
@@ -50,3 +50,15 @@ def get_account_detail(current_user= Depends(security.get_current_user), db: Ses
 @app.post("/accounts/", response_model=schemas.Account)
 def create_account(account: schemas.AccountCreate, current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.create_account(db=db, account=account, user_id=current_user.id)
+
+@app.get("/accounts/income/", response_model=List[schemas.AccountWithID])
+def get_income_accounts(current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_income_accounts(db=db, user_id=current_user.id)
+
+@app.get("/accounts/expense/", response_model=List[schemas.AccountWithID])
+def get_expense_accounts(current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_expense_accounts(db=db, user_id=current_user.id)
+
+@app.get("/accounts/bank/", response_model=List[schemas.AccountWithID])
+def get_bank_accounts(current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_bank_accounts(db=db, user_id=current_user.id)

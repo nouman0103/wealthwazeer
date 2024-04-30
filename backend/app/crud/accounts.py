@@ -19,3 +19,27 @@ def create_account(db: Session, account: schemas.AccountCreate, user_id: int) ->
     db.commit()
     db.refresh(db_account)
     return schemas.Account(name=db_account.name, account_type=db_account.account_type, balance=0.0)
+
+def get_expense_accounts(db: Session, user_id: int) -> schemas.AccountDetail:
+    db_accounts = db.query(models.Account).filter(models.Account.user_id == user_id).filter(models.Account.account_type == "Expenses").all()
+    accounts = []
+    for account in db_accounts:
+        accounts.append(schemas.AccountWithID(name=account.name, account_type=account.account_type, account_id=account.id))
+        
+    return accounts
+
+def get_income_accounts(db: Session, user_id: int) -> schemas.AccountDetail:
+    db_accounts = db.query(models.Account).filter(models.Account.user_id == user_id).filter(models.Account.account_type == "Income").all()
+    accounts = []
+    for account in db_accounts:
+        accounts.append(schemas.AccountWithID(name=account.name, account_type=account.account_type, account_id=account.id))
+        
+    return accounts
+
+def get_bank_accounts(db: Session, user_id: int) -> schemas.AccountDetail:
+    db_accounts = db.query(models.Account).filter(models.Account.user_id == user_id).filter(models.Account.account_type == "Bank and Cash").all()
+    accounts = []
+    for account in db_accounts:
+        accounts.append(schemas.AccountWithID(name=account.name, account_type=account.account_type, account_id=account.id))
+        
+    return accounts

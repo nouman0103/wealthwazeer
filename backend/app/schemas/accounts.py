@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
 from pydantic import BaseModel,Field
 from typing import List, Optional,Annotated,Literal
+import uuid
 
 
 class AccountBase(BaseModel):
@@ -17,5 +18,7 @@ class AccountDetail(BaseModel):
 class AccountCreate(AccountBase):
     account_type: Literal["Income" , "Expenses" , "Bank and Cash"]
     
-    
+
+class AccountWithID(AccountBase):
+    account_id : uuid.UUID
     
