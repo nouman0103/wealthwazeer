@@ -39,7 +39,7 @@ export const GradientButton = styled(Button)<ButtonProps>(({ theme }) => ({
         transition: 'all 0.3s',
     },
     '&.MuiButton-root:hover': {
-        fontWeight: 700,
+        color: 'rgba(164, 89, 67, 1)'
     },
 
 }));
@@ -62,7 +62,6 @@ export const GlassmorphicButton = styled(Button)<ExtendedButtonProps>(({ theme, 
         boxShadow: '5px 8px 25px 0 rgba(0, 0, 0, 0.2)',
         fontSize: fontSize  ,
         fontWeight: 400,
-        backdropFilter: 'blur(10px)',
     },
     '&.MuiButton-root:hover': {
         backgroundImage: 'linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.04) 100%)',

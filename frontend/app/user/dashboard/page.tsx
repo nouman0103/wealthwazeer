@@ -6,6 +6,7 @@ import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded';
 import { IncomingIcon, OutgoingIcon } from '@/components/datagrid';
 import { LineChart } from '@mui/x-charts/LineChart';
 import Link from 'next/link';
+import { spopper } from '@/components/datagrid';
 
 const years = [
   new Date(2024, 4, 10),
@@ -45,7 +46,7 @@ const spent = [
 
 const TransactionCards: React.FC<{ title: string, date: string, value: number, isArrowUp: boolean }> = ({ title, date, value, isArrowUp }) => {
   return (
-    <div className='flex items-center px-2 py-1 lg:px-3 lg:py-2 bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-xl border border-opacity-5 border-white'>
+    <div className='flex items-center px-2 py-1 lg:px-3 lg:py-2 bg-glassmorphic-gradient shadow-glassmorphic rounded-xl border border-opacity-5 border-white'>
       {isArrowUp ? (
         <OutgoingIcon />
       ) : (
@@ -156,7 +157,7 @@ export default function Home() {
           <DashCard title='Income' value={15000} bars={[{ title: '65% Salary', value: 65, color: 'softPink' }]} />
           <DashCard title='Total Spent' value={14642} bars={[{ title: '85% Groceries', value: 85, color: 'red' }]} />
         </div>
-        <div className='bg-glassmorphic-gradient backdrop backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3'>
+        <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3'>
           <text className='ml-2 text-base xl:text-lg font-medium text-white text-opacity-70'>
             Reports
           </text>
@@ -208,12 +209,13 @@ export default function Home() {
                     'mark': "stroke-grey-900 opacity-50",
                     'series': "", // Add the missing 'series' property
                     'root': "", // Add the missing 'root' property
-                  }
+                  },
+
                 }
               }}
               tooltip={{
                 classes: {
-                  root: "bg-transparent bg-glassmorphic-gradient backdrop backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3",
+                  root: "bg-yellow-500 backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3",
                 },
               }}
               {...customize}
@@ -233,7 +235,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='bg-glassmorphic-gradient backdrop backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col flex-grow gap-2 xl:gap-3'>
+      <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col flex-grow gap-2 xl:gap-3'>
         <div className='flex justify-between'>
           <text className='ml-2 text-base xl:text-lg font-medium text-white text-opacity-70'>
             Transactions

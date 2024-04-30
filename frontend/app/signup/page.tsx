@@ -113,10 +113,15 @@ export default function Home() {
             Continue
           </GradientButton>
           <TextButton
-            className="normal-case h-11 -mt-3 font-light"
+            sx={{
+              fontWeight: 400,
+              height: "2.75rem",
+              textTransform: "none",
+              marginTop: "-0.5rem"
+            }}
             disableRipple={true}
           >
-            <Link href="/signup" prefetch={true}>
+            <Link href="/login" prefetch={true}>
               Login Instead
             </Link>
           </TextButton>
