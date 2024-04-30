@@ -7,7 +7,7 @@ import SearchIconRounded from '@mui/icons-material/SearchRounded';
 import { InputAdornment } from '@mui/material';
 import { Fragment, useState } from 'react';
 import { GlassmorphicButton } from '@/components/buttons';
-import { NewExpenseDialog } from './newTransactionDialog';
+import { NewExpenseDialog, NewIncomeDialog } from './newTransactionDialog';
 
 
 const columns: GridColDef<(typeof rows)[number]>[] = [
@@ -76,7 +76,8 @@ const rows = [
 
 
 export default function Home() {
-  const [newTransactionDialogOpen, setNewTransactionDialogOpen] = useState(false)
+  const [newExpenseDialogOpen, setNewExpenseDialogOpen] = useState(false)
+  const [newIncomeDialogOpen, setNewIncomeDialogOpen] = useState(false)
 
   return (
     <>
@@ -99,10 +100,10 @@ export default function Home() {
           />
         </div>
         <div className='flex gap-5'>
-          <GlassmorphicButton fontSize={16} onClick={() => {setNewTransactionDialogOpen(true);}}>
+          <GlassmorphicButton fontSize={16} onClick={() => {setNewExpenseDialogOpen(true);}}>
             New Expense
           </GlassmorphicButton>
-          <GlassmorphicButton fontSize={16}>
+          <GlassmorphicButton fontSize={16} onClick={() => {setNewIncomeDialogOpen(true);}}>
             New Income
           </GlassmorphicButton>
 
@@ -123,7 +124,8 @@ export default function Home() {
         />
 
       </div>
-      <NewExpenseDialog open={newTransactionDialogOpen} handleClose={() => setNewTransactionDialogOpen(false)} />
+      <NewExpenseDialog open={newExpenseDialogOpen} handleClose={() => setNewExpenseDialogOpen(false)} />
+      <NewIncomeDialog open={newIncomeDialogOpen} handleClose={() => setNewIncomeDialogOpen(false)} />
     </>
   );
 }
