@@ -16,7 +16,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 150,
     resizable: false,
     flex: 1,
-    valueFormatter: (params: { value?: number }) => `RS ${params.value?.toLocaleString()}`
+    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`
   },
   {
     field: 'recipient',
@@ -32,7 +32,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 150,
     resizable: false,
     flex: 1,
-    valueFormatter: (params: { value?: number }) => `RS ${params.value?.toLocaleString()}`
+    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`
   },
   {
     field: 'outstanding',
@@ -41,7 +41,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 150,
     resizable: false,
     flex: 1,
-    valueFormatter: (params: { value?: number }) => `RS ${params.value?.toLocaleString()}`
+    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`
   },
   {
     field: 'category',
