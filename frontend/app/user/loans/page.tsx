@@ -10,20 +10,25 @@ const handleCreatePayment = (row: any) => {
 };
 
 const columns: GridColDef<(typeof rows)[number]>[] = [
-  {
-    field: 'amount',
-    headerName: 'Amount',
-    minWidth: 150,
-    resizable: false,
-    flex: 1,
-    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`
-  },
+  
   {
     field: 'recipient',
     headerName: 'Member',
     minWidth: 150,
     resizable: false,
     flex: 1,
+    headerAlign:'center',
+    align:'center'
+  },
+  {
+    field: 'amount',
+    headerName: 'Amount',
+    minWidth: 150,
+    resizable: false,
+    flex: 1,
+    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`,
+    headerAlign:'center',
+    align:'right'
   },
   {
     field: 'paid',
@@ -32,7 +37,9 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 150,
     resizable: false,
     flex: 1,
-    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`
+    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`,
+    headerAlign:'center',
+    align:'right'
   },
   {
     field: 'outstanding',
@@ -41,7 +48,9 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 150,
     resizable: false,
     flex: 1,
-    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`
+    valueFormatter: (params: { params?: number }) => `RS ${params?.toLocaleString()}`,
+    headerAlign:'center',
+    align:'right'
   },
   {
     field: 'category',
@@ -49,6 +58,8 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 150,
     resizable: false,
     flex: 1,
+    headerAlign:'center',
+    align:'center'
   },
   {
     field: 'deadline',
@@ -56,6 +67,8 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 150,
     resizable: false,
     flex: 1,
+    headerAlign:'center',
+    align:'center'
   },
   {
     field: 'actions',
@@ -63,6 +76,8 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     minWidth: 200,
     resizable: false,
     flex: 1,
+    headerAlign:'center',
+    align:'center',
     renderCell: (params) => (
       <GlassmorphicButton onClick={() => handleCreatePayment(params.row)}>
         {params.value}
