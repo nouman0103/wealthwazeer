@@ -26,3 +26,16 @@ export const GlassmorphicDialog =  styled(Dialog)(({ theme }) => ({
     },
 }));
 
+
+
+export const GradientDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialog-paper': {
+        backgroundImage: 'linear-gradient(106deg, #181823 36.4%, #1D1625 100%)',
+        boxShadow: '5px 8px 20px 0 rgba(0, 0, 0, 0.07)',
+        border: '1px solid rgba(255, 255, 255, 0.07)',
+        borderRadius: 20,
+    },
+    '& .MuiDialogTitle-root': {
+        backgroundColor: 'transparent',
+    },
+}));

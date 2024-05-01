@@ -5,8 +5,10 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
-import { GlassmorphicDialog } from "@/components/dialogs";
+import { GlassmorphicDialog, GradientDialog } from "@/components/dialogs";
 import {
+    Autocomplete,
+  Dialog,
   FormControl,
   Grow,
   InputAdornment,
@@ -70,7 +72,7 @@ export const NewExpenseDialog = ({
   });
   return (
     <>
-      <GlassmorphicDialog
+      <GradientDialog
         fullScreen
         open={open}
         TransitionComponent={Transition}
@@ -96,16 +98,19 @@ export const NewExpenseDialog = ({
           </ListItem>
           <div className="h-3" />
           <ListItem>
-            <TextField
-              label="Recipient"
+            <Autocomplete
               className="w-full"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
+              options={["John Doe", "Jane Doe" ]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Recipient"
+                  inputProps={{
+                    ...params.inputProps,
+                    autoComplete: "new-password",
+                  }}
+                />
+              )}
             />
           </ListItem>
           <div className="h-3" />
@@ -144,7 +149,7 @@ export const NewExpenseDialog = ({
             </GradientButton>
           </ListItem>
         </List>
-      </GlassmorphicDialog>
+      </GradientDialog>
     </>
   );
 };
@@ -158,7 +163,7 @@ export const NewIncomeDialog = ({
 }) => {
   return (
     <>
-      <GlassmorphicDialog
+      <GradientDialog
         fullScreen
         open={open}
         TransitionComponent={Transition}
@@ -184,16 +189,19 @@ export const NewIncomeDialog = ({
           </ListItem>
           <div className="h-3" />
           <ListItem>
-            <TextField
-              label="Payer"
+          <Autocomplete
               className="w-full"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
+              options={["John Doe", "Jane Doe" ]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Payer"
+                  inputProps={{
+                    ...params.inputProps,
+                    autoComplete: "new-password",
+                  }}
+                />
+              )}
             />
           </ListItem>
           <div className="h-3" />
@@ -238,7 +246,7 @@ export const NewIncomeDialog = ({
             </GradientButton>
           </ListItem>
         </List>
-      </GlassmorphicDialog>
+      </GradientDialog>
     </>
   );
 };
