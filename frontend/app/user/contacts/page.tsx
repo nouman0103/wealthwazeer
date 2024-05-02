@@ -11,6 +11,7 @@ import { Fragment } from 'react';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { ContactInterface, ContactItem, FriendInterface, FriendItem, SentRequests } from './contactItems';
 import {AddContactPopup} from './AddContactPopup';
+import { AddFriendPopup } from './AddFriendPopup';
 
 
 export default function Home() {
@@ -36,6 +37,7 @@ export default function Home() {
   const unselectedTabStyles = 'hover:bg-white hover:bg-opacity-10 border-opacity-0';
 
   const [newContactPopupOpen, setNewContactPopupOpen] = useState(false);
+  const [newFriendPopupOpen, setNewFriendPopupOpen] = useState(false);
 
   return (
     <div className="p-8 flex gap-5 flex-grow overflow-hidden mb-1">
@@ -76,7 +78,7 @@ export default function Home() {
           Friends
         </span>
         <div>
-          <GlassmorphicButton fontSize={16} startIcon={<AddRoundedIcon className='mr-2'/>} className='mr-auto'>
+          <GlassmorphicButton fontSize={16} startIcon={<AddRoundedIcon className='mr-2'/>} className='mr-auto' onClick={() => setNewFriendPopupOpen(true)}>
             Add Friend
           </GlassmorphicButton>
         </div>
@@ -136,6 +138,7 @@ export default function Home() {
         </div>
       </div>
       <AddContactPopup open={newContactPopupOpen} handleClose={() => setNewContactPopupOpen(false)} />
+      <AddFriendPopup open={newFriendPopupOpen} handleClose={() => setNewFriendPopupOpen(false)} />
     </div>
   );
 }
