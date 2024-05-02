@@ -9,8 +9,8 @@ import { GlassmorphicInputField } from '@/components/inputs';
 import SearchIconRounded from '@mui/icons-material/SearchRounded';
 import { Fragment } from 'react';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import { ContactInterface, ContactItem, FriendInterface, FriendItem, SentRequests } from './contactItems';
-import {AddContactPopup} from './AddContactPopup';
+import { ContactInterface, ContactItem, FriendInterface, FriendItem, PendingRequests, SentRequests } from './contactItems';
+import { AddContactPopup } from './AddContactPopup';
 import { AddFriendPopup } from './AddFriendPopup';
 
 
@@ -28,7 +28,8 @@ export default function Home() {
   const friends: FriendInterface[] = [
     { name: "John Doe", email: "john@example.com" },
     { name: "Jane Doe", email: "jane@example.com" },
-    { name: "June Doe", email: "june@example.com" }
+    { name: "June Doe", email: "june@example.com" },
+    { name: "July Doe", email: "july@example.com" },
 
   ];
 
@@ -78,7 +79,7 @@ export default function Home() {
           Friends
         </span>
         <div>
-          <GlassmorphicButton fontSize={16} startIcon={<AddRoundedIcon className='mr-2'/>} className='mr-auto' onClick={() => setNewFriendPopupOpen(true)}>
+          <GlassmorphicButton fontSize={16} startIcon={<AddRoundedIcon className='mr-2' />} className='mr-auto' onClick={() => setNewFriendPopupOpen(true)}>
             Add Friend
           </GlassmorphicButton>
         </div>
@@ -107,13 +108,23 @@ export default function Home() {
               />
             </div>
           </div>
-          <List disablePadding>
-            {friends.map((friend, index) => (
-              <ListItem disablePadding sx={{ width: "100%" }}>
-                <SentRequests key={index} {...friend} />
-              </ListItem>
-            ))}
+
+          <List disablePadding className='snap-y snap-mandatory overflow-y-auto max-h-64'>
+            {(selectedTab === 'pendingRequests') ? (
+              friends.map((friend, index) => (
+                <ListItem disablePadding sx={{ width: "100%" }} className='snap-start'>
+                  <PendingRequests key={index} {...friend} />
+                </ListItem>
+              ))
+            ) : (
+              friends.map((friend, index) => (
+                <ListItem disablePadding sx={{ width: "100%" }}>
+                  <SentRequests key={index} {...friend} />
+                </ListItem>
+              ))
+            )}
           </List>
+
         </div>
 
         <div className="flex justify-end my-5">
