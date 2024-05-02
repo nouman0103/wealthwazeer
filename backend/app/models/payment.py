@@ -15,6 +15,7 @@ class Payment(Base):
     
     account_id = Column(UUID(as_uuid=True), ForeignKey("account.id"), nullable=False)
     account = relationship("Account", back_populates="payment")
+    transaction_payment = relationship("TransactionPayment", back_populates="payment")
     
     created_at = Column(TIMESTAMP, default=int(time.time()))
     updated_at = Column(TIMESTAMP, default=int(time.time()))

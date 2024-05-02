@@ -1,5 +1,7 @@
-from pydantic import BaseModel,Field
+from pydantic import BaseModel,Field,ConfigDict
 from typing import Annotated, Union,Optional
+from ..schemas.meta import MetaResponse
+from uuid import UUID
 
 
 class PartnerCreate(BaseModel):
@@ -11,16 +13,26 @@ class PartnerCreate(BaseModel):
 
 
 class Partner(BaseModel):
-    id: str
+    id: UUID
     name: str
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    model_config["title"] = "Partner Detail"
+    model_config['from_attributes'] = True  
 
 class PartnerDetail(BaseModel):
-    id: str
+    id: UUID
     name: str
     email: Optional[str] = None
     phone: Optional[str] = None
     city: Optional[str] = None
     country: Optional[str] = None
-    user_id: str
+    user_id: UUID
     created_at: int
     updated_at: int
+
+class PartnerList(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    model_config["title"] = "List of Partners"
+    model_config['from_attributes'] = True
+    partners: list[Partner]
+    meta: MetaResponse

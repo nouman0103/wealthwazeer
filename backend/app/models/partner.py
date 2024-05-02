@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, TIMESTAMP
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.sql import func
 import uuid
 from ..db import Base
 import time
@@ -20,8 +21,8 @@ class Partner(Base):
     transaction = relationship("Transaction", back_populates="partner")
     accountline = relationship("AccountLine", back_populates="partner")
     
-    created_at = Column(TIMESTAMP, default=int(time.time()))
-    updated_at = Column(TIMESTAMP, default=int(time.time()))
+    created_at = Column(TIMESTAMP, default=func.current_timestamp())
+    updated_at = Column(TIMESTAMP, default=func.current_timestamp())
     
     
     

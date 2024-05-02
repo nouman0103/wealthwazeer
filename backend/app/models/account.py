@@ -17,6 +17,7 @@ class Account(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     user = relationship("User", back_populates="account")
     accountline = relationship("AccountLine", back_populates="account")
+    payment = relationship("Payment", back_populates="account")
     
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
     updated_at = Column(TIMESTAMP, onupdate=func.current_timestamp())

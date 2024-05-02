@@ -65,3 +65,6 @@ def get_bank_accounts(current_user= Depends(security.get_current_user), db: Sess
 @app.post("/partners/", response_model=schemas.Partner)
 def create_partner(partner: schemas.PartnerCreate, current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.create_partner(db=db, partner=partner, user_id=current_user.id)
+@app.get("/partners/", response_model=schemas.PartnerList)
+def get_partners(meta: schemas.MetaRequest = Depends(),current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_partners(db=db, user_id=current_user.id, meta=meta)

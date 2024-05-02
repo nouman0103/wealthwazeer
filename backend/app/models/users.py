@@ -24,6 +24,7 @@ class User(Base):
     partner = relationship("Partner", back_populates="user")
     account = relationship("Account", back_populates="user")
     accountline = relationship("AccountLine", back_populates="user")
-    #saving = relationship("Saving", back_populates="user")
-    #payment = relationship("Payment", back_populates="user")
+    saving = relationship("Saving", back_populates="user")
+    payment = relationship("Payment", back_populates="user")
+    friend = relationship("Friend", foreign_keys="Friend.friend_id")
     
