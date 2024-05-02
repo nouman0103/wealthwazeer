@@ -9,6 +9,9 @@ class Partner(Base):
     __tablename__ = "partner"
     
     id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
+    name = Column(String, nullable=False)
+    email = Column(String, nullable= True)
+    phone = Column(String, nullable= True)
     city = Column(String, nullable= True)
     country = Column(String, nullable= True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)

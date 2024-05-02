@@ -62,3 +62,6 @@ def get_expense_accounts(current_user= Depends(security.get_current_user), db: S
 @app.get("/accounts/bank/", response_model=List[schemas.AccountWithID])
 def get_bank_accounts(current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_bank_accounts(db=db, user_id=current_user.id)
+@app.post("/partners/", response_model=schemas.Partner)
+def create_partner(partner: schemas.PartnerCreate, current_user= Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.create_partner(db=db, partner=partner, user_id=current_user.id)

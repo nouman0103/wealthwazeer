@@ -96,6 +96,9 @@ export const NewExpenseDialog = ({
           <ListItem>
             <TextField label="Amount" className="w-full" type="number" />
           </ListItem>
+          <ListItem>
+            <TextField label="Description" className="w-full" />
+          </ListItem>
           <div className="h-3" />
           <ListItem>
             <Autocomplete
