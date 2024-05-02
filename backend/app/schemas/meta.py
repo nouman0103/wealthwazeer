@@ -21,5 +21,5 @@ class MetaRequest(BaseModel):
     @validator('limit')
     def limit_must_be_positive(cls, v):
         if v < 0:
-            raise HTTPException(status_code=400, detail="Page must be positive")
+            raise HTTPException(status_code=400, detail="Limit must be positive")
         return v
