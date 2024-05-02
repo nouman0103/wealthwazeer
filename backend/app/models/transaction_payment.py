@@ -1,5 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, TIMESTAMP
-from sqlalchemy.sql.expression import CheckConstraint
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, TIMESTAMP,CheckConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 import uuid

@@ -23,5 +23,6 @@ services:
       - SECRET_KEY=3282afdb4c1473d9f7b5b984ddf00098f33cba2b9f05c0ea299f11b9984bb6e8
       - ALGORITHM=HS256
       - ACCESS_TOKEN_EXPIRE_MINUTES=300
+      - DB_URL=postgresql://postgres:postgres@db/db
 volumes:
   postgres_data:
