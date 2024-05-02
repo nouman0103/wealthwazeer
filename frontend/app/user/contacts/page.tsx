@@ -21,6 +21,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { MetaResponse } from "@/utls/interface";
 import { useAuth } from "@/context/AuthContex";
 import { useInView } from "react-intersection-observer";
+import { AddFriendPopup } from "./AddFriendPopup";
 
 interface ContactData {
   partners: ContactInterface[];
@@ -67,6 +68,7 @@ export default function Home() {
     "hover:bg-white hover:bg-opacity-10 border-opacity-0";
 
   const [newContactPopupOpen, setNewContactPopupOpen] = useState(false);
+  const [newFriendPopupOpen, setNewFriendPopupOpen] = useState(false);
 
   return (
     <div className="p-8 flex gap-5 flex-grow overflow-hidden mb-1">
@@ -126,7 +128,7 @@ export default function Home() {
             fontSize={16}
             startIcon={<AddRoundedIcon className="mr-2" />}
             className="mr-auto"
-          >
+           onClick={() => setNewFriendPopupOpen(true)}>
             Add Friend
           </GlassmorphicButton>
         </div>
@@ -212,6 +214,7 @@ export default function Home() {
         open={newContactPopupOpen}
         handleClose={() => setNewContactPopupOpen(false)}
       />
+      <AddFriendPopup open={newFriendPopupOpen} handleClose={() => setNewFriendPopupOpen(false)} />
     </div>
   );
 }
