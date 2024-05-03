@@ -13,10 +13,10 @@ import {
   ContactInterface,
   ContactItem,
   FriendInterface,
-  FriendItem,
+  FriendItem, PendingRequests,
   SentRequests,
 } from "./contactItems";
-import { AddContactPopup } from "./AddContactPopup";
+import {  AddContactPopup  } from "./AddContactPopup";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { MetaResponse } from "@/utls/interface";
 import { useAuth } from "@/context/AuthContex";
@@ -52,6 +52,7 @@ export default function Home() {
     { name: "John Doe", email: "john@example.com" },
     { name: "Jane Doe", email: "jane@example.com" },
     { name: "June Doe", email: "june@example.com" },
+    { name: "July Doe", email: "july@example.com" },,
   ];
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -175,13 +176,23 @@ export default function Home() {
               />
             </div>
           </div>
-          <List disablePadding>
-            {friends.map((friend, index) => (
-              <ListItem disablePadding sx={{ width: "100%" }}>
-                <SentRequests key={index} {...friend} />
-              </ListItem>
-            ))}
+
+          <List disablePadding className='snap-y snap-mandatory overflow-y-auto max-h-64'>
+            {(selectedTab === 'pendingRequests') ? (
+              friends.map((friend, index) => (
+                <ListItem disablePadding sx={{ width: "100%" }} className='snap-start'>
+                  <PendingRequests key={index} {...friend} />
+                </ListItem>
+              ))
+            ) : (
+              friends.map((friend, index) => (
+                <ListItem disablePadding sx={{ width: "100%" }}>
+                  <SentRequests key={index} {...friend} />
+                </ListItem>
+              ))
+            )}
           </List>
+
         </div>
 
         <div className="flex justify-end my-5">

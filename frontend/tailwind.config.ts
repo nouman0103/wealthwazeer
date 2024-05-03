@@ -1,3 +1,4 @@
+import { green } from "@mui/material/colors";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -31,6 +32,8 @@ const config: Config = {
       },
       dropShadow: {
         glassmorphic: "drop-shadow(5 8px 20px rgb(0 0 0 / 0.05))",
+        green: "drop-shadow(0 0 10px rgba(0,255,0,1))",
+        red: "drop-shadow(0 0 10px rgba(255,0,0,1))",
       },
       opacity: {
         "glassmorphic-bg": "2%",

@@ -2,6 +2,7 @@
 import React from 'react';
 import { styled } from '@mui/material';
 import Button, { ButtonProps } from '@mui/material/Button';
+import {IconButton , IconButtonProps } from '@mui/material';
 import { BorderAll, BorderColor, BorderStyle } from '@mui/icons-material';
 
 
@@ -70,6 +71,23 @@ export const GlassmorphicButton = styled(Button)<ExtendedButtonProps>(({ theme, 
     },
     '&.MuiButton-root .MuiButton-startIcon': {
         marginRight: 'auto',
+    },
+    
+}));
+
+
+export const GlassmorphicIconButton = styled(IconButton )<IconButtonProps>(({ theme }) => ({
+    '&.MuiButtonBase-root': {
+        backgroundImage: 'linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%)',
+        border: '1px solid rgba(255, 255, 255, 0.07)',
+        color: 'rgba(255, 255, 255, 0.80)',
+        borderRadius: '50%',
+        boxShadow: '5px 8px 25px 0 rgba(0, 0, 0, 0.2)',
+    },
+    '&.MuiButtonBase-root:hover': {
+        backgroundImage: 'linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.04) 100%)',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
     },
     
 }));
