@@ -8,7 +8,11 @@ def get_account_detail(db: Session, user_id: int) -> schemas.AccountDetail:
     accounts = []
     for account in db_accounts:
         balance = crud.get_account_balance(db, account.id)
-        print(balance)
+        if account.account_type == "Income":
+            balance = balance
+        elif account.account_type == "Expenses" or account.account_type == "Bank and Cash":
+            balance = -balance
+        
         accounts.append(schemas.Account(name=account.name, account_type=account.account_type, balance=balance))
         
     return schemas.AccountDetail(accounts=accounts)

@@ -17,26 +17,29 @@ import {
   SentRequests,
 } from "./contactItems";
 import {  AddContactPopup  } from "./AddContactPopup";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { MetaResponse } from "@/utls/interface";
 import { useAuth } from "@/context/AuthContex";
 import { useInView } from "react-intersection-observer";
 import { AddFriendPopup } from "./AddFriendPopup";
+import { ContactList } from "./ContactList";
 
-interface ContactData {
+export interface ContactData {
   partners: ContactInterface[];
   meta: MetaResponse;
 }
 export default function Home() {
   const { api } = useAuth();
-  const { data, isLoading, isError, fetchNextPage, hasNextPage } =
+  const [search, setSearch] = useState("");
+  const { data, isLoading, isError, fetchNextPage, hasNextPage,isFetchingNextPage } =
     useInfiniteQuery<ContactData>({
       queryKey: ["contacts"],
       queryFn: async ({ pageParam = 0 }) => {
         const response = await api.get<ContactData>("/partners", {
           params: {
-            limit: 10,
+            limit: 100,
             page: pageParam,
+            search: search?? null,
           },
         });
         return response.data;
@@ -59,6 +62,7 @@ export default function Home() {
       fetchNextPage();
     }
   }, [inView]);
+  const queryClient = useQueryClient();
 
   const [selectedTab, setSelectedTab] = useState<
     "pendingRequests" | "sentRequests"
@@ -85,6 +89,13 @@ export default function Home() {
           </GlassmorphicButton>
           <div className="my-auto">
             <GlassmorphicInputField
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onBlur={()=>{
+              queryClient.invalidateQueries({
+                queryKey: ["contacts"],
+              });
+            }}
               label={
                 <Fragment>
                   <SearchIconRounded
@@ -103,17 +114,9 @@ export default function Home() {
         </div>
 
         <List>
-          {data?.pages.map((partnerpage, index) => (
-            <Fragment key={index}>
-              {partnerpage?.partners.map((partner, index) => (
-                <ListItem disablePadding sx={{ width: "100%" }}>
-                  <ContactItem key={index} {...partner} />
-                </ListItem>
-              ))}
-            </Fragment>
-          ))}
-          <div about="End of Scroll" ref={ref}>
-            {isLoading &&
+          <ContactList data={data} />
+          <div about="End of Scroll" className="text-center" ref={ref}>
+            {(isFetchingNextPage || isLoading) &&
             <CircularProgress />
             }
           </div>

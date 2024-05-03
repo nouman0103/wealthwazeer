@@ -8,20 +8,43 @@ import { InputAdornment } from '@mui/material';
 import { Fragment, useState } from 'react';
 import { GlassmorphicButton } from '@/components/buttons';
 import { NewExpenseDialog, NewIncomeDialog } from './newTransactionDialog';
+import { MetaResponse } from '@/utls/interface';
+import { useAuth } from '@/context/AuthContex';
+import { useQuery } from '@tanstack/react-query';
+
+type Transaction = {
+  id: string;
+  amount: number;
+  date: string;
+  description: string;
+  partner: string;
+};
+interface TransactionList {
+  transactions: Transaction[];
+  meta: MetaResponse;
+}
 
 
-const columns: GridColDef<(typeof rows)[number]>[] = [
+const columns: GridColDef<Transaction>[] = [
   {
     field: 'type', headerName: 'Type', width: 90,
     sortable: false,
     renderCell: (params) => {
-      return params.value === 1 ? <IncomingIcon /> : <OutgoingIcon />;
+      return params.value === "income" ? <IncomingIcon /> : <OutgoingIcon />;
     }
   },
   {
-    field: 'recipient',
-    headerName: 'Recipient',
+    field: 'partner',
+    headerName: 'Contact',
     minWidth: 150,
+    resizable: false,
+    flex: 1,
+  },
+  {
+    field: 'description',
+    headerName: 'Description',
+    type: 'string',
+    minWidth: 110,
     resizable: false,
     flex: 1,
   },
@@ -36,48 +59,41 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
   },
   {
     field: 'date',
-    headerName: 'Date',
+    headerName: 'Date & Time',
     type: 'string',
     minWidth: 110,
     resizable: false,
     flex: 1,
+    valueFormatter: (value: string) => new Date(value).toLocaleString()
   },
-  {
-    field: 'time',
-    headerName: 'Time',
-    type: 'string',
-    minWidth: 110,
-    resizable: false,
-    flex: 1,
-  },
+ 
 ];
 
 
 
-const rows = [
-  { id: 1, type: 1, recipient: 'John Doe', amount: 1000, date: '2022-01-01', time: '12:00:00' },
-  { id: 2, type: 2, recipient: 'Youtube Premium', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 3, type: 1, recipient: 'Spotify', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 4, type: 2, recipient: 'Netflix', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 5, type: 1, recipient: 'John Doe', amount: 1000, date: '2022-01-01', time: '12:00:00' },
-  { id: 6, type: 2, recipient: 'Youtube Premium', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 7, type: 1, recipient: 'Spotify', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 8, type: 2, recipient: 'Netflix', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 9, type: 1, recipient: 'John Doe', amount: 1000, date: '2022-01-01', time: '12:00:00' },
-  { id: 10, type: 2, recipient: 'Youtube Premium', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 11, type: 1, recipient: 'Spotify', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 12, type: 2, recipient: 'Netflix', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 13, type: 1, recipient: 'John Doe', amount: 1000, date: '2022-01-01', time: '12:00:00' },
-  { id: 14, type: 2, recipient: 'Youtube Premium', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 15, type: 1, recipient: 'Spotify', amount: 200, date: '2022-01-01', time: '12:00:00' },
-  { id: 16, type: 2, recipient: 'Netflix', amount: 200, date: '2022-01-01', time: '12:00:00' },
 
-];
+
 
 
 export default function Home() {
   const [newExpenseDialogOpen, setNewExpenseDialogOpen] = useState(false)
-  const [newIncomeDialogOpen, setNewIncomeDialogOpen] = useState(false)
+  const [newIncomeDialogOpen, setNewIncomeDialogOpen] = useState(false);
+  const {api } = useAuth();
+  const getTransactions = async () => {
+    const response = await api.get<TransactionList>('/transactions',{
+      params: {
+        limit: 0,
+        page: 0,
+        
+      },
+    
+    });
+    return response.data;
+  }
+  const { data, isLoading, isError } = useQuery<TransactionList>({
+    queryKey: ['transactions'],
+    queryFn: getTransactions,
+  });
 
   return (
     <>
@@ -110,7 +126,7 @@ export default function Home() {
         </div>
 
         <GlassmorphicDataGrid
-          rows={rows}
+          rows={data?.transactions || []}
           columns={columns}
           initialState={{
             pagination: {

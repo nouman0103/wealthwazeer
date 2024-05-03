@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from ..db import Base
-import time
+from sqlalchemy.sql import func
 
 class Transaction(Base):
     __tablename__ = "transaction"
@@ -11,6 +11,7 @@ class Transaction(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False,index=True)
     partner_id = Column(UUID(as_uuid=True), ForeignKey("partner.id"), nullable=False)
     status = Column(Enum("pending", "accepted", "rejected",name="type_of_status"), nullable=False)
+    description = Column(String, nullable=True)
 
     
     user = relationship("User", back_populates="transaction")
@@ -18,7 +19,7 @@ class Transaction(Base):
     accountline = relationship("AccountLine", back_populates="transaction")
     transaction_payment = relationship("TransactionPayment", back_populates="transaction")
     
-    created_at = Column(TIMESTAMP, default=int(time.time()))
-    updated_at = Column(TIMESTAMP, default=int(time.time()))
+    created_at = Column(TIMESTAMP, default=func.current_timestamp())
+    updated_at = Column(TIMESTAMP, default=func.current_timestamp())
     
-    date = Column(TIMESTAMP, default=int(time.time()))
+    date = Column(TIMESTAMP, nullable=False)
