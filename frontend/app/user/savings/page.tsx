@@ -70,6 +70,12 @@ export default function Home() {
                     </text>
                     <div className='flex flex-col gap-4'>
                     <LineChart
+                        sx={{
+                          '& .MuiAreaElement-series-savings': {
+                            fill: 'url(savingsGradient)',
+                          },
+                         
+                        }}
                         xAxis={[
                             { id: 'Date', data: years, scaleType: 'time', valueFormatter: (date) => date.toLocaleDateString() }
                              ]}
@@ -111,8 +117,10 @@ export default function Home() {
                         >
                         <defs>
                           <linearGradient id="savingsGradient" gradientTransform="rotate(90)">
-                            <stop offset="5%" stopColor="#FFD966" stopOpacity="0.9" />
-                            <stop offset="95%" stopColor="#FFD966"  stopOpacity="0.1"/>
+                            <stop offset="5%" stopColor="rgba(255 11 11 / 18%)" />
+                            <stop offset="95%" stopColor="rgb(255 11 11 / 0%)" />
+                            {/*<stop offset="5%" stopColor="#FFD966" stopOpacity="0.9" />*/}
+                            {/*<stop offset="95%" stopColor="#FFD966"  stopOpacity="0.1"/>*/}
                           </linearGradient>
                         </defs>
                     </LineChart>
