@@ -158,8 +158,8 @@ const _Drawer = () => {
 
           <ListItem
             pathname={pathname}
-            url="/signup"
-            text="Goals"
+            url="/user/savings"
+            text="Savings"
             onClick={(height: number) => setCurrentBgOffset(height)}
             itemNum={5}
           >
