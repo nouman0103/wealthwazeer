@@ -64,7 +64,7 @@ export default function Home() {
                 <SavingsBarCard title='New Phone' value={3190}value2={90000} bars={[{ title: '35%', value: 35, color: 'goalYellow' }]} />
                 </div>
                 
-                <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3 flex-grow ml-4'>
+                <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col xl:gap-3 flex-grow gap-4 ml-6'>
                     <text className='ml-2 text-base xl:text-lg font-medium text-white text-opacity-70'>
                       Gross Savings
                     </text>
