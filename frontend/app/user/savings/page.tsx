@@ -58,83 +58,66 @@ export default function Home() {
                 <SavingsCard key="savingsThisMonth" loanName="Savings this month" money={1550} />
                 <AddSavingsCard />
             </div>
-        <div className ="flex ">
-            <div className = "flex flex-col gap-4">
-            <SavingsBarCard title='New Phone' value={3190}value2={90000} bars={[{ title: '35%', value: 35, color: 'goalYellow' }]} />
-            <SavingsBarCard title='New Phone' value={3190}value2={90000} bars={[{ title: '35%', value: 35, color: 'goalYellow' }]} />
+
+            <div className ="flex ">
+                <div className = "flex flex-col gap-4">
+                <SavingsBarCard title='New Phone' value={3190}value2={90000} bars={[{ title: '35%', value: 35, color: 'goalYellow' }]} />
+                </div>
+                
+                <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3 flex-grow ml-4'>
+                    <text className='ml-2 text-base xl:text-lg font-medium text-white text-opacity-70'>
+                      Gross Savings
+                    </text>
+                    <div className='flex flex-col gap-4'>
+                    <LineChart
+                        xAxis={[
+                            { id: 'Date', data: years, scaleType: 'time', valueFormatter: (date) => date.toLocaleDateString() }
+                             ]}
+                        series={[
+                        {
+                            id: 'savings',
+                            data: income.map((incomeValue, index) => incomeValue - spent[index]), // Calculate savings by subtracting spent from income
+                            label: "Savings",
+                            color: "#FFD966", // Use a hexadecimal value for better control over the color
+                            area: true,
+                        },
+                         ]}
+                        slotProps={{
+                            legend: {
+                                position: { vertical: "bottom", horizontal: "middle" },
+                                labelStyle: {
+                                fontSize: 16,
+                                fill: 'rgba(255,255,255,60%)',
+                            },
+                            padding: {
+                                top: 50,
+                                bottom: 10,
+                                left: 0,
+                                right: 0,
+                            },
+                            classes: {
+                                'mark': "stroke-grey-900 opacity-50",
+                                'series': "",
+                                'root': "",
+                            },
+                            }
+                        }}
+                         tooltip={{
+                        classes: {
+                        root: "bg-yellow-500 backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3",
+                        },
+                        }}
+                        {...customize}
+                        >
+                        <defs>
+                          <linearGradient id="savingsGradient" gradientTransform="rotate(90)">
+                            <stop offset="5%" stopColor="#FFD966" stopOpacity="0.9" />
+                            <stop offset="95%" stopColor="#FFD966"  stopOpacity="0.1"/>
+                          </linearGradient>
+                        </defs>
+                    </LineChart>
+                  </div>  
             </div>
-
-            <div className='flex-grow'>
-            <LineChart
-              sx={{
-                '& .MuiAreaElement-series-income': {
-                  fill: 'url(#incomeGradient)',
-                },
-                '& .MuiAreaElement-series-spent': {
-                  fill: 'url(#spentGradient)',
-                },
-              }}
-              xAxis={[
-                { id: 'Date', data: years, scaleType: 'time', valueFormatter: (date) => date.toLocaleDateString() }
-              ]}
-              series={[
-                {
-                  id: 'spent',
-                  data: spent,
-                  label: "Spent",
-                  color: "red",
-                  area: true,
-                },
-                {
-                  id: 'income',
-                  data: income,
-                  label: "Income",
-                  color: "green",
-                  area: true,
-                },
-
-              ]}
-              slotProps={{
-                legend: {
-                  position: { vertical: "bottom", horizontal: "middle" },
-                  labelStyle: {
-                    fontSize: 16,
-                    fill: 'rgba(255,255,255,60%)',
-                  },
-                  padding: {
-                    top: 50,
-                    bottom: 10,
-                    left: 0,
-                    right: 0,
-                  },
-
-                  classes: {
-                    'mark': "stroke-grey-900 opacity-50",
-                    'series': "", // Add the missing 'series' property
-                    'root': "", // Add the missing 'root' property
-                  },
-
-                }
-              }}
-              tooltip={{
-                classes: {
-                  root: "bg-yellow-500 backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3",
-                },
-              }}
-              {...customize}
-            >
-              <defs>
-                <linearGradient id="incomeGradient" gradientTransform="rotate(90)">
-                  <stop offset="5%" stopColor="rgba(11 255 82 / 18%)" />
-                  <stop offset="95%" stopColor="rgb(11 255 82 / 0%)" />
-                </linearGradient>
-                <linearGradient id="spentGradient" gradientTransform="rotate(90)">
-                  <stop offset="5%" stopColor="rgba(255 11 11 / 18%)" />
-                  <stop offset="95%" stopColor="rgb(255 11 11 / 0%)" />
-                </linearGradient>
-              </defs>
-            </LineChart>
-          </div>
           </div>
         </div>
       </>
