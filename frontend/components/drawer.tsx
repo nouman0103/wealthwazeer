@@ -91,12 +91,16 @@ const _Drawer = () => {
   return (
     <div>
       <div className="w-56 fixed min-h-screen bg-glassmorphic-gradient border-r border-white border-opacity-[10%] flex flex-col">
-        <div className="flex mx-auto mt-4 mb-6">
+        <Link
+          href="/user/dashboard"
+          prefetch={true}
+          className="flex mx-auto mt-4 mb-6"
+        >
           <Image src={Logo_BlackOutline} alt="Logo" height={30} />
           <text className="my-auto ml-3 text-xl font-normal text-white">
             WealthWazeer
           </text>
-        </div>
+        </Link>
         <text className="uppercase text-xs text-opacity-50 ml-5 mb-3 text-white">
           Main Menu
         </text>

@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
 import { GlassmorphicDialog, GradientDialog } from "@/components/dialogs";
 import {
-    Autocomplete,
+  Autocomplete,
   Dialog,
   FormControl,
   Grow,
@@ -31,6 +31,7 @@ import { useAuth } from "@/context/AuthContex";
 import { ContactInterface } from "../contacts/contactItems";
 import { ContactData } from "../contacts/page";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -73,11 +74,14 @@ export const NewExpenseDialog = ({
   const [bankaccount, setBankAccount] = React.useState("");
   const [expenseaccount, setExpenseAccount] = React.useState("");
   const [selectedContact, setSelectedContact] = React.useState<string>("");
-  const [selectedDate, setSelectedDate] = React.useState<dayjs.Dayjs | null>(null);
+  const [selectedDate, setSelectedDate] = React.useState<dayjs.Dayjs | null>(
+    null
+  );
   const [description, setDescription] = React.useState("");
   const [amount, setAmount] = React.useState(0);
   const [error, setError] = React.useState("");
-  const {api} = useAuth();
+  const { api } = useAuth();
+
   const get_bank_account = async () => {
     const response = await api.get("/accounts/bank");
     return response.data;
@@ -85,33 +89,32 @@ export const NewExpenseDialog = ({
   const get_expense_accounts = async () => {
     const response = await api.get("/accounts/expense");
     return response.data;
-  }
+  };
   const get_contact = async () => {
-    const response = await api.get("/partners",{
+    const response = await api.get("/partners", {
       params: {
-        limit: 0,//limit to 0 to get all contacts
+        limit: 0, //limit to 0 to get all contacts
         page: 0,
       },
-    
     });
     return response.data;
-  }
-  const { data:bank_accounts, isLoading } = useQuery<Account[]>({
+  };
+  const { data: bank_accounts, isLoading } = useQuery<Account[]>({
     queryKey: ["bank_account"],
     queryFn: get_bank_account,
   });
-  const { data:expense_accounts } = useQuery<Account[]>({
+  const { data: expense_accounts } = useQuery<Account[]>({
     queryKey: ["expense_account"],
     queryFn: get_expense_accounts,
   });
-  const { data:contacts } = useQuery<ContactData>({
+  const { data: contacts } = useQuery<ContactData>({
     queryKey: ["contacts"],
     queryFn: get_contact,
   });
   const saveExpense = async (expense: ExpenseTransaction) => {
     const response = await api.post("/transactions/expense", expense);
     return response.data;
-  }
+  };
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: saveExpense,
@@ -121,7 +124,7 @@ export const NewExpenseDialog = ({
       queryClient.invalidateQueries({
         queryKey: ["transactions"],
       });
-    }
+    },
   });
   const handleSave = () => {
     if (mutation.isPending) {
@@ -148,24 +151,27 @@ export const NewExpenseDialog = ({
       return;
     }
     mutation.mutate({
-      amount:amount,
+      amount: amount,
       date: selectedDate.toISOString(),
-      description:description,
+      description: description,
       partner_id: selectedContact,
       expense_account_id: expenseaccount,
       payment_account_id: bankaccount,
     });
-  }
-  
-  
+  };
+
   return (
     <>
       <GradientDialog
         fullScreen
         open={open}
         TransitionComponent={Transition}
+        onKeyUp={(event) => {
+          if (event.key === "Escape") {
+            handleClose();
+          }
+        }}
       >
-        
         <GlassmorphicPaper>
           <Toolbar className="bg-transparent">
             <IconButton
@@ -183,30 +189,40 @@ export const NewExpenseDialog = ({
         </GlassmorphicPaper>
         <List className="w-96" sx={{ marginX: "auto" }}>
           <ListItem>
-            <TextField label="Amount" className="w-full" type="number"
-            onChange={(e) => setAmount(Number(e.target.value))}
-            value={amount}
-            error={error === "Amount cannot be zero"}
-            helperText={error === "Amount cannot be zero" ? "Amount cannot be zero" : ""}
-
-             />
+            <TextField
+              label="Amount"
+              className="w-full"
+              type="number"
+              onChange={(e) => setAmount(Number(e.target.value))}
+              value={amount}
+              error={error === "Amount cannot be zero"}
+              helperText={
+                error === "Amount cannot be zero" ? "Amount cannot be zero" : ""
+              }
+            />
           </ListItem>
           <ListItem>
-            <TextField label="Description" className="w-full" 
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-            error={error === "Description cannot be empty"}
-            helperText={error === "Description cannot be empty" ? "Description cannot be empty" : ""}
+            <TextField
+              label="Description"
+              className="w-full"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              error={error === "Description cannot be empty"}
+              helperText={
+                error === "Description cannot be empty"
+                  ? "Description cannot be empty"
+                  : ""
+              }
             />
           </ListItem>
           <div className="h-3" />
           <ListItem>
             <Autocomplete
               className="w-full"
-              options={contacts?.partners??[]}
+              options={contacts?.partners ?? []}
               getOptionLabel={(option) => option.name}
               getOptionKey={(option) => option.id}
-              onChange={(e, value) =>setSelectedContact(value?.id??'')}
+              onChange={(e, value) => setSelectedContact(value?.id ?? "")}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -222,9 +238,11 @@ export const NewExpenseDialog = ({
           <div className="h-3" />
           <ListItem>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker label="Time" className=" w-full" 
-              value={selectedDate}
-              onAccept={(date) => setSelectedDate(date)}
+              <DateTimePicker
+                label="Time"
+                className=" w-full"
+                value={selectedDate}
+                onAccept={(date) => setSelectedDate(date)}
               />
             </LocalizationProvider>
           </ListItem>
@@ -238,10 +256,9 @@ export const NewExpenseDialog = ({
               onChange={setBankAccount}
               options={bank_accounts}
             />
-           
           </ListItem>
           <ListItem>
-          <SelectField
+            <SelectField
               label="Expense Account"
               value={expenseaccount}
               valuefield="account_id"
@@ -253,7 +270,10 @@ export const NewExpenseDialog = ({
 
           <div className="h-3" />
           <ListItem>
-            <GradientButton onClick={handleSave} className="normal-case font-bold text-2xl w-full">
+            <GradientButton
+              onClick={handleSave}
+              className="normal-case font-bold text-2xl w-full"
+            >
               Add Expense
             </GradientButton>
           </ListItem>
@@ -273,11 +293,13 @@ export const NewIncomeDialog = ({
   const [bankaccount, setBankAccount] = React.useState("");
   const [incomeaccount, setIncomeAccount] = React.useState("");
   const [selectedContact, setSelectedContact] = React.useState<string>("");
-  const [selectedDate, setSelectedDate] = React.useState<dayjs.Dayjs | null>(null);
+  const [selectedDate, setSelectedDate] = React.useState<dayjs.Dayjs | null>(
+    null
+  );
   const [description, setDescription] = React.useState("");
   const [amount, setAmount] = React.useState(0);
   const [error, setError] = React.useState("");
-  const {api} = useAuth();
+  const { api } = useAuth();
   const get_bank_account = async () => {
     const response = await api.get("/accounts/bank");
     return response.data;
@@ -285,33 +307,32 @@ export const NewIncomeDialog = ({
   const get_income_accounts = async () => {
     const response = await api.get("/accounts/income");
     return response.data;
-  }
+  };
   const get_contact = async () => {
-    const response = await api.get("/partners",{
+    const response = await api.get("/partners", {
       params: {
-        limit: 0,//limit to 0 to get all contacts
+        limit: 0, //limit to 0 to get all contacts
         page: 0,
       },
-    
     });
     return response.data;
-  }
-  const { data:bank_accounts, isLoading } = useQuery<Account[]>({
+  };
+  const { data: bank_accounts, isLoading } = useQuery<Account[]>({
     queryKey: ["bank_account"],
     queryFn: get_bank_account,
   });
-  const { data:income_accounts } = useQuery<Account[]>({
+  const { data: income_accounts } = useQuery<Account[]>({
     queryKey: ["income_account"],
     queryFn: get_income_accounts,
   });
-  const { data:contacts } = useQuery<ContactData>({
+  const { data: contacts } = useQuery<ContactData>({
     queryKey: ["contacts"],
     queryFn: get_contact,
   });
   const saveIncome = async (income: IncomeTransaction) => {
     const response = await api.post("/transactions/income", income);
     return response.data;
-  }
+  };
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: saveIncome,
@@ -321,7 +342,7 @@ export const NewIncomeDialog = ({
       queryClient.invalidateQueries({
         queryKey: ["transactions"],
       });
-    }
+    },
   });
   const handleSave = () => {
     if (mutation.isPending) {
@@ -348,24 +369,27 @@ export const NewIncomeDialog = ({
       return;
     }
     mutation.mutate({
-      amount:amount,
+      amount: amount,
       date: selectedDate.toISOString(),
-      description:description,
+      description: description,
       partner_id: selectedContact,
       income_account_id: incomeaccount,
       payment_account_id: bankaccount,
     });
-  }
-  
-  
+  };
+
   return (
     <>
       <GradientDialog
         fullScreen
         open={open}
         TransitionComponent={Transition}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            handleClose();
+          }
+        }}
       >
-        
         <GlassmorphicPaper>
           <Toolbar className="bg-transparent">
             <IconButton
@@ -383,30 +407,40 @@ export const NewIncomeDialog = ({
         </GlassmorphicPaper>
         <List className="w-96" sx={{ marginX: "auto" }}>
           <ListItem>
-            <TextField label="Amount" className="w-full" type="number"
-            onChange={(e) => setAmount(Number(e.target.value))}
-            value={amount}
-            error={error === "Amount cannot be zero"}
-            helperText={error === "Amount cannot be zero" ? "Amount cannot be zero" : ""}
-
-             />
+            <TextField
+              label="Amount"
+              className="w-full"
+              type="number"
+              onChange={(e) => setAmount(Number(e.target.value))}
+              value={amount}
+              error={error === "Amount cannot be zero"}
+              helperText={
+                error === "Amount cannot be zero" ? "Amount cannot be zero" : ""
+              }
+            />
           </ListItem>
           <ListItem>
-            <TextField label="Description" className="w-full" 
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-            error={error === "Description cannot be empty"}
-            helperText={error === "Description cannot be empty" ? "Description cannot be empty" : ""}
+            <TextField
+              label="Description"
+              className="w-full"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              error={error === "Description cannot be empty"}
+              helperText={
+                error === "Description cannot be empty"
+                  ? "Description cannot be empty"
+                  : ""
+              }
             />
           </ListItem>
           <div className="h-3" />
           <ListItem>
             <Autocomplete
               className="w-full"
-              options={contacts?.partners??[]}
+              options={contacts?.partners ?? []}
               getOptionLabel={(option) => option.name}
               getOptionKey={(option) => option.id}
-              onChange={(e, value) =>setSelectedContact(value?.id??'')}
+              onChange={(e, value) => setSelectedContact(value?.id ?? "")}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -422,9 +456,11 @@ export const NewIncomeDialog = ({
           <div className="h-3" />
           <ListItem>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker label="Time" className=" w-full" 
-              value={selectedDate}
-              onAccept={(date) => setSelectedDate(date)}
+              <DateTimePicker
+                label="Time"
+                className=" w-full"
+                value={selectedDate}
+                onAccept={(date) => setSelectedDate(date)}
               />
             </LocalizationProvider>
           </ListItem>
@@ -438,10 +474,9 @@ export const NewIncomeDialog = ({
               onChange={setBankAccount}
               options={bank_accounts}
             />
-           
           </ListItem>
           <ListItem>
-          <SelectField
+            <SelectField
               label="Income Account"
               value={incomeaccount}
               valuefield="account_id"
@@ -453,7 +488,10 @@ export const NewIncomeDialog = ({
 
           <div className="h-3" />
           <ListItem>
-            <GradientButton onClick={handleSave} className="normal-case font-bold text-2xl w-full">
+            <GradientButton
+              onClick={handleSave}
+              className="normal-case font-bold text-2xl w-full"
+            >
               Add Income
             </GradientButton>
           </ListItem>
