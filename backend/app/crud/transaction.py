@@ -40,7 +40,7 @@ def income_transaction(db: Session, transaction: schemas.IncomeTransaction, user
 
 def get_all_transactions(db: Session, user_id: int, metadata: schemas.MetaRequest, search: str = None) -> schemas.TransactionList:
     db_transactions = db.query(models.Transaction).filter(
-        models.Transaction.user_id == user_id)
+        models.Transaction.user_id == user_id).order_by(models.Transaction.date.desc())
     if search:
         db_transactions = db_transactions.filter(or_(
             models.Transaction.description.ilike(f"%{search}%"),

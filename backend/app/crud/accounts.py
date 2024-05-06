@@ -47,3 +47,23 @@ def get_bank_accounts(db: Session, user_id: int) -> schemas.AccountDetail:
         accounts.append(schemas.AccountWithID(name=account.name, account_type=account.account_type, account_id=account.id))
         
     return accounts
+
+def get_detail_income_expense_data(db:Session,user_id:int) ->schemas.AccountData:
+    
+    income_accounts = []
+    expense_accounts = []
+    bank_accounts = []
+    db_accounts = db.query(models.Account).filter(models.Account.user_id == user_id).filter(models.Account.account_type.in_(("Income","Expenses","Bank and Cash"))).all()
+    for account in db_accounts:
+        balance = crud.get_account_balance(db, account.id)
+        if account.account_type == "Income":
+            income_accounts.append(schemas.Account(name=account.name,balance=balance,account_type="Income"))
+        elif account.account_type == "Expenses":
+            expense_accounts.append(schemas.Account(name=account.name,balance=-balance,account_type="Expenses"))
+        elif account.account_type=="Bank and Cash":
+            bank_accounts.append(schemas.Account(name=account.name,balance=-balance,account_type="Bank and Cash"))
+    return schemas.AccountData(
+        income_accounts=income_accounts,
+        bank_accounts=bank_accounts,expense_accounts=expense_accounts
+    )
+

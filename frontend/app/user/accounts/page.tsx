@@ -26,7 +26,7 @@ import {
 import { GlassmorphicInputField } from "@/components/inputs";
 import { AddAccountPopup } from "./AddAccountPopup";
 
-type Account = {
+export type Account = {
   name: string;
   balance: number;
   account_type: "Income" | "Expenses" | "Bank and Cash";

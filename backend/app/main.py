@@ -93,3 +93,10 @@ async def income_transaction(transaction: schemas.IncomeTransaction, current_use
 @app.get("/transactions/", response_model=schemas.TransactionList)
 async def get_all_transactions(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_all_transactions(db=db, user_id=current_user.id, metadata=meta, search=search)
+
+
+
+#Home Dashcard 
+@app.get("/accounts/dashboard",response_model=schemas.AccountData)
+async def get_dashboard_data(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_detail_income_expense_data(db,current_user.id)
