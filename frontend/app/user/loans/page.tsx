@@ -4,6 +4,7 @@ import { LoanCard, AddLoanCard } from "./loanCards";
 import { GlassmorphicButton } from '@/components/buttons';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { GlassmorphicDataGrid } from '@/components/datagrid';
+import { NewLoanDialog } from "./newLoanDialog";
 
 const handleCreatePayment = (row: any) => {
   console.log('Creating payment for row:', row);
@@ -93,6 +94,7 @@ const rows = [
 ];
 
 export default function Home() {
+  const [newLoanDialogOpen, setNewLoanDialogOpen] = React.useState(false);
   return (
     <>
       <div className="p-8 flex flex-col gap-5 flex-grow overflow-hidden">
@@ -101,10 +103,10 @@ export default function Home() {
         </span>
 
         <div className="flex gap-8">
-          <LoanCard key="homeLoan" loanName="Home Loan" money={100000} />
-          <LoanCard key="carLoan" loanName="Car Loan" money={50000} />
-          <LoanCard key="personalLoan" loanName="Personal Loan" money={10000} />
-          <AddLoanCard />
+          <LoanCard key="outstandingLoan" loanName="Outstanding Loan" money={100000} />
+          <LoanCard key="paidLoan" loanName="Loan Paid" money={50000} />
+          <LoanCard key="totallLoan" loanName="Total Loan" money={10000} />
+          <AddLoanCard onClick={() => setNewLoanDialogOpen(true)} />
         </div>
 
         <GlassmorphicDataGrid
@@ -114,6 +116,7 @@ export default function Home() {
           disableRowSelectionOnClick
         />
       </div>
+      <NewLoanDialog open={newLoanDialogOpen} handleClose={() => setNewLoanDialogOpen(false)} />
     </>
   );
 }
