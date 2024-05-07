@@ -1,4 +1,5 @@
 import { GlassmorphicDialog } from "@/components/dialogs";
+import { SelectField } from "@/components/selectfield";
 // import { useAuth } from "@/context/AuthContex"; 
 // import { handleError } from "@/utls/handleError";
 import {
@@ -66,17 +67,18 @@ export const AddSavingPopup = ({
         {error && <Alert severity="error">{error}</Alert>}
         <TextField
           label="Amount"
-          variant="standard"
           value={amount}
+          type="number" 
           onChange={(e) => setAmount(e.target.value)}
           className="w-full"
         />
-        <TextField
+         <SelectField
           label="Bank Account"
-          variant="standard"
-          value={bankAccount}
-          onChange={(e) => setBankAccount(e.target.value)}
-          className="w-full"
+          value="Some Account"
+          valuefield="account_id"
+          labelfield="name"
+          onChange={setBankAccount}
+          options={["Some Account", "Another Account"]}
         />
       </DialogContent>
       <DialogActions>
