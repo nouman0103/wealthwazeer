@@ -100,7 +100,7 @@ export const SavingsBarCard: React.FC<{
 export const  SetGoalCard: React.FC<AddSavingsCardProps> = ({ onClick }) => {
   return (
     <div
-      className="flex flex-col flex-grow w-64 px-2 py-8 gap-4 mx-auto bg-glassmorphicPrimary rounded-3xl border-4 border-dashed border-white border-opacity-15 transition-all hover:bg-glassmorphic-gradient-hover scale-100 hover:scale-105 active:scale-100 active:bg-black active:bg-opacity-10 cursor-pointer"
+      className="flex flex-col  w-72 h-min px-2 py-8  gap-4 mx-auto bg-glassmorphicPrimary rounded-3xl border-4 border-dashed border-white border-opacity-15 transition-all hover:bg-glassmorphic-gradient-hover scale-100 hover:scale-105 active:scale-100 active:bg-black active:bg-opacity-10 cursor-pointer"
       onClick={onClick}
     >
       <text className="text-xl text-white text-opacity-50 text-center">

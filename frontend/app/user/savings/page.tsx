@@ -1,8 +1,9 @@
 "use client";
 import React , { useState }from "react";
-import { SavingsCard, AddSavingsCard, SavingsBarCard } from "./savingCards";
+import { SavingsCard, AddSavingsCard, SavingsBarCard, SetGoalCard } from "./savingCards";
 import { LineChart } from '@mui/x-charts/LineChart';
 import { AddSavingPopup } from "./AddSavingPopup";
+import { AddGoalPopup } from "./AddGoalPopup";
 
 const years = [
     new Date(2024, 4, 10),
@@ -42,6 +43,7 @@ const spent = [
 
 export default function Home() {
   const [isAddSavingPopupOpen, setAddSavingPopupOpen] = useState(false);
+  const [isAddGoalPopupOpen, setAddGoalPopupOpen] = useState(false);
 
   const handleAddSavingPopupOpen = () => {
       setAddSavingPopupOpen(true);
@@ -50,7 +52,20 @@ export default function Home() {
   const handleAddSavingPopupClose = () => {
       setAddSavingPopupOpen(false);
   };
+  
+  const handleAddGoalPopupOpen = () => {
+    setAddGoalPopupOpen(true);
+  };
 
+  const handleAddGoalPopupClose = () => {
+    setAddGoalPopupOpen(false);
+  };
+
+  const [goalExists, setGoalExists] = useState(false);
+
+    const handleToggleGoal = () => {
+        setGoalExists(!goalExists); 
+    };
     const customize = {
         height: 380,
         stackingOrder: 'descending',
@@ -72,7 +87,11 @@ export default function Home() {
 
                 <div className="flex ">
                     <div className="flex flex-col gap-4">
-                        <SavingsBarCard title='New Phone' value={3190} value2={90000} bars={[{ title: '35%', value: 35, color: 'goalYellow' }]} />
+                        {goalExists ? (
+                            <SavingsBarCard title='New Phone' value={3190} value2={90000} bars={[{ title: '35%', value: 35, color: 'goalYellow' }]} />
+                        ) : (
+                            <SetGoalCard onClick={handleAddGoalPopupOpen}  />
+                        )}
                     </div>
 
                     <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col xl:gap-3 flex-grow gap-4 ml-6'>
@@ -139,6 +158,7 @@ export default function Home() {
                 </div>
             </div>
             <AddSavingPopup open={isAddSavingPopupOpen} handleClose={handleAddSavingPopupClose} />
+            <AddGoalPopup open={isAddGoalPopupOpen} handleClose={handleAddGoalPopupClose} />
         </>
     );
 }
