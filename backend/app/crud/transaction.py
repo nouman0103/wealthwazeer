@@ -31,6 +31,7 @@ def income_transaction(db: Session, transaction: schemas.IncomeTransaction, user
                                         status="accepted", date=transaction.date, description=transaction.description)
     db_transaction.accountline.append(income_line)
     db_transaction.accountline.append(bank_line)
+    
 
     db.add(db_transaction)
     db.commit()
@@ -67,3 +68,44 @@ def get_all_transactions(db: Session, user_id: int, metadata: schemas.MetaReques
         meta=schemas.MetaResponse(
             page=metadata.page, total=total, limit=metadata.limit, next=next)
     )
+    
+    
+def give_loan_transcation(db:Session, user_id:int, loan:schemas.LoanTransaction):
+        bank_line = models.AccountLine(credit = loan.amount, debit = 0, user_id = user_id, balance = loan.amount, partner_id = loan.partner_id,
+                                       account_id = loan.bank_account_id, is_visible = False)
+        recievable_account = db.query(models.Account).filter(models.Account.user_id == user_id).where(models.Account.account_type=="Receivable").all()
+        recievable_account_id = recievable_account[0].id 
+        
+        recievable_line = models.AccountLine(credit = 0, debit = loan.amount, user_id = user_id, balance = -loan.amount, partner_id = loan.partner_id,
+                                              account_id = recievable_account_id, is_visible = True)
+
+        db_transaction = models.AccountLine(user_id = user_id, partner_id = loan.partner_id, status = "accepted", 
+                                            date=loan.date, description=loan.description)
+        
+        db_transaction.accountline.append(recievable_line)
+        db_transaction.accountline.append(bank_line)
+        
+        db.add(db_transaction)
+        db.commit()
+        
+        
+def recieve_loan_transaction(db:Session, user_id:int, loan:schemas.LoanTransaction):
+        bank_line = models.AccountLine(credit = 0, debit = loan.amount, user_id = user_id, balance = -loan.amount, partner_id = loan.partner_id,
+                                       account_id = loan.bank_account_id, is_visible = False)
+        payable_account = db.query(models.Account).filter(models.Account.user_id == user_id).where(models.Account.account_type=="Payable").all()
+        payable_account_id = payable_account[0].id 
+        
+        payable_line = models.AccountLine(credit = loan.amount, debit = 0, user_id = user_id, balance = loan.amount, partner_id = loan.partner_id,
+                                              account_id = payable_account_id, is_visible = True)
+
+        db_transaction = models.AccountLine(user_id = user_id, partner_id = loan.partner_id, status = "accepted", 
+                                            date=loan.date, description=loan.description)
+        
+        db_transaction.accountline.append(payable_line)
+        db_transaction.accountline.append(bank_line)
+        
+        db.add(db_transaction)
+        db.commit()
+    
+    
+        

@@ -93,3 +93,4 @@ async def income_transaction(transaction: schemas.IncomeTransaction, current_use
 @app.get("/transactions/", response_model=schemas.TransactionList)
 async def get_all_transactions(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_all_transactions(db=db, user_id=current_user.id, metadata=meta, search=search)
+@app.get("/transaction/loan/give")
