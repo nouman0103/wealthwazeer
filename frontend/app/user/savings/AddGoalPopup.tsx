@@ -72,7 +72,7 @@ export const AddGoalPopup = ({
           className="w-full"
         />
         <TextField
-          label="Amount"
+          label="Target Amount"
           value={targetAmount}
           type="number" 
           onChange={(e) => setTargetAmount(e.target.value)}
