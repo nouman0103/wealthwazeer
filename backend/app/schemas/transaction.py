@@ -39,3 +39,8 @@ class TransactionDetail(TransactionBase):
 class TransactionList(BaseModel):
     transactions:List[TransactionDetail]
     meta:MetaResponse
+
+class LoanTransaction(TransactionBase):
+    partner_id: uuid.UUID
+    bank_account_id: uuid.UUID
+    

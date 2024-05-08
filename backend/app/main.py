@@ -93,7 +93,13 @@ async def income_transaction(transaction: schemas.IncomeTransaction, current_use
 @app.get("/transactions/", response_model=schemas.TransactionList)
 async def get_all_transactions(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_all_transactions(db=db, user_id=current_user.id, metadata=meta, search=search)
+@app.post("/transactions/loan/give",response_model=schemas.Transaction)
+async def give_loan(loan:schemas.LoanTransaction,current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.give_loan_transcation(db,current_user.id,loan=loan)
 
+@app.post("/transactions/loan/recieve",response_model=schemas.Transaction)
+async def reieve_loan(loan:schemas.LoanTransaction,current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.recieve_loan_transaction(db,current_user.id,loan=loan)
 
 
 #Home Dashcard 
