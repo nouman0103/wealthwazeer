@@ -8,14 +8,14 @@ interface loanType {
 
 export const SavingsCard = ({ loanName, money }: loanType) => {
   return (
-    <div className="flex flex-col px-8 py-8 gap-4 w-72 bg-glassmorphic-gradient rounded-3xl border border-opacity-5 border-white shadow-glassmorphic">
+    <div className="flex flex-col px-8 py-8 gap-4 w-44 md:w-56 lg:w-64 xl:w-72 bg-glassmorphic-gradient rounded-3xl border border-opacity-5 border-white shadow-glassmorphic">
       <span className="text-xl text-white text-opacity-50 font-medium truncate">
         {loanName}
       </span>
       <div className="mb-1">
         <text className="text-xs xl:text-xl mr-3 text-white text-opacity-70">RS</text>
         <text className="text-xl xl:text-3xl ">
-          {money}
+          {money.toLocaleString()}
         </text>
       </div>
     </div>
@@ -77,7 +77,7 @@ export const SavingsBarCard: React.FC<{
 }> = ({ title, value, value2, bars }) => {
     return (
         <div
-          className="w-72 h-min bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3"
+          className="w-44 md:w-56 lg:w-64 xl:w-72 h-min bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3"
         >
           <text className="text-xl text-white text-opacity-50 font-medium truncate">
             {title}
@@ -100,7 +100,7 @@ export const SavingsBarCard: React.FC<{
 export const  SetGoalCard: React.FC<AddSavingsCardProps> = ({ onClick }) => {
   return (
     <div
-      className="flex flex-col  w-72 h-min px-2 py-8  gap-4 mx-auto bg-glassmorphicPrimary rounded-3xl border-4 border-dashed border-white border-opacity-15 transition-all hover:bg-glassmorphic-gradient-hover scale-100 hover:scale-105 active:scale-100 active:bg-black active:bg-opacity-10 cursor-pointer"
+      className="flex flex-col w-44 md:w-56 lg:w-64 xl:w-72 h-min px-2 py-8  gap-4 mx-auto bg-glassmorphicPrimary rounded-3xl border-4 border-dashed border-white border-opacity-15 transition-all hover:bg-glassmorphic-gradient-hover scale-100 hover:scale-105 active:scale-100 active:bg-black active:bg-opacity-10 cursor-pointer"
       onClick={onClick}
     >
       <text className="text-xl text-white text-opacity-50 text-center">
