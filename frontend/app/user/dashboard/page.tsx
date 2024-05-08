@@ -11,11 +11,18 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/AuthContex";
 import { Account } from "../accounts/page";
 import { TransactionList } from "../transactions/page";
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { Fade, Slide } from "@mui/material";
+
+
 
 type GraphData = {
-  income:number[],
-  expenses:number[]
-  dates:string[]
+  income: number[],
+  expenses: number[]
+  dates: string[]
 
 }
 
@@ -112,16 +119,15 @@ const DashCard: React.FC<{
           </span>
         </div>
         {bars.length > 0 && (
-        <GlassmorphicProgressBar
-          progressTitle={bars[0].title}
-          progress={bars[0].value}
-          progressColor={bars[0].color}
-        
-        />)}
+          <GlassmorphicProgressBar
+            progressTitle={bars[0].title}
+            progress={bars[0].value}
+            progressColor={bars[0].color}
+
+          />)}
         <div
-          className={`flex flex-col gap-3 transition-all duration-300 ${
-            showAll ? "max-h-56 scale-y-100" : "scale-y-0 max-h-0"
-          } overflow-hidden`}
+          className={`flex flex-col gap-3 transition-all duration-300 ${showAll ? "max-h-56 scale-y-100" : "scale-y-0 max-h-0"
+            } overflow-hidden`}
         >
           {bars.slice(1).map((bar, index) => (
             <GlassmorphicProgressBar
@@ -171,37 +177,69 @@ export default function Home() {
       }, 0) ?? 0
     );
   }, [data]);
-  const income_sum = useMemo(()=>{
+  const income_sum = useMemo(() => {
     return (
-      data?.income_accounts.reduce((a,b)=>a+b.balance,0)??0
+      data?.income_accounts.reduce((a, b) => a + b.balance, 0) ?? 0
     )
-  },[data])
-  const expense_sum = useMemo(()=>data?.expense_accounts.reduce((a,b)=>a+b.balance,0)??0,[data]);
+  }, [data])
+  const expense_sum = useMemo(() => data?.expense_accounts.reduce((a, b) => a + b.balance, 0) ?? 0, [data]);
   const getGraphData = async () => {
     const response = await api.get("/accounts/monthreport");
     return response.data;
   }
-  const {data:graph,isLoading:graphLoading} = useQuery<GraphData>({
-    queryKey:["dashboard_graph"],
-    queryFn:getGraphData
+  const { data: graph, isLoading: graphLoading } = useQuery<GraphData>({
+    queryKey: ["dashboard_graph"],
+    queryFn: getGraphData
   });
-  const dates_array = useMemo(()=>graph?.dates.map((value)=>new Date(value))??[],[graph?.dates])
+  const dates_array = useMemo(() => graph?.dates.map((value) => new Date(value)) ?? [], [graph?.dates])
 
   const getTransactions = async () => {
-    const response = await api.get<TransactionList>('/transactions',{
+    const response = await api.get<TransactionList>('/transactions', {
       params: {
         limit: 10,
         page: 0,
       },
-    
+
     });
     return response.data;
   }
 
-  const { data:Transaction, isLoading:TransactionLoading, isError } = useQuery<TransactionList>({
+  const { data: Transaction, isLoading: TransactionLoading, isError } = useQuery<TransactionList>({
     queryKey: ['transactions'],
     queryFn: getTransactions,
   });
+
+  const { data: tipOfTheDay, isLoading: tipOfTheDayLoading } = useQuery({
+    queryKey: ["tipOfTheDay"],
+    queryFn: async () => {
+      const response = await api.get("/ai");
+      return response.data;
+    },
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
+    // refetchOnWindowFocus: false,
+    // refetchInterval: false,
+    // refetchIntervalInBackground: false,
+  });
+
+  const [tipOfTheDayOpen, setTipOfTheDayOpen] = React.useState(true);
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={() => {
+          setTipOfTheDayOpen(false);
+        }}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+
 
 
   return (
@@ -212,10 +250,10 @@ export default function Home() {
             title="Net Savings"
             value={net_sum}
             bars={[
-              ...data?.bank_accounts.sort((a,b)=>a.balance-b.balance).reverse().map((account, index) => {
+              ...data?.bank_accounts.sort((a, b) => a.balance - b.balance).reverse().map((account, index) => {
                 return {
                   title: account.name,
-                  value: Math.round((account.balance/net_sum)*100),
+                  value: Math.round((account.balance / net_sum) * 100),
                   color: getRandomColor(),
                 };
               }) ?? [
@@ -227,26 +265,26 @@ export default function Home() {
             title="Income"
             value={income_sum}
             bars={[
-              ...data?.income_accounts.sort((a,b)=>a.balance-b.balance).reverse().map((account, index) => {
+              ...data?.income_accounts.sort((a, b) => a.balance - b.balance).reverse().map((account, index) => {
                 return {
                   title: account.name,
-                  value: Math.round((account.balance/income_sum)*100),
+                  value: Math.round((account.balance / income_sum) * 100),
                   color: getRandomColor(),
                 };
               }) ?? [
 
               ],
-            
+
             ]}
           />
           <DashCard
             title="Total Spent"
             value={expense_sum}
             bars={[
-              ...data?.expense_accounts.sort((a,b)=>a.balance-b.balance).reverse().map((account, index) => {
+              ...data?.expense_accounts.sort((a, b) => a.balance - b.balance).reverse().map((account, index) => {
                 return {
                   title: account.name,
-                  value: Math.round((account.balance/expense_sum)*100),
+                  value: Math.round((account.balance / expense_sum) * 100),
                   color: getRandomColor(),
                 };
               }) ?? [
@@ -269,7 +307,7 @@ export default function Home() {
                   fill: "url(#spentGradient)",
                 },
               }}
-              
+
               xAxis={[
                 {
                   id: "Date",
@@ -281,14 +319,14 @@ export default function Home() {
               series={[
                 {
                   id: "spent",
-                  data: graph?.expenses??[],
+                  data: graph?.expenses ?? [],
                   label: "Spent",
                   color: "red",
                   area: true,
                 },
                 {
                   id: "income",
-                  data: graph?.income??[],
+                  data: graph?.income ?? [],
                   label: "Income",
                   color: "green",
                   area: true,
@@ -355,21 +393,32 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex flex-col gap-4">
-          {(Transaction && Transaction.transactions.length > 0 ) ? (
-             Transaction?.transactions.map((transaction, index) => (
+          {(Transaction && Transaction.transactions.length > 0) ? (
+            Transaction?.transactions.map((transaction, index) => (
               <TransactionCards
                 key={index}
                 title={transaction.description}
                 date={new Date(transaction.date).toLocaleString()}
                 value={transaction.amount}
-                isArrowUp={transaction.amount > 0}
+                isArrowUp={transaction.type === "expense" ? true : false}
               />
             ))
           ) : (
-            <div className="text-center text-white text-opacity-70 mt-4">No Transactions</div>        
+            <div className="text-center text-white text-opacity-70 mt-4">No Transactions</div>
           )}
         </div>
       </div>
+      {!tipOfTheDayLoading && (
+        <Snackbar
+          open={tipOfTheDayOpen}
+          onClose={() => setTipOfTheDayOpen(false)}
+          message={tipOfTheDay}
+          action={action}
+          anchorOrigin={{vertical:"bottom", horizontal:"right"}}
+          TransitionComponent={Slide}
+        />
+      )}
     </div>
+
   );
 }

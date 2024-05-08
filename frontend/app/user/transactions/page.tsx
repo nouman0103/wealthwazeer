@@ -18,6 +18,7 @@ export type Transaction = {
   date: string;
   description: string;
   partner: string;
+  type: 'income' | 'expense';
 };
 export interface TransactionList {
   transactions: Transaction[];

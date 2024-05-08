@@ -110,4 +110,4 @@ async def get_dashboard(current_user=Depends(security.get_current_user), db: Ses
 
 @app.get("/ai", response_model=str)
 async def get_ai_response(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
-    return crud.get_tip_of_the_day(current_user.id, db)
+    return await crud.get_tip_of_the_day(current_user.id, db)

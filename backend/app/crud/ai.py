@@ -13,9 +13,9 @@ genai.configure(api_key=GEMINI_KEY)
 
 model = genai.GenerativeModel('gemini-pro')
 
-def get_tip_of_the_day(user_id:int,db:Session):
+async def get_tip_of_the_day(user_id:int,db:Session):
     personal = crud.get_detail_income_expense_data(db,user_id)
-    result = model.generate_content(f"Give me a financing tip based on the data below. Mention specific account name for recommendation. Keep it short. \n\n {json.dumps(personal.model_dump_json())}")
+    result = await model.generate_content_async(f"Give me a financing tip based on the data below. Mention specific account name for recommendation. Keep it short. Currency: RS. \n\n {json.dumps(personal.model_dump_json())}")
     try:
         return result.text
     except Exception as e:
