@@ -5,6 +5,8 @@ from . import crud, models, schemas, security
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from .db import SessionLocal, engine, get_db
 from fastapi.middleware.cors import CORSMiddleware
+
+
 origins = [
     "http://localhost:3000",
 ]
@@ -109,3 +111,9 @@ async def get_dashboard_data(current_user=Depends(security.get_current_user), db
 @app.get("/accounts/monthreport",response_model=schemas.DashboardDayReport)
 async def get_dashboard(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_income_expense_data_by_date(db,current_user.id)
+
+
+
+@app.get("/ai", response_model=str)
+async def get_ai_response(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return await crud.get_tip_of_the_day(current_user.id, db)

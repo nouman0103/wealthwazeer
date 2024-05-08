@@ -93,7 +93,7 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-          <div className="ml-auto -my-3">
+        {/*  <div className="ml-auto -my-3">
           <TextButton
             disableRipple={true}
             sx={{
@@ -106,6 +106,7 @@ export default function Home() {
             </span>
           </TextButton>
           </div>
+          */}
           <GradientButton
             onClick={() => {
               mutation.mutate();
@@ -114,7 +115,7 @@ export default function Home() {
           >
             Login
           </GradientButton>
-          <GlassmorphicButton
+          {/* <GlassmorphicButton
             startIcon={
               <SvgIcon>
                 <GoogleIcon />
@@ -123,7 +124,7 @@ export default function Home() {
             className="shadow-glassmorphic"
           >
             <span className="mx-auto">Continue with Google</span>
-          </GlassmorphicButton>
+          </GlassmorphicButton> */}
           <TextButton
             disableRipple={true}
             sx={{

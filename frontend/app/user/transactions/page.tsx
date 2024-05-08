@@ -12,14 +12,15 @@ import { MetaResponse } from '@/utls/interface';
 import { useAuth } from '@/context/AuthContex';
 import { useQuery } from '@tanstack/react-query';
 
-type Transaction = {
+export type Transaction = {
   id: string;
   amount: number;
   date: string;
   description: string;
   partner: string;
+  type: 'income' | 'expense';
 };
-interface TransactionList {
+export interface TransactionList {
   transactions: Transaction[];
   meta: MetaResponse;
 }
@@ -103,7 +104,7 @@ export default function Home() {
           <text className="text-2xl font-semibold text-white text-opacity-80 my-auto">
             Transactions
           </text>
-          <GlassmorphicInputField
+          {/* <GlassmorphicInputField
             label={
               <Fragment>
                 <SearchIconRounded className='text-white text-opacity-80 text-3xl mr-2 mb-2' />
@@ -113,7 +114,7 @@ export default function Home() {
             size='small'
             className='w-96'
 
-          />
+          /> */}
         </div>
         <div className='flex gap-5'>
           <GlassmorphicButton fontSize={16} onClick={() => {setNewExpenseDialogOpen(true);}}>
