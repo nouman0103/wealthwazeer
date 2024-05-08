@@ -33,7 +33,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const { data, isLoading, isError, fetchNextPage, hasNextPage,isFetchingNextPage } =
     useInfiniteQuery<ContactData>({
-      queryKey: ["contacts"],
+      queryKey: ["infiniteContacts"],
       queryFn: async ({ pageParam = 0 }) => {
         const response = await api.get<ContactData>("/partners", {
           params: {
@@ -55,7 +55,7 @@ export default function Home() {
     { name: "John Doe", email: "john@example.com" },
     { name: "Jane Doe", email: "jane@example.com" },
     { name: "June Doe", email: "june@example.com" },
-    { name: "July Doe", email: "july@example.com" },,
+    { name: "July Doe", email: "july@example.com" },
   ];
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -224,10 +224,11 @@ export default function Home() {
           </List>
         </div>
       </div>
+      {newContactPopupOpen &&
       <AddContactPopup
         open={newContactPopupOpen}
         handleClose={() => setNewContactPopupOpen(false)}
-      />
+      /> }
       <AddFriendPopup open={newFriendPopupOpen} handleClose={() => setNewFriendPopupOpen(false)} />
     </div>
   );
