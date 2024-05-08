@@ -275,7 +275,7 @@ export default function Home() {
                   id: "Date",
                   data: dates_array,
                   scaleType: "time",
-                  valueFormatter: (date) => date.toLocaleString(),
+                  valueFormatter: (date) => date.toLocaleDateString(),
                 },
               ]}
               series={[
@@ -355,7 +355,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex flex-col gap-4">
-          {(Transaction && Transaction.transactions.length > 4 ) ? (
+          {(Transaction && Transaction.transactions.length > 0 ) ? (
              Transaction?.transactions.map((transaction, index) => (
               <TransactionCards
                 key={index}
