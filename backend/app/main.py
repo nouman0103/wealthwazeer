@@ -100,3 +100,6 @@ async def get_all_transactions(meta: schemas.MetaRequest = Depends(), search: st
 @app.get("/accounts/dashboard",response_model=schemas.AccountData)
 async def get_dashboard_data(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_detail_income_expense_data(db,current_user.id)
+@app.get("/accounts/monthreport",response_model=schemas.DashboardDayReport)
+async def get_dashboard(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_income_expense_data_by_date(db,current_user.id)
