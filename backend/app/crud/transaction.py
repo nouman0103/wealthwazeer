@@ -79,7 +79,7 @@ def give_loan_transcation(db:Session, user_id:int, loan:schemas.LoanTransaction)
         recievable_line = models.AccountLine(credit = 0, debit = loan.amount, user_id = user_id, balance = -loan.amount, partner_id = loan.partner_id,
                                               account_id = recievable_account_id, is_visible = True)
 
-        db_transaction = models.AccountLine(user_id = user_id, partner_id = loan.partner_id, status = "accepted", 
+        db_transaction = models.Transaction(user_id = user_id, partner_id = loan.partner_id, status = "accepted", 
                                             date=loan.date, description=loan.description)
         
         db_transaction.accountline.append(recievable_line)
@@ -87,6 +87,9 @@ def give_loan_transcation(db:Session, user_id:int, loan:schemas.LoanTransaction)
         
         db.add(db_transaction)
         db.commit()
+        return {
+            "message":"Sucessful add loan"
+        }
         
         
 def recieve_loan_transaction(db:Session, user_id:int, loan:schemas.LoanTransaction):
@@ -98,7 +101,7 @@ def recieve_loan_transaction(db:Session, user_id:int, loan:schemas.LoanTransacti
         payable_line = models.AccountLine(credit = loan.amount, debit = 0, user_id = user_id, balance = loan.amount, partner_id = loan.partner_id,
                                               account_id = payable_account_id, is_visible = True)
 
-        db_transaction = models.AccountLine(user_id = user_id, partner_id = loan.partner_id, status = "accepted", 
+        db_transaction = models.Transaction(user_id = user_id, partner_id = loan.partner_id, status = "accepted", 
                                             date=loan.date, description=loan.description)
         
         db_transaction.accountline.append(payable_line)
@@ -108,4 +111,27 @@ def recieve_loan_transaction(db:Session, user_id:int, loan:schemas.LoanTransacti
         db.commit()
     
     
+# def get_loan_info(db:Session, user_id:int):
+#    #we will return an array of objects that will contain transaction id, 
+#    #if the payment amount is recievable or payable and the amount in question
+   
+#     recievable_account = db.query(models.Account).filter(models.Account.user_id == user_id).where(models.Account.account_type=="Receivable").all()
+#     payable_account = db.query(models.Account).filter(models.Account.user_id == user_id).where(models.Account.account_type=="Payable").all()
+    
+#     last_array = []
+#     for account in recievable_account:
+#         last_array.append({
+#             "transaction_id":account.transaction.id,
+#             "amount":account.balance,
+#             "type":"recievable"
+#         })
+#     for account in payable_account:
+#         last_array.append({
+#             "transaction_id":account.transaction.id,
+#             "amount":account.balance,
+#             "type":"payable"
+#         })
+#     return schemas.LoanTransaction(
+        
+#     )
         

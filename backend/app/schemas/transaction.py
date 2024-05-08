@@ -44,3 +44,7 @@ class LoanTransaction(TransactionBase):
     partner_id: uuid.UUID
     bank_account_id: uuid.UUID
     
+# class LoanDetail(TransactionBase):
+#     transaction_id: uuid.UUID
+#     type_of_loan_transaction: Literal["Payable","Recievable"]
+    
