@@ -12,14 +12,14 @@ import { MetaResponse } from '@/utls/interface';
 import { useAuth } from '@/context/AuthContex';
 import { useQuery } from '@tanstack/react-query';
 
-type Transaction = {
+export type Transaction = {
   id: string;
   amount: number;
   date: string;
   description: string;
   partner: string;
 };
-interface TransactionList {
+export interface TransactionList {
   transactions: Transaction[];
   meta: MetaResponse;
 }

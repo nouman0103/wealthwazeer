@@ -61,7 +61,7 @@ export default function Home() {
     setAddGoalPopupOpen(false);
   };
 
-  const [goalExists, setGoalExists] = useState(false);
+  const [goalExists, setGoalExists] = useState(true);
 
     const handleToggleGoal = () => {
         setGoalExists(!goalExists); 

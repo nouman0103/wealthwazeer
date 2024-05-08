@@ -10,6 +10,7 @@ import { spopper } from "@/components/datagrid";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/AuthContex";
 import { Account } from "../accounts/page";
+import { TransactionList } from "../transactions/page";
 
 const years = [
   new Date(2024, 4, 10),
@@ -185,6 +186,24 @@ export default function Home() {
     )
   },[data])
   const expense_sum = useMemo(()=>data?.expense_accounts.reduce((a,b)=>a+b.balance,0)??0,[data])
+
+  const getTransactions = async () => {
+    const response = await api.get<TransactionList>('/transactions',{
+      params: {
+        limit: 10,
+        page: 0,
+      },
+    
+    });
+    return response.data;
+  }
+
+  const { data:Transaction, isLoading:TransactionLoading, isError } = useQuery<TransactionList>({
+    queryKey: ['transactions'],
+    queryFn: getTransactions,
+  });
+
+
   return (
     <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap flex-grow">
       <div className="flex flex-col gap-2 lg:gap-4 2xl:gap-8 flex-wrap">
@@ -335,30 +354,19 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex flex-col gap-4">
-          <TransactionCards
-            title="Spotify Premium"
-            date="11:00 am, 15/04"
-            value={400}
-            isArrowUp={true}
-          />
-          <TransactionCards
-            title="Youtube Premium"
-            date="11:00 am, 15/04"
-            value={320}
-            isArrowUp={true}
-          />
-          <TransactionCards
-            title="Amazon.com Order"
-            date="11:00 am, 15/04"
-            value={1200}
-            isArrowUp={true}
-          />
-          <TransactionCards
-            title="Payoneer"
-            date="11:00 am, 15/04"
-            value={32000}
-            isArrowUp={false}
-          />
+          {(Transaction && Transaction.transactions.length > 4 ) ? (
+             Transaction?.transactions.map((transaction, index) => (
+              <TransactionCards
+                key={index}
+                title={transaction.description}
+                date={new Date(transaction.date).toLocaleString()}
+                value={transaction.amount}
+                isArrowUp={transaction.amount > 0}
+              />
+            ))
+          ) : (
+            <div className="text-center text-white text-opacity-70 mt-4">No Transactions</div>        
+          )}
         </div>
       </div>
     </div>
