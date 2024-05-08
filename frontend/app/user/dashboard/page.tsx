@@ -11,21 +11,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/AuthContex";
 import { Account } from "../accounts/page";
 
-const years = [
-  new Date(2024, 4, 10),
-  new Date(2024, 4, 11),
-  new Date(2024, 4, 12),
-  new Date(2024, 4, 13),
-  new Date(2024, 4, 14),
-  new Date(2024, 4, 15),
-  new Date(2024, 4, 16),
-  new Date(2024, 4, 17),
-  new Date(2024, 4, 18),
-];
+type GraphData = {
+  income:number[],
+  expenses:number[]
+  dates:string[]
 
-const income = [1000, 2000, 1500, 2500, 3000, 2000, 1500, 2500, 3000];
-
-const spent = [500, 1000, 800, 1200, 1500, 1000, 800, 1200, 1500];
+}
 
 const TransactionCards: React.FC<{
   title: string;
@@ -184,7 +175,16 @@ export default function Home() {
       data?.income_accounts.reduce((a,b)=>a+b.balance,0)??0
     )
   },[data])
-  const expense_sum = useMemo(()=>data?.expense_accounts.reduce((a,b)=>a+b.balance,0)??0,[data])
+  const expense_sum = useMemo(()=>data?.expense_accounts.reduce((a,b)=>a+b.balance,0)??0,[data]);
+  const getGraphData = async () => {
+    const response = await api.get("/accounts/monthreport");
+    return response.data;
+  }
+  const {data:graph,isLoading:graphLoading} = useQuery<GraphData>({
+    queryKey:["dashboard_graph"],
+    queryFn:getGraphData
+  });
+  const dates_array = useMemo(()=>graph?.dates.map((value)=>new Date(value))??[],[graph?.dates])
   return (
     <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap flex-grow">
       <div className="flex flex-col gap-2 lg:gap-4 2xl:gap-8 flex-wrap">
@@ -250,25 +250,26 @@ export default function Home() {
                   fill: "url(#spentGradient)",
                 },
               }}
+              
               xAxis={[
                 {
                   id: "Date",
-                  data: years,
+                  data: dates_array,
                   scaleType: "time",
-                  valueFormatter: (date) => date.toLocaleDateString(),
+                  valueFormatter: (date) => date.toLocaleString(),
                 },
               ]}
               series={[
                 {
                   id: "spent",
-                  data: spent,
+                  data: graph?.expenses??[],
                   label: "Spent",
                   color: "red",
                   area: true,
                 },
                 {
                   id: "income",
-                  data: income,
+                  data: graph?.income??[],
                   label: "Income",
                   color: "green",
                   area: true,

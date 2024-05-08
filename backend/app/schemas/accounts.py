@@ -3,6 +3,7 @@ from fastapi.exceptions import HTTPException
 from pydantic import BaseModel,Field,ConfigDict
 from typing import List, Optional,Annotated,Literal
 import uuid
+from datetime import datetime
 
 
 class AccountBase(BaseModel):
@@ -31,3 +32,12 @@ class AccountData(BaseModel):
     model_config['from_attributes'] = True
 
     
+
+class DashboardDayReport(BaseModel):
+    income: List[float]
+    expenses: List[float]
+    dates : List[str]
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    model_config["title"] = "Dashboard"
+    model_config["from_attributes"] = True
+
