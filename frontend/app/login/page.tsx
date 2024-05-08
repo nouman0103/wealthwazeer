@@ -115,7 +115,7 @@ export default function Home() {
           >
             Login
           </GradientButton>
-          <GlassmorphicButton
+          {/* <GlassmorphicButton
             startIcon={
               <SvgIcon>
                 <GoogleIcon />
@@ -124,7 +124,7 @@ export default function Home() {
             className="shadow-glassmorphic"
           >
             <span className="mx-auto">Continue with Google</span>
-          </GlassmorphicButton>
+          </GlassmorphicButton> */}
           <TextButton
             disableRipple={true}
             sx={{
