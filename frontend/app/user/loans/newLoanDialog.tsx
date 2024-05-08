@@ -112,7 +112,7 @@ export const NewLoanDialog = ({
     queryFn: get_expense_accounts,
   });
   const { data: contacts } = useQuery<ContactData>({
-    queryKey: ["contacts"],
+    queryKey: ["loansContacts"],
     queryFn: get_contact,
   });
   //   const saveExpense = async (expense: ExpenseTransaction) => {

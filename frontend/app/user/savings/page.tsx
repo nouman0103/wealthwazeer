@@ -67,25 +67,25 @@ export default function Home() {
         setGoalExists(!goalExists); 
     };
     const customize = {
-        height: 380,
+        height: 300,
         stackingOrder: 'descending',
         margin: { bottom: 100 },
     };
 
     return (
         <>
-            <div className="p-8 flex flex-col gap-5 flex-grow overflow-hidden">
+            <div className="p-8 flex flex-col gap-2 lg:gap-4 2xl:gap-8 flex-grow overflow-hidden">
                 <span className="text-2xl font-semibold text-white text-opacity-80">
                     Savings
                 </span>
-                <div className="flex gap-8">
+                <div className="flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap">
                     <SavingsCard key="totalSavings" loanName="Total Savings" money={3210} />
                     <SavingsCard key="savingsThisWeek" loanName="Savings this week" money={425} />
                     <SavingsCard key="savingsThisMonth" loanName="Savings this month" money={1550} />
                     <AddSavingsCard onClick={handleAddSavingPopupOpen} />
                 </div>
 
-                <div className="flex ">
+                <div className="flex gap-2 lg:gap-4 2xl:gap-8">
                     <div className="flex flex-col gap-4">
                         {goalExists ? (
                             <SavingsBarCard title='New Phone' value={3190} value2={90000} bars={[{ title: '35%', value: 35, color: 'goalYellow' }]} />
@@ -94,7 +94,7 @@ export default function Home() {
                         )}
                     </div>
 
-                    <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col xl:gap-3 flex-grow gap-4 ml-6'>
+                    <div className='bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col xl:gap-3 flex-grow gap-4'>
                         <text className='ml-2 text-base xl:text-lg font-medium text-white text-opacity-70'>
                             Gross Savings
                         </text>
@@ -102,7 +102,7 @@ export default function Home() {
                             <LineChart
                                 sx={{
                                     '& .MuiAreaElement-series-savings': {
-                                        fill: 'url(savingsGradient)',
+                                        fill: 'url(#savingsGradient)',
                                     },
                                 }}
                                 xAxis={[
@@ -146,8 +146,8 @@ export default function Home() {
                             >
                                 <defs>
                                     <linearGradient id="savingsGradient" gradientTransform="rotate(90)">
-                                        <stop offset="5%" stopColor="rgba(255 11 11 / 18%)" />
-                                        <stop offset="95%" stopColor="rgb(255 11 11 / 0%)" />
+                                        <stop offset="5%" stopColor="rgba(255 255 11 / 18%)" />
+                                        <stop offset="95%" stopColor="rgb(255 255 11 / 0%)" />
                                         {/*<stop offset="5%" stopColor="#FFD966" stopOpacity="0.9" />*/}
                                         {/*<stop offset="95%" stopColor="#FFD966"  stopOpacity="0.1"/>*/}
                                     </linearGradient>

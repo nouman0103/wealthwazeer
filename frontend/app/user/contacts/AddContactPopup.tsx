@@ -46,7 +46,7 @@ export const AddContactPopup = ({
     mutationKey: ["add_contact"],
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["contacts"],
+        queryKey: ["infiniteContacts"],
       });
       handleClose();
     },
