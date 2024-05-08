@@ -206,7 +206,6 @@ const _Drawer = () => {
               horizontal: "left",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem
               onClick={() => {
                 logOut();
