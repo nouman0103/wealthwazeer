@@ -162,7 +162,7 @@ export default function Home() {
               </div>
             </div>
             <div className="my-auto">
-              <GlassmorphicInputField
+              {/* <GlassmorphicInputField
                 label={
                   <Fragment>
                     <SearchIconRounded
@@ -176,7 +176,7 @@ export default function Home() {
                 }
                 size="small"
                 className="w-72 ml-auto my-auto"
-              />
+              /> */}
             </div>
           </div>
 
@@ -198,8 +198,8 @@ export default function Home() {
 
         </div>
 
-        <div className="flex justify-end my-5">
-          <GlassmorphicInputField
+        {/*<div className="flex justify-end my-5">
+           <GlassmorphicInputField
             label={
               <Fragment>
                 <SearchIconRounded
@@ -214,7 +214,7 @@ export default function Home() {
             size="small"
             className="w-72 my-auto"
           />
-        </div>
+        </div> */}
 
         <div className="flex flex-col flex-grow">
           <List disablePadding>

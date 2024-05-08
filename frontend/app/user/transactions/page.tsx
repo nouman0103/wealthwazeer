@@ -103,7 +103,7 @@ export default function Home() {
           <text className="text-2xl font-semibold text-white text-opacity-80 my-auto">
             Transactions
           </text>
-          <GlassmorphicInputField
+          {/* <GlassmorphicInputField
             label={
               <Fragment>
                 <SearchIconRounded className='text-white text-opacity-80 text-3xl mr-2 mb-2' />
@@ -113,7 +113,7 @@ export default function Home() {
             size='small'
             className='w-96'
 
-          />
+          /> */}
         </div>
         <div className='flex gap-5'>
           <GlassmorphicButton fontSize={16} onClick={() => {setNewExpenseDialogOpen(true);}}>
