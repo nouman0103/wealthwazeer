@@ -105,9 +105,9 @@ export default function Home() {
         </span>
 
         <div className="flex gap-8">
-          <LoanCard key="outstandingLoan" loanName="Outstanding Loan" money={100000} />
-          <LoanCard key="paidLoan" loanName="Loan Paid" money={50000} />
-          <LoanCard key="totallLoan" loanName="Total Loan" money={10000} />
+          <LoanCard key="payableLoan" loanName="Payable Loan" money={100000} />
+          <LoanCard key="receivableLoan" loanName="Receivable Loan" money={50000} />
+          <LoanCard key="netLoan" loanName="Net Loan" money={50000} />
           <AddLoanCard onClick={() => setNewLoanDialogOpen(true)} />
         </div>
 
