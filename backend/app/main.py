@@ -111,8 +111,8 @@ async def recieve_loan(loan: schemas.LoanTransaction, current_user=Depends(secur
     return crud.recieve_loan_transaction(db, current_user.id, loan=loan)
 
 
-@app.get("/transactions/loan")
-async def get_all_loan_transaction(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+@app.get("/transactions/loans")
+async def get_all_loan_transactions(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     # return "Hello World"
     return crud.get_all_loan_transaction(db, current_user.id, meta, search=search)
 

@@ -7,6 +7,9 @@ import { GlassmorphicDataGrid } from '@/components/datagrid';
 import { NewLoanDialog } from "./newLoanDialog";
 import { CreatePaymentDialog  } from "./createPaymentDialog";
 import { redirect } from "next/navigation";
+import { MetaResponse } from "@/utls/interface";
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/context/AuthContex";
 
 
 
@@ -15,6 +18,19 @@ const rows = [
   { id: 2, amount: 30000, recipient: 'Bob', paid: 20000, outstanding: 10000, category: 'Car Loan', deadline: '2nd Nov, 2024', actions: 'Create Payment' },
 
 ];
+
+export type Loan = {
+  id: string;
+  amount: number;
+  date: string;
+  description: string;
+  partner: string;
+  type: 'payable' | 'receivable';
+};
+export interface LoansList {
+  transactions: Loan[];
+  meta: MetaResponse;
+}
 
 
 export default function Home() {
@@ -97,6 +113,28 @@ export default function Home() {
       ),
     }
   ], [])
+
+  const {api } = useAuth();
+
+  const getLoans = async () => {
+    const response = await api.get<LoansList>('/transactions/loans',{
+      params: {
+        limit: 0,
+        page: 0,
+        
+      },
+    
+    });
+    return response.data;
+  }
+
+  const { data, isLoading, isError } = useQuery<LoansList>({
+    queryKey: ['transactions'],
+    queryFn: getLoans,
+  });
+
+
+
   return (
     <>
       <div className="p-8 flex flex-col gap-5 flex-grow overflow-hidden">
@@ -112,7 +150,7 @@ export default function Home() {
         </div>
 
         <GlassmorphicDataGrid
-          rows={rows}
+          rows={data?.transactions || []}
           columns={columns}
           pageSizeOptions={[5]}
           disableRowSelectionOnClick
