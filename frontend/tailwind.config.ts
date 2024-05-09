@@ -23,6 +23,7 @@ const config: Config = {
           "linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.04) 100%)",
         glassmorphicPrimary:
           "linear-gradient(180deg, rgba(255, 109, 170, 0.07) 0%, rgba(221, 87, 255, 0.03) 100%)",
+          aiBackground: "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);"
       },
       boxShadow: {
         glassmorphic: "5px 8px 20px 0 rgba(0, 0, 0, 0.1)",

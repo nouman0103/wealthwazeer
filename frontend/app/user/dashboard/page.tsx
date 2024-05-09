@@ -416,6 +416,17 @@ export default function Home() {
           action={action}
           anchorOrigin={{vertical:"bottom", horizontal:"right"}}
           TransitionComponent={Slide}
+          sx={{
+            "& .MuiSnackbarContent-root": {
+              background: "linear-gradient(to right, #4568dc3d, #b06ab3b0)",
+              color: "white",
+              borderRadius: "18px",
+              maxWidth: "80%",
+              boxShadow: "0 0 20px rgb(78 17 138 / 30%)",
+              backdropFilter: "blur(10px)",
+            },
+          }}
+
         />
       )}
     </div>
