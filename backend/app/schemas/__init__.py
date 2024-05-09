@@ -5,3 +5,4 @@ from .accounts import *
 from .partner import *
 from .meta import *
 from .transaction import *
+from .savings import *
