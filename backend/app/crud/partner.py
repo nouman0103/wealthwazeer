@@ -48,7 +48,7 @@ def get_partners(db: Session, user_id: str, meta: schemas.MetaRequest, search: s
         next = meta.page+1
     
     return schemas.PartnerList(
-        partners=[schemas.Partner.model_validate(
+        partners=[schemas.PartnerDetail.model_validate(
             partner) for partner in db_partners],
         meta=schemas.MetaResponse(
             page=meta.page, total=total, limit=meta.limit, next=next)

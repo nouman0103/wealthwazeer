@@ -11,6 +11,8 @@ import CancelScheduleSendRoundedIcon from '@mui/icons-material/CancelScheduleSen
 export interface ContactInterface {
   id: string;
   name: string;
+  email: string;
+  phone: string
 }
 
 export interface FriendInterface {
@@ -29,40 +31,40 @@ const generateRandomDarkColor = () => {
 };
 
 export const PendingRequests: React.FC<FriendInterface> = ({ name, email }) => {
-    const [avatarColor] = useState(generateRandomDarkColor);
+  const [avatarColor] = useState(generateRandomDarkColor);
 
-    const avatarStyle = {
-        backgroundColor: avatarColor,
-        color: '#fff',
-        marginRight: '20px',
-        borderRadius: '50%',
-        fontSize: '1.2rem'
-    };
+  const avatarStyle = {
+    backgroundColor: avatarColor,
+    color: '#fff',
+    marginRight: '20px',
+    borderRadius: '50%',
+    fontSize: '1.2rem'
+  };
 
-    return (
-        <div className="flex justify-between w-full bg-glassmorphic-gradient border border-opacity-5 border-white shadow-glassmorphic rounded-2xl p-2 mt-3">
-            <Avatar style={avatarStyle} className='my-auto ml-2'>
-                {name[0]}
-            </Avatar>
-            <div className="w-min text-white text-base my-auto max-w-32 truncate">
-                {name}
-            </div>
-            <div className=" text-white text-opacity-50 text-base my-auto mx-auto">
-                {email}
-            </div>
+  return (
+    <div className="flex justify-between w-full bg-glassmorphic-gradient border border-opacity-5 border-white shadow-glassmorphic rounded-2xl p-2 mt-3">
+      <Avatar style={avatarStyle} className='my-auto ml-2'>
+        {name[0]}
+      </Avatar>
+      <div className="w-min text-white text-base my-auto max-w-32 truncate">
+        {name}
+      </div>
+      <div className=" text-white text-opacity-50 text-base my-auto mx-auto">
+        {email}
+      </div>
 
-            <div className="options flex items-center gap-3">
-                <GlassmorphicIconButton className='p-3'>
-                    <CloseIcon className='text-red-500' fontSize="small" />
-                    <div className='absolute w-4 h-4 bg-red-700 opacity-60 blur-md' />
-                </GlassmorphicIconButton>
-                <GlassmorphicIconButton className='p-3'>
-                    <DoneIcon className='text-green-500' fontSize="small" />
-                    <div className='absolute w-4 h-4 bg-green-700 opacity-60 blur-md' />
-                </GlassmorphicIconButton>
-            </div>
-        </div>
-    );
+      <div className="options flex items-center gap-3">
+        <GlassmorphicIconButton className='p-3'>
+          <CloseIcon className='text-red-500' fontSize="small" />
+          <div className='absolute w-4 h-4 bg-red-700 opacity-60 blur-md' />
+        </GlassmorphicIconButton>
+        <GlassmorphicIconButton className='p-3'>
+          <DoneIcon className='text-green-500' fontSize="small" />
+          <div className='absolute w-4 h-4 bg-green-700 opacity-60 blur-md' />
+        </GlassmorphicIconButton>
+      </div>
+    </div>
+  );
 };
 
 export const SentRequests: React.FC<FriendInterface> = ({ name, email }) => {
@@ -88,14 +90,14 @@ export const SentRequests: React.FC<FriendInterface> = ({ name, email }) => {
         {email}
       </div>
 
-            <GlassmorphicIconButton className='p-3'>
-                <CloseIcon className='text-red-500' fontSize="small" />
-                <div className='absolute w-4 h-4 bg-red-700 opacity-60 blur-md' />
-            </GlassmorphicIconButton>
-        </div>
-    );
+      <GlassmorphicIconButton className='p-3'>
+        <CloseIcon className='text-red-500' fontSize="small" />
+        <div className='absolute w-4 h-4 bg-red-700 opacity-60 blur-md' />
+      </GlassmorphicIconButton>
+    </div>
+  );
 };
-export const ContactItem: React.FC<ContactInterface> = ({ name }) => {
+export const ContactItem: React.FC<ContactInterface> = ({ name, email, phone }) => {
   const [avatarColor] = useState(generateRandomDarkColor);
 
   const avatarStyle = {
@@ -107,16 +109,21 @@ export const ContactItem: React.FC<ContactInterface> = ({ name }) => {
   };
 
   return (
-    <div className="flex bg-glassmorphic-gradient shadow-glassmorphic rounded-2xl border border-opacity-5 border-white p-1 mt-3">
+    <div className="w-full flex bg-glassmorphic-gradient shadow-glassmorphic rounded-2xl border border-opacity-5 border-white p-1">
       <Avatar style={avatarStyle} className="my-auto ml-2">
         {name[0]}
       </Avatar>
-      <div className="text-white text-base my-auto flex-grow w-72 truncate">
-        {name}
+      <div className="flex flex-col mr-8">
+        <div className="text-white text-base my-auto max-w-72 truncate">
+          {name}
+        </div>
+        <div className="text-white text-opacity-50 text-sm my-auto truncate">
+          {phone}
+        </div>
       </div>
-      <IconButton>
-        <MoreVertIcon />
-      </IconButton>
+      <div className="text-white text-opacity-50 text-sm ml-auto my-auto max-w-72 truncate">
+        {email}
+      </div>
     </div>
   );
 };

@@ -8,7 +8,7 @@ interface loanType {
 
 export const SavingsCard = ({ loanName, money }: loanType) => {
   return (
-    <div className="flex flex-col px-8 py-8 gap-4 w-44 md:w-56 lg:w-64 xl:w-72 bg-glassmorphic-gradient rounded-3xl border border-opacity-5 border-white shadow-glassmorphic">
+    <div className="flex flex-col px-8 py-8 gap-4 w-52 md:w-56 lg:w-64 xl:w-72 bg-glassmorphic-gradient rounded-3xl border border-opacity-5 border-white shadow-glassmorphic">
       <span className="text-xl text-white text-opacity-50 font-medium truncate">
         {loanName}
       </span>
@@ -77,7 +77,7 @@ export const SavingsBarCard: React.FC<{
 }> = ({ title, value, value2, bars }) => {
     return (
         <div
-          className="w-44 md:w-56 lg:w-64 xl:w-72 h-min bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3"
+          className="w-52 md:w-56 lg:w-64 xl:w-72 h-min bg-glassmorphic-gradient backdrop-blur-lg shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3"
         >
           <text className="text-xl text-white text-opacity-50 font-medium truncate">
             {title}

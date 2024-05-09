@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef , useState } from "react";
 import Logo_BlackOutline from "../assets/Logo_BlackOutline.svg";
 import Link from "next/link";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
@@ -20,6 +20,7 @@ import Paper from "@mui/material/Paper";
 import { useAuth } from "@/context/AuthContex";
 import { useQueryClient } from "@tanstack/react-query";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import { ProfilePopup } from "./profilePopup";
 
 const ListItem = ({
   pathname,
@@ -88,16 +89,48 @@ const _Drawer = () => {
     queryClient.clear();
   };
 
+  // get width of the screen
+  const width = window.innerWidth;
+  const [hideDrawerTexts, setHideDrawerTexts] = React.useState(false);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setHideDrawerTexts(true);
+      } else {
+        setHideDrawerTexts(false);
+      }
+    };
+  
+    // Call handleResize right away so that the state gets updated with the initial window size
+    handleResize();
+  
+    // Subscribe to window resize events
+    window.addEventListener('resize', handleResize);
+  }, []);
+
+  const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
+
+  const handleProfilePopupOpen = () => {
+      setProfilePopupOpen(true);
+  };
+
+  const handleProfilePopupClose = () => {
+      setProfilePopupOpen(false);
+  };
+  
   return (
+    <>
     <div>
-      <div className="w-56 fixed min-h-screen bg-glassmorphic-gradient border-r border-white border-opacity-[10%] flex flex-col">
+      <div className="w-28 md:w-56 fixed min-h-screen bg-glassmorphic-gradient border-r border-white border-opacity-[10%] flex flex-col">
         <Link
           href="/user/dashboard"
           prefetch={true}
           className="flex mx-auto mt-4 mb-6"
         >
           <Image src={Logo_BlackOutline} alt="Logo" height={30} />
-          <text className="my-auto ml-3 text-xl font-normal text-white">
+          <text className="hidden md:block my-auto ml-3 text-xl font-normal text-white">
             WealthWazeer
           </text>
         </Link>
@@ -114,7 +147,7 @@ const _Drawer = () => {
           <ListItem
             pathname={pathname}
             url="/user/dashboard"
-            text="Dashboard"
+            text={hideDrawerTexts?"":"Dashboard"}
             onClick={(height: number) => setCurrentBgOffset(height)}
           >
             <GridViewRoundedIcon className="text-2xl" />
@@ -123,7 +156,7 @@ const _Drawer = () => {
           <ListItem
             pathname={pathname}
             url="/user/transactions"
-            text="Transactions"
+            text={hideDrawerTexts?"":"Transactions"}
             onClick={(height: number) => setCurrentBgOffset(height)}
             itemNum={1}
           >
@@ -133,7 +166,7 @@ const _Drawer = () => {
           <ListItem
             pathname={pathname}
             url="/user/accounts"
-            text="Accounts"
+            text={hideDrawerTexts?"":"Accounts"}
             onClick={(height: number) => setCurrentBgOffset(height)}
             itemNum={2}
           >
@@ -143,7 +176,7 @@ const _Drawer = () => {
           <ListItem
             pathname={pathname}
             url="/user/loans"
-            text="Loans"
+            text={hideDrawerTexts?"":"Loans"}
             onClick={(height: number) => setCurrentBgOffset(height)}
             itemNum={3}
           >
@@ -153,7 +186,7 @@ const _Drawer = () => {
           <ListItem
             pathname={pathname}
             url="/user/contacts"
-            text="Contacts"
+            text={hideDrawerTexts?"":"Contacts"}
             onClick={(height: number) => setCurrentBgOffset(height)}
             itemNum={4}
           >
@@ -163,7 +196,7 @@ const _Drawer = () => {
           <ListItem
             pathname={pathname}
             url="/user/savings"
-            text="Savings"
+            text={hideDrawerTexts?"":"Savings"}
             onClick={(height: number) => setCurrentBgOffset(height)}
             itemNum={5}
           >
@@ -182,7 +215,7 @@ const _Drawer = () => {
             >
               {user?.name[0].toLocaleUpperCase()}
             </Avatar>
-            <div className="flex flex-col">
+            <div className="hidden md:flex flex-col">
               <text className="text-white truncate w-28 text-opacity-80">
                 {user?.name}
               </text>
@@ -206,6 +239,7 @@ const _Drawer = () => {
               horizontal: "left",
             }}
           >
+          <MenuItem onClick={handleProfilePopupOpen}>Profile</MenuItem>
             <MenuItem
               onClick={() => {
                 logOut();
@@ -217,8 +251,11 @@ const _Drawer = () => {
           </GlassmorphicMenu>
         </ul>
       </div>
-      <div className="w-56 min-h-screen" />
+      <div className="w-28 md:w-56 min-h-screen" />
     </div>
+
+  <ProfilePopup open={isProfilePopupOpen} handleClose={handleProfilePopupClose} />
+  </>
   );
 };
 

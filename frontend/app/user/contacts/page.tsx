@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { List, Avatar, IconButton, Divider, ListItem, CircularProgress } from "@mui/material";
+import { List, Avatar, IconButton, Divider, ListItem, CircularProgress, Grid, Box } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import { Close as CloseIcon, Done as DoneIcon } from "@mui/icons-material";
@@ -16,7 +16,7 @@ import {
   FriendItem, PendingRequests,
   SentRequests,
 } from "./contactItems";
-import {  AddContactPopup  } from "./AddContactPopup";
+import { AddContactPopup } from "./AddContactPopup";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { MetaResponse } from "@/utls/interface";
 import { useAuth } from "@/context/AuthContex";
@@ -31,7 +31,7 @@ export interface ContactData {
 export default function Home() {
   const { api } = useAuth();
   const [search, setSearch] = useState("");
-  const { data, isLoading, isError, fetchNextPage, hasNextPage,isFetchingNextPage } =
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<ContactData>({
       queryKey: ["infiniteContacts"],
       queryFn: async ({ pageParam = 0 }) => {
@@ -39,7 +39,7 @@ export default function Home() {
           params: {
             limit: 100,
             page: pageParam,
-            search: search?? null,
+            search: search ?? null,
           },
         });
         return response.data;
@@ -49,7 +49,7 @@ export default function Home() {
       },
       initialPageParam: 0,
     });
-    const [ref, inView] = useInView();
+  const [ref, inView] = useInView();
 
   const friends: FriendInterface[] = [
     { name: "John Doe", email: "john@example.com" },
@@ -76,8 +76,8 @@ export default function Home() {
   const [newFriendPopupOpen, setNewFriendPopupOpen] = useState(false);
 
   return (
-    <div className="p-8 flex gap-5 flex-grow overflow-hidden mb-1">
-      <div className="flex flex-col">
+    <div className="p-8 flex gap-5 flex-grow overflow-hidden mb-1 w-full">
+      <div className="flex flex-col w-full">
         <span className="text-2xl font-medium text-white mb-4">Contacts</span>
         <div className="flex justify-between">
           <GlassmorphicButton
@@ -89,13 +89,13 @@ export default function Home() {
           </GlassmorphicButton>
           <div className="my-auto">
             <GlassmorphicInputField
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onBlur={()=>{
-              queryClient.invalidateQueries({
-                queryKey: ["contacts"],
-              });
-            }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onBlur={() => {
+                queryClient.invalidateQueries({
+                  queryKey: ["contacts"],
+                });
+              }}
               label={
                 <Fragment>
                   <SearchIconRounded
@@ -108,20 +108,21 @@ export default function Home() {
                 </Fragment>
               }
               size="small"
-              className="w-44"
+              className="w-56"
             />
           </div>
         </div>
-
-        <List>
+        <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           <ContactList data={data} />
           <div about="End of Scroll" className="text-center" ref={ref}>
             {(isFetchingNextPage || isLoading) &&
-            <CircularProgress />
+              <CircularProgress />
             }
           </div>
-        </List>
+        </div>
       </div>
+
+      {/*
 
       <Divider orientation="vertical" flexItem />
 
@@ -132,7 +133,7 @@ export default function Home() {
             fontSize={16}
             startIcon={<AddRoundedIcon className="mr-2" />}
             className="mr-auto"
-           onClick={() => setNewFriendPopupOpen(true)}>
+            onClick={() => setNewFriendPopupOpen(true)}>
             Add Friend
           </GlassmorphicButton>
         </div>
@@ -141,21 +142,19 @@ export default function Home() {
           <div className="flex space-between">
             <div className="flex w-72 h-14 p-1 bg-white bg-opacity-5 mr-auto rounded-full">
               <div
-                className={`w-1/2 rounded-full py-3 text-center cursor-pointer ${
-                  selectedTab === "pendingRequests"
+                className={`w-1/2 rounded-full py-3 text-center cursor-pointer ${selectedTab === "pendingRequests"
                     ? selectedTabStyles
                     : unselectedTabStyles
-                }`}
+                  }`}
                 onClick={() => setSelectedTab("pendingRequests")}
               >
                 Pending requests
               </div>
               <div
-                className={`w-1/2 rounded-full py-3 text-center cursor-pointer ${
-                  selectedTab === "sentRequests"
+                className={`w-1/2 rounded-full py-3 text-center cursor-pointer ${selectedTab === "sentRequests"
                     ? selectedTabStyles
                     : unselectedTabStyles
-                }`}
+                  }`}
                 onClick={() => setSelectedTab("sentRequests")}
               >
                 Requests sent
@@ -176,7 +175,7 @@ export default function Home() {
                 }
                 size="small"
                 className="w-72 ml-auto my-auto"
-              /> */}
+              /> 
             </div>
           </div>
 
@@ -214,7 +213,7 @@ export default function Home() {
             size="small"
             className="w-72 my-auto"
           />
-        </div> */}
+        </div>
 
         <div className="flex flex-col flex-grow">
           <List disablePadding>
@@ -224,11 +223,12 @@ export default function Home() {
           </List>
         </div>
       </div>
+          */}
       {newContactPopupOpen &&
-      <AddContactPopup
-        open={newContactPopupOpen}
-        handleClose={() => setNewContactPopupOpen(false)}
-      /> }
+        <AddContactPopup
+          open={newContactPopupOpen}
+          handleClose={() => setNewContactPopupOpen(false)}
+        />}
       <AddFriendPopup open={newFriendPopupOpen} handleClose={() => setNewFriendPopupOpen(false)} />
     </div>
   );

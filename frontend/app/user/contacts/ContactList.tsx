@@ -14,9 +14,7 @@ export const ContactList = ({
       {data?.pages.map((partnerpage, index) => (
         <>
           {partnerpage?.partners.map((partner, index) => (
-            <ListItem disablePadding sx={{ width: "100%" }}>
-              <ContactItem key={index} {...partner} />
-            </ListItem>
+            <ContactItem key={index} {...partner} />
           ))}
         </>
       ))}
