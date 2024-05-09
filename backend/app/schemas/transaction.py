@@ -31,7 +31,7 @@ class Transaction(TransactionBase):
 class TransactionDetail(TransactionBase):
     id: uuid.UUID
     partner:str
-    type:Literal["income","expense"]
+    type:Literal["income","expense","payable","receivable"]
     model_config = ConfigDict(arbitrary_types_allowed=True)
     model_config["title"] = "Transaction Detail"
     model_config['from_attributes'] = True

@@ -82,36 +82,51 @@ async def create_partner(partner: schemas.PartnerCreate, current_user=Depends(se
 
 
 @app.get("/partners/", response_model=schemas.PartnerList)
-async def  get_partners(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+async def get_partners(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_partners(db=db, user_id=current_user.id, meta=meta, search=search)
+
 
 @app.post("/transactions/expense/", response_model=schemas.Transaction)
 async def expense_transaction(transaction: schemas.ExpenseTransaction, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.expense_transaction(db=db, transaction=transaction, user_id=current_user.id)
 
+
 @app.post("/transactions/income/", response_model=schemas.Transaction)
 async def income_transaction(transaction: schemas.IncomeTransaction, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.income_transaction(db=db, transaction=transaction, user_id=current_user.id)
+
+
 @app.get("/transactions/", response_model=schemas.TransactionList)
 async def get_all_transactions(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_all_transactions(db=db, user_id=current_user.id, metadata=meta, search=search)
-@app.post("/transactions/loan/give",response_model=schemas.Transaction)
-async def give_loan(loan:schemas.LoanTransaction,current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
-    return crud.give_loan_transcation(db,current_user.id,loan=loan)
-
-@app.post("/transactions/loan/recieve",response_model=schemas.Transaction)
-async def reieve_loan(loan:schemas.LoanTransaction,current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
-    return crud.recieve_loan_transaction(db,current_user.id,loan=loan)
 
 
-#Home Dashcard 
-@app.get("/accounts/dashboard",response_model=schemas.AccountData)
+@app.post("/transactions/loan/give", response_model=schemas.Transaction)
+async def give_loan(loan: schemas.LoanTransaction, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.give_loan_transcation(db, current_user.id, loan=loan)
+
+
+@app.post("/transactions/loan/receive", response_model=schemas.Transaction)
+async def recieve_loan(loan: schemas.LoanTransaction, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.recieve_loan_transaction(db, current_user.id, loan=loan)
+
+
+@app.get("/transactions/loan")
+async def get_all_loan_transaction(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    # return "Hello World"
+    return crud.get_all_loan_transaction(db, current_user.id, meta, search=search)
+
+# Home Dashcard
+
+
+@app.get("/accounts/dashboard", response_model=schemas.AccountData)
 async def get_dashboard_data(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
-    return crud.get_detail_income_expense_data(db,current_user.id)
-@app.get("/accounts/monthreport",response_model=schemas.DashboardDayReport)
-async def get_dashboard(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
-    return crud.get_income_expense_data_by_date(db,current_user.id)
+    return crud.get_detail_income_expense_data(db, current_user.id)
 
+
+@app.get("/accounts/monthreport", response_model=schemas.DashboardDayReport)
+async def get_dashboard(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.get_income_expense_data_by_date(db, current_user.id)
 
 
 @app.get("/ai", response_model=str)
