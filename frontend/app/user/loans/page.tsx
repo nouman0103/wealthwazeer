@@ -120,7 +120,7 @@ export default function Home() {
         resizable: true,
         flex: 1,
         headerAlign: "center",
-        align: "right",
+        align: "left",
       },
       {
         field: "actions",
