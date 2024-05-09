@@ -107,7 +107,7 @@ export const ContactItem: React.FC<ContactInterface> = ({ name }) => {
   };
 
   return (
-    <div className="flex bg-glassmorphic-gradient shadow-glassmorphic rounded-2xl border border-opacity-5 border-white p-1 mt-3">
+    <div className="w-full flex bg-glassmorphic-gradient shadow-glassmorphic rounded-2xl border border-opacity-5 border-white p-1">
       <Avatar style={avatarStyle} className="my-auto ml-2">
         {name[0]}
       </Avatar>
