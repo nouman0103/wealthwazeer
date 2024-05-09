@@ -193,15 +193,6 @@ const _Drawer = () => {
             <PeopleRoundedIcon className="text-2xl" />
           </ListItem>
 
-          <ListItem
-            pathname={pathname}
-            url="/user/savings"
-            text={hideDrawerTexts?"":"Savings"}
-            onClick={(height: number) => setCurrentBgOffset(height)}
-            itemNum={5}
-          >
-            <FlagRoundedIcon className="text-2xl" />
-          </ListItem>
         </ul>
 
         <ul className="mx-2 flex-col flex gap-4 relative mt-auto mb-5 ">

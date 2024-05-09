@@ -16,6 +16,10 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Fade, Slide } from "@mui/material";
+import Add from "@mui/icons-material/Add";
+import PriceChangeOutlinedIcon from '@mui/icons-material/PriceChangeOutlined';
+import { AddGoalPopup } from "./AddGoalPopup";
+import { AddSavingPopup } from "./AddSavingPopup";
 
 type GraphData = {
   income: number[];
@@ -96,12 +100,12 @@ const DashCard: React.FC<{
 
   return (
     <div
-      className="relative h-48 w-60"
+      className="relative h-48 min-w-60"
       onMouseEnter={() => setShowAll(true)}
       onMouseLeave={() => setShowAll(false)}
     >
       <div
-        className={`absolute transition-all z-0 hover:z-10 duration-500 w-60 h-min bg-glassmorphic-gradient hover:bg-purple-700 hover:bg-opacity-5 scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
+        className={`absolute transition-all z-0 hover:z-10 duration-500 min-w-60 h-min bg-glassmorphic-gradient hover:bg-purple-700 hover:bg-opacity-5 scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
       >
         <span className="text-base xl:text-lg font-medium text-white text-opacity-70">
           {title}
@@ -123,9 +127,8 @@ const DashCard: React.FC<{
           />
         )}
         <div
-          className={`flex flex-col gap-3 transition-all duration-300 ${
-            showAll ? "max-h-56 scale-y-100" : "scale-y-0 max-h-0"
-          } overflow-hidden`}
+          className={`flex flex-col gap-3 transition-all duration-300 ${showAll ? "max-h-56 scale-y-100" : "scale-y-0 max-h-0"
+            } overflow-hidden`}
         >
           {bars.slice(1).map((bar, index) => (
             <GlassmorphicProgressBar
@@ -140,6 +143,56 @@ const DashCard: React.FC<{
     </div>
   );
 };
+
+
+const SavingsCard: React.FC<{
+  savedAmount?: number;
+  targetAmount?: number;
+  goalExists?: boolean;
+  handleAddGoalPopupOpen?: () => void;
+  handleAddSavingPopupOpen?: () => void;
+}> = ({ savedAmount, targetAmount, goalExists, handleAddGoalPopupOpen, handleAddSavingPopupOpen}) => {
+
+  return (!goalExists) ? (
+      <div
+        className={`h-44 lg:h-48 transition-all z-0 hover:z-10 w-60 bg-glassmorphicPrimary hover:bg-glassmorphic-gradient-hover active:bg-black active:bg-opacity-20 rounded-3xl border-4 border-dashed scale-100 hover:scale-105 active:scale-100 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover border-opacity-5 border-white p-6 flex flex-col gap-3`}
+        onClick={handleAddGoalPopupOpen}
+      >
+        <span className="mt-auto text-xl text-white text-opacity-50 text-center">
+          Create a goal
+        </span>
+        <Add className="mb-auto text-2xl text-white text-opacity-50 mx-auto" />
+      </div>
+    ) : (
+      <div
+        className={`h-44 lg:h-48 transition-all z-0 hover:z-10 duration-500 min-w-60 w-auto bg-glassmorphic-gradient hover:bg-purple-700 hover:bg-opacity-5 scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
+      >
+        <div className="flex">
+        <span className="text-base xl:text-lg font-medium text-white text-opacity-70">
+          Saving Goal
+        </span>
+        <div className="transition-all ml-auto p-1 bg-glassmorphic-gradient rounded-md shadow-glassmorphic border border-opacity-5 border-white scale-100 hover:scale-105 active:scale-100 hover:bg-glassmorphic-gradient-hover" onClick={handleAddSavingPopupOpen}>
+          <PriceChangeOutlinedIcon className="text-white text-opacity-50 " fontSize="small"/>
+        </div>
+        </div>
+
+        <div className="mb-1">
+          <span className="text-xs xl:text-xl mr-3 text-white text-opacity-70">
+            RS
+          </span>
+          <span className="text-xl xl:text-2xl font-semibold">
+            {savedAmount?.toLocaleString()} / {targetAmount?.toLocaleString()}
+          </span>
+        </div>
+          <GlassmorphicProgressBar
+            progressTitle={"New Phone"}
+            progress={67}
+            progressColor={"goalYellow"}
+          />
+      </div>
+    )
+};
+
 type DashCard_Data = {
   income_accounts: Account[];
   expense_accounts: Account[];
@@ -224,6 +277,23 @@ export default function Home() {
   });
 
   const [tipOfTheDayOpen, setTipOfTheDayOpen] = React.useState(true);
+  const [isAddGoalPopupOpen, setAddGoalPopupOpen] = React.useState(false);
+  const handleAddGoalPopupOpen = () => {
+    setAddGoalPopupOpen(true);
+  };
+
+  const handleAddGoalPopupClose = () => {
+    setAddGoalPopupOpen(false);
+  };
+
+  const [isAddSavingPopupOpen, setAddSavingPopupOpen] = React.useState(false);
+  const handleAddSavingPopupOpen = () => {
+    setAddSavingPopupOpen(true);
+  };
+
+  const handleAddSavingPopupClose = () => {
+    setAddSavingPopupOpen(false);
+  };
 
   const action = (
     <React.Fragment>
@@ -291,6 +361,13 @@ export default function Home() {
                   };
                 }) ?? []),
             ]}
+          />
+          <SavingsCard
+            savedAmount={3190}
+            targetAmount={90000}
+            goalExists={true}
+            handleAddGoalPopupOpen={handleAddGoalPopupOpen}
+            handleAddSavingPopupOpen={handleAddSavingPopupOpen}
           />
         </div>
         <div className="bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3">
@@ -378,35 +455,35 @@ export default function Home() {
             </LineChart>
           </div>
         </div>
-      </div>
 
-      <div className="bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col flex-grow gap-2 xl:gap-3">
-        <div className="flex justify-between">
-          <p className="ml-2 text-base xl:text-lg font-medium text-white text-opacity-70">
-            Transactions
-          </p>
-          <Link href={"./transactions"}>
-            <p className="mr-2 text-xs my-auto font-medium text-primaryPink scale-100 hover:scale-105 active:scale-95 transition-all ">
-              See all
+        <div className="bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col flex-grow gap-2 xl:gap-3">
+          <div className="flex justify-between">
+            <p className="ml-2 text-base xl:text-lg font-medium text-white text-opacity-70">
+              Transactions
             </p>
-          </Link>
-        </div>
-        <div className="flex flex-col gap-4">
-          {Transaction && Transaction.transactions.length > 0 ? (
-            Transaction?.transactions.map((transaction, index) => (
-              <TransactionCards
-                key={index}
-                title={transaction.description}
-                date={new Date(transaction.date).toLocaleString()}
-                value={transaction.amount}
-                isArrowUp={transaction.type === "expense" ? true : false}
-              />
-            ))
-          ) : (
-            <div className="text-center text-white text-opacity-70 mt-4">
-              No Transactions
-            </div>
-          )}
+            <Link href={"./transactions"}>
+              <p className="mr-2 text-xs my-auto font-medium text-primaryPink scale-100 hover:scale-105 active:scale-95 transition-all ">
+                See all
+              </p>
+            </Link>
+          </div>
+          <div className="flex flex-col gap-4">
+            {Transaction && Transaction.transactions.length > 0 ? (
+              Transaction?.transactions.map((transaction, index) => (
+                <TransactionCards
+                  key={index}
+                  title={transaction.description}
+                  date={new Date(transaction.date).toLocaleString()}
+                  value={transaction.amount}
+                  isArrowUp={transaction.type === "expense" ? true : false}
+                />
+              ))
+            ) : (
+              <div className="text-center text-white text-opacity-70 mt-4">
+                No Transactions
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {!tipOfTheDayLoading && (
@@ -429,6 +506,8 @@ export default function Home() {
           }}
         />
       )}
+      <AddSavingPopup open={isAddSavingPopupOpen} handleClose={handleAddSavingPopupClose} />
+      <AddGoalPopup open={isAddGoalPopupOpen} handleClose={handleAddGoalPopupClose} />
     </div>
   );
 }
