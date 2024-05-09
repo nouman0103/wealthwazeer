@@ -149,3 +149,19 @@ def get_all_loan_transaction(db: Session, user_id: int, meta: schemas.MetaReques
         meta=schemas.MetaResponse(
             page=meta.page, total=total, limit=meta.limit, next=next)
     )
+
+
+def get_loan_report(db:Session, user_id: int) -> schemas.LoansReport:
+    loan_account_ids = db.query(models.Account.id).filter(
+        models.Account.user_id == user_id, models.Account.account_type.in_(("Payable", "Receivable"))).all()
+    loan_account_ids = [id[0] for id in loan_account_ids]
+    db_accountline = db.query(models.AccountLine).filter(models.AccountLine.account_id.in_(
+        loan_account_ids), models.AccountLine.is_visible == True)
+    payableAmount = 0
+    receivableAmount = 0
+    for line in db_accountline:
+        if line.balance < 0:
+            payableAmount += abs(line.balance)
+        else:
+            receivableAmount += line.balance
+    return schemas.LoansReport(payableAmount=payableAmount, receivableAmount=receivableAmount)

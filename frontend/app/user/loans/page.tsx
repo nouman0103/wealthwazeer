@@ -6,6 +6,7 @@ import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import { GlassmorphicDataGrid } from "@/components/datagrid";
 import { NewLoanDialog } from "./newLoanDialog";
 import { CreatePaymentDialog } from "./createPaymentDialog";
+
 import { redirect } from "next/navigation";
 import { MetaResponse } from "@/utls/interface";
 import { useQuery } from "@tanstack/react-query";
@@ -45,6 +46,11 @@ export type Loan = {
 export interface LoansList {
   transactions: Loan[];
   meta: MetaResponse;
+}
+
+export interface LoansReport {
+  payableAmount: number;
+  receivableAmount: number;
 }
 
 export default function Home() {
@@ -148,8 +154,25 @@ export default function Home() {
   };
 
   const { data, isLoading, isError } = useQuery<LoansList>({
-    queryKey: ["transactions"],
+    queryKey: ["loans"],
     queryFn: getLoans,
+  });
+
+  const getLoansReport = async () => {
+    const response = await api.get<LoansReport>(
+      "/transactions/loans/report",
+      {}
+    );
+    return response.data;
+  };
+
+  const {
+    data: loansReport,
+    isLoading: loansReportLoading,
+    isError: loansReportError,
+  } = useQuery<LoansReport>({
+    queryKey: ["loansReport"],
+    queryFn: getLoansReport,
   });
 
   return (
@@ -160,13 +183,24 @@ export default function Home() {
         </span>
 
         <div className="flex gap-8">
-          <LoanCard key="payableLoan" loanName="Payable Loan" money={100000} />
+          <LoanCard
+            key="payableLoan"
+            loanName="Payable Loan"
+            money={loansReport?.payableAmount || 0}
+          />
           <LoanCard
             key="receivableLoan"
             loanName="Receivable Loan"
-            money={50000}
+            money={loansReport?.receivableAmount || 0}
           />
-          <LoanCard key="netLoan" loanName="Net Loan" money={50000} />
+          <LoanCard
+            key="netLoan"
+            loanName="Net Loan"
+            money={
+              (loansReport?.receivableAmount || 0) -
+              (loansReport?.payableAmount || 0)
+            }
+          />
           <AddLoanCard onClick={() => setNewLoanDialogOpen(true)} />
         </div>
 
