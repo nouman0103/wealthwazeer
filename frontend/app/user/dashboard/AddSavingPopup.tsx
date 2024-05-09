@@ -70,7 +70,7 @@ export const AddSavingPopup = ({
 
   return (
     <GlassmorphicDialog open={open} onClose={handleClose}>
-      <DialogTitle>Add Saving</DialogTitle>
+      <DialogTitle>Update Saving Goal</DialogTitle>
       <DialogContent
         sx={{
           display: "flex",
@@ -95,8 +95,9 @@ export const AddSavingPopup = ({
           options={bank_accounts}
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+      <DialogActions className="flex">
+        <Button className="text-red-500 mr-auto" color="error">Delete Goal</Button>
+        <Button className="ml-auto" onClick={handleClose}>Cancel</Button>
         <Button onClick={handleAddSaving}>Add Saving</Button>
       </DialogActions>
     </GlassmorphicDialog>
