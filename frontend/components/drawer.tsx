@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef , useState } from "react";
 import Logo_BlackOutline from "../assets/Logo_BlackOutline.svg";
 import Link from "next/link";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
@@ -20,6 +20,7 @@ import Paper from "@mui/material/Paper";
 import { useAuth } from "@/context/AuthContex";
 import { useQueryClient } from "@tanstack/react-query";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import { ProfilePopup } from "./profilePopup";
 
 const ListItem = ({
   pathname,
@@ -109,9 +110,18 @@ const _Drawer = () => {
     window.addEventListener('resize', handleResize);
   }, []);
 
-  
+  const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
 
+  const handleProfilePopupOpen = () => {
+      setProfilePopupOpen(true);
+  };
+
+  const handleProfilePopupClose = () => {
+      setProfilePopupOpen(false);
+  };
+  
   return (
+    <>
     <div>
       <div className="w-28 md:w-56 fixed min-h-screen bg-glassmorphic-gradient border-r border-white border-opacity-[10%] flex flex-col">
         <Link
@@ -229,6 +239,7 @@ const _Drawer = () => {
               horizontal: "left",
             }}
           >
+          <MenuItem onClick={handleProfilePopupOpen}>Profile</MenuItem>
             <MenuItem
               onClick={() => {
                 logOut();
@@ -242,6 +253,9 @@ const _Drawer = () => {
       </div>
       <div className="w-28 md:w-56 min-h-screen" />
     </div>
+
+  <ProfilePopup open={isProfilePopupOpen} handleClose={handleProfilePopupClose} />
+  </>
   );
 };
 
