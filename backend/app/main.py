@@ -109,9 +109,12 @@ async def give_loan(loan: schemas.LoanTransaction, current_user=Depends(security
 @app.post("/transactions/loan/receive", response_model=schemas.Transaction)
 async def recieve_loan(loan: schemas.LoanTransaction, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.recieve_loan_transaction(db, current_user.id, loan=loan)
+@app.post("/transactions/loan/payments", response_model=schemas.Transaction)
+async def pay_loan(loan: schemas.LoanPayment, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
+    return crud.payment_against_loan(db, current_user.id, loan=loan)
 
 
-@app.get("/transactions/loans")
+@app.get("/transactions/loans",response_model=schemas.LoanTransactionList)
 async def get_all_loan_transactions(meta: schemas.MetaRequest = Depends(), search: str | None = None, current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     # return "Hello World"
     return crud.get_all_loan_transaction(db, current_user.id, meta, search=search)
@@ -119,6 +122,7 @@ async def get_all_loan_transactions(meta: schemas.MetaRequest = Depends(), searc
 @app.get("/transactions/loans/report")
 async def get_loan_report(current_user=Depends(security.get_current_user), db: Session = Depends(get_db)):
     return crud.get_loan_report(db, current_user.id)
+
 
 
 @app.get("/accounts/dashboard", response_model=schemas.AccountData)
