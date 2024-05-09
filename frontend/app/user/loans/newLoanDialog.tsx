@@ -36,6 +36,8 @@ import { ContactInterface } from "../contacts/contactItems";
 import { ContactData } from "../contacts/page";
 import dayjs from "dayjs";
 import { useEffect } from "react";
+import { handleError } from "@/utls/handleError";
+import { AxiosError } from "axios";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -51,13 +53,12 @@ type Account = {
   account_type: string;
   account_id: string;
 };
-type ExpenseTransaction = {
+type LoanTransaction = {
   amount: number;
   date: string;
   description: string;
   partner_id: string;
-  expense_account_id: string;
-  payment_account_id: string;
+  bank_account_id: string;
 };
 type IncomeTransaction = {
   amount: number;
@@ -115,56 +116,22 @@ export const NewLoanDialog = ({
     queryKey: ["loansContacts"],
     queryFn: get_contact,
   });
-  //   const saveExpense = async (expense: ExpenseTransaction) => {
-  //     const response = await api.post("/transactions/expense", expense);
-  //     return response.data;
-  //   };
-  //   const queryClient = useQueryClient();
-  //   const mutation = useMutation({
-  //     mutationFn: saveExpense,
-  //     mutationKey: ["saveExpense"],
-  //     onSuccess: () => {
-  //       handleClose();
-  //       queryClient.invalidateQueries({
-  //         queryKey: ["transactions"],
-  //       });
-  //     },
-  //   });
-  //   const handleSave = () => {
-  //     if (mutation.isPending) {
-  //       return;
-  //     }
-  //     if (amount === 0) {
-  //       setError("Amount cannot be zero");
-  //       return;
-  //     }
-  //     if (selectedContact === "") {
-  //       setError("Select a contact");
-  //       return;
-  //     }
-  //     if (selectedDate === null) {
-  //       setError("Select a date");
-  //       return;
-  //     }
-  //     if (bankaccount === "") {
-  //       setError("Select a bank account");
-  //       return;
-  //     }
-  //     if (expenseaccount === "") {
-  //       setError("Select an expense account");
-  //       return;
-  //     }
-  //     mutation.mutate({
-  //       amount: amount,
-  //       date: selectedDate.toISOString(),
-  //       description: description,
-  //       partner_id: selectedContact,
-  //       expense_account_id: expenseaccount,
-  //       payment_account_id: bankaccount,
-  //     });
-  //   };
-
-  const [payOrReceive, setPayOrReceive] = React.useState("payLoan");
+  const [payOrReceive, setPayOrReceive] = React.useState("give");
+  const mutation = useMutation({
+    mutationFn: async (transaction: LoanTransaction) => {
+      const response = await api.post(
+        `/transactions/loan/${payOrReceive}`,
+        transaction
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      handleClose();
+    },
+    onError: (error: AxiosError) => {
+      setError(handleError(error));
+    },
+  });
 
   return (
     <>
@@ -227,10 +194,13 @@ export const NewLoanDialog = ({
               value={payOrReceive}
               onChange={(e) => setPayOrReceive(e.target.value)}
               name="radio-buttons-group"
-
             >
-              <FormControlLabel value="payLoan" control={<Radio />} label="Pay" />
-              <FormControlLabel value="receiveLoan" control={<Radio />} label="Receive" />
+              <FormControlLabel value="give" control={<Radio />} label="Pay" />
+              <FormControlLabel
+                value="receive"
+                control={<Radio />}
+                label="Receive"
+              />
             </RadioGroup>
             <div className="h-2" />
             <Autocomplete
@@ -242,7 +212,7 @@ export const NewLoanDialog = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label={payOrReceive === "payLoan" ? "Recipient" : "Payer"}
+                  label={payOrReceive === "give" ? "Recipient" : "Payer"}
                   inputProps={{
                     ...params.inputProps,
                     autoComplete: "new-password",
@@ -276,8 +246,36 @@ export const NewLoanDialog = ({
           <div className="h-3" />
           <ListItem>
             <GradientButton
-
               className="normal-case font-bold text-2xl w-full"
+              onClick={() => {
+                if (amount <= 0) {
+                  setError("Amount cannot be zero or less");
+                  return;
+                }
+                if (description === "") {
+                  setError("Description cannot be empty");
+                  return;
+                }
+                if (selectedContact === "") {
+                  setError("Select a contact");
+                  return;
+                }
+                if (selectedDate === null) {
+                  setError("Select a date");
+                  return;
+                }
+                if (bankaccount === "") {
+                  setError("Select a bank account");
+                  return;
+                }
+                mutation.mutate({
+                  amount,
+                  date: selectedDate.toISOString(),
+                  description,
+                  partner_id: selectedContact,
+                  bank_account_id: bankaccount,
+                });
+              }}
             >
               Add Loan
             </GradientButton>
