@@ -35,7 +35,8 @@ class TransactionDetail(TransactionBase):
     model_config = ConfigDict(arbitrary_types_allowed=True)
     model_config["title"] = "Transaction Detail"
     model_config['from_attributes'] = True
-
+class LoanDetail(TransactionDetail):
+    remaining_payment:int 
 class TransactionList(BaseModel):
     transactions:List[TransactionDetail]
     meta:MetaResponse
@@ -44,6 +45,19 @@ class LoanTransaction(TransactionBase):
     partner_id: uuid.UUID
     bank_account_id: uuid.UUID
     
+class LoanTransactionList(BaseModel):
+    transactions:List[LoanDetail]
+    meta:MetaResponse
+
 class LoansReport(BaseModel):
     payableAmount: float
     receivableAmount: float
+
+class LoanPayment(BaseModel):
+    amount: float
+    date: datetime
+    #description: str
+    #partner_id: uuid.UUID
+    bank_account_id: uuid.UUID
+    loan_id: uuid.UUID
+    payment_type : Literal["pay","receive"]

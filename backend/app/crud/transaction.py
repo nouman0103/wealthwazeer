@@ -138,30 +138,88 @@ def get_all_loan_transaction(db: Session, user_id: int, meta: schemas.MetaReques
         next = meta.page+1
     for line in db_accountline:
         transaction = line.transaction
-        transactions.append(schemas.TransactionDetail(
+        remaining_payment =  line.balance
+        for payment in transaction.transaction_payment:
+            remaining_payment -=payment.payment.amount
+
+        transactions.append(schemas.LoanDetail(
             id=transaction.id, date=transaction.date, description=transaction.description,
             amount=abs(line.balance),
             partner=transaction.partner.name,
-            type="receivable" if line.balance < 0 else "payable"
+            type="receivable" if line.balance < 0 else "payable",
+            remaining_payment=remaining_payment
         ))
-    return schemas.TransactionList(
+    return schemas.LoanTransactionList(
         transactions=transactions,
         meta=schemas.MetaResponse(
             page=meta.page, total=total, limit=meta.limit, next=next)
     )
 
 
-def get_loan_report(db:Session, user_id: int) -> schemas.LoansReport:
-    loan_account_ids = db.query(models.Account.id).filter(
-        models.Account.user_id == user_id, models.Account.account_type.in_(("Payable", "Receivable"))).all()
-    loan_account_ids = [id[0] for id in loan_account_ids]
+def get_loan_report(db: Session, user_id: int) -> schemas.LoansReport:
+    # loan_account_ids = db.query(models.Account.id).filter(
+    #     models.Account.user_id == user_id, models.Account.account_type.in_(("Payable", "Receivable"))).all()
+    # loan_account_ids = [id[0] for id in loan_account_ids]
+    # db_accountline = db.query(models.AccountLine).filter(models.AccountLine.account_id.in_(
+    #     loan_account_ids), models.AccountLine.is_visible == True)
+    # payableAmount = 0
+    # receivableAmount = 0
+    # for line in db_accountline:
+    #     if line.balance > 0:
+    #         payableAmount += abs(line.balance)
+    #     else:
+    #         receivableAmount += line.balance
+    # return schemas.LoansReport(payableAmount=payableAmount, receivableAmount=receivableAmount)
+    payable_id= db.query(models.Account.id).filter(
+        models.Account.user_id==user_id,models.Account.account_type == "Payable").first()
+    receivable_id = db.query(models.Account.id).filter(
+        models.Account.user_id==user_id,models.Account.account_type == "Receivable").first()
     db_accountline = db.query(models.AccountLine).filter(models.AccountLine.account_id.in_(
-        loan_account_ids), models.AccountLine.is_visible == True)
+        (payable_id[0],receivable_id[0])), models.AccountLine.is_visible == True)
     payableAmount = 0
     receivableAmount = 0
     for line in db_accountline:
-        if line.balance < 0:
-            payableAmount += abs(line.balance)
+        if line.account_id==payable_id[0]:
+            payableAmount+=line.balance
         else:
-            receivableAmount += line.balance
-    return schemas.LoansReport(payableAmount=payableAmount, receivableAmount=receivableAmount)
+            receivableAmount+=line.balance
+    return schemas.LoansReport(payableAmount=abs(payableAmount), receivableAmount=abs(receivableAmount))
+    
+    
+
+
+def payment_against_loan(db: Session, user_id: int, loan: schemas.LoanPayment) -> schemas.Transaction:
+    loan_transaction = db.query(models.Transaction).filter(
+        models.Transaction.id == loan.loan_id, models.Transaction.user_id == user_id).first()
+    if not loan_transaction:
+        raise HTTPException(400, "Loan Dont Exist")
+    payment = models.Payment(
+        amount=loan.amount, user_id=user_id, account_id=loan.bank_account_id
+    )
+    payment_transaction = models.Transaction(user_id=user_id, partner_id=loan_transaction.partner_id,
+                                             status="accepted", date=loan.date, description="Payemnt against:" + loan_transaction.description)
+    if loan.payment_type == "pay":
+        payable_account_id = db.query(models.Account.id).filter(
+            models.Account.user_id == user_id, models.Account.account_type == "Payable").first()
+        payable_line = models.AccountLine(credit=0, debit=loan.amount, user_id=user_id, balance=-
+                                          loan.amount, partner_id=loan_transaction.partner_id,
+                                          account_id=payable_account_id, is_visible=True)
+        bank_line = models.AccountLine(credit=loan.amount, debit=0, user_id=user_id, balance=loan.amount,
+                                       partner_id=loan_transaction.partner_id, account_id=loan.amount, is_visible=False)
+        payment_transaction.append(payable_line)
+        payment_transaction.append(bank_line)
+        db.add(payment_transaction)
+    else:
+        receivable_account_id = db.query(models.Account.id).filter(
+            models.Account.user_id == user_id, models.Account.account_type == "Receivable").first()
+        receivable_line = models.AccountLine(credit=loan.amount, debit=0, user_id=user_id, balance=loan.amount, partner_id=loan_transaction.partner_id,
+                                             account_id=receivable_account_id[0], is_visible=True)
+        bank_line = models.AccountLine(credit=0, debit=loan.amount, user_id=user_id, balance=-loan.amount,
+                                       partner_id=loan_transaction.partner_id[0], account_id=loan.amount, is_visible=False)
+        payment_transaction.accountline.append(receivable_line)
+        payment_transaction.accountline.append(bank_line)
+        db.add(payment_transaction)
+    payment.transaction.append(payment_transaction)
+    db.add(payment)
+    loan_transaction.transaction_payment.append(payment)
+    db.commit()

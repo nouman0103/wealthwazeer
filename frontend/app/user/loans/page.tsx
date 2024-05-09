@@ -41,6 +41,7 @@ export type Loan = {
   description: string;
   partner: string;
   type: "payable" | "receivable";
+  remaining_payment:number;
 };
 export interface LoansList {
   transactions: Loan[];
@@ -111,6 +112,16 @@ export default function Home() {
         headerAlign: "center",
         align: "center",
         valueFormatter: (value: string) => new Date(value).toLocaleString(),
+      },
+      {
+        field: "remaining_payment",
+        headerName: "Remaining Amount",
+        type: "string",
+        minWidth: 150,
+        resizable: true,
+        flex: 1,
+        headerAlign: "center",
+        align: "left",
       },
       {
         field: "description",
