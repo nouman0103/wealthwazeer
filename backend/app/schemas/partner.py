@@ -26,13 +26,12 @@ class PartnerDetail(BaseModel):
     phone: Optional[str] = None
     city: Optional[str] = None
     country: Optional[str] = None
-    user_id: UUID
-    created_at: int
-    updated_at: int
-
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    model_config["title"] = "List of Partners"
+    model_config['from_attributes'] = True
 class PartnerList(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
     model_config["title"] = "List of Partners"
     model_config['from_attributes'] = True
-    partners: list[Partner]
+    partners: list[PartnerDetail]
     meta: MetaResponse
