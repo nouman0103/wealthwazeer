@@ -215,11 +215,11 @@ export default function Home() {
       const response = await api.get("/ai");
       return response.data;
     },
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
-    // refetchOnWindowFocus: false,
-    // refetchInterval: false,
-    // refetchIntervalInBackground: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    refetchInterval: 30*60,
+    refetchIntervalInBackground: false,
   });
 
   const [tipOfTheDayOpen, setTipOfTheDayOpen] = React.useState(true);
