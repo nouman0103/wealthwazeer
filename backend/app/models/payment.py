@@ -13,14 +13,13 @@ class Payment(Base):
     amount = Column(Integer, nullable=False)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     date = Column(TIMESTAMP,nullable=False)
-    transaction_id = Column(UUID(as_uuid=True), ForeignKey("transaction.id"), nullable=False)
+    transaction_id = Column(UUID(as_uuid=True), ForeignKey("transaction.id",ondelete='CASCADE'), nullable=False)
     account_id = Column(UUID(as_uuid=True), ForeignKey("account.id"), nullable=False)
 
 
-    
+
     account = relationship("Account", back_populates="payment")
-    transaction_payment = relationship("TransactionPayment", back_populates="payment")
-    transaction = relationship("Transaction", back_populates="payment")
+    loan_transaction = relationship("Transaction", back_populates="payment",secondary="transaction_payment")
     user = relationship("User", back_populates="payment")
 
     

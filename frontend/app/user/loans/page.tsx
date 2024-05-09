@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { LoanCard, AddLoanCard } from "./loanCards";
 import { GlassmorphicButton } from "@/components/buttons";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
@@ -57,7 +57,8 @@ export default function Home() {
   const [newLoanDialogOpen, setNewLoanDialogOpen] = React.useState(false);
   const [createPaymentDialogOpen, setCreatePaymentDialogOpen] =
     React.useState(false);
-  const [selectedloanid, setSelectedLoanId] = React.useState(0);
+  const [selectedloanid, setSelectedLoanId] = React.useState("");
+  const [type,settype] = useState("payable");
   const columns: GridColDef[] = useMemo(
     () => [
       {
@@ -142,7 +143,12 @@ export default function Home() {
         headerAlign: "center",
         align: "center",
         renderCell: (params) => (
-          <GlassmorphicButton onClick={() => setCreatePaymentDialogOpen(true)}>
+          <GlassmorphicButton onClick={() => {
+            setSelectedLoanId(params.row.id)
+            settype(params.row.type);
+            setCreatePaymentDialogOpen(true);
+          }} >
+
             Pay Now
           </GlassmorphicButton>
         ),
@@ -228,6 +234,8 @@ export default function Home() {
       <CreatePaymentDialog
         open={createPaymentDialogOpen}
         handleClose={() => setCreatePaymentDialogOpen(false)}
+        type={type}
+        loan_id={selectedloanid}
       />
     </>
   );

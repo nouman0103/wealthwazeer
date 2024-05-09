@@ -17,8 +17,7 @@ class Transaction(Base):
     user = relationship("User", back_populates="transaction")
     partner = relationship("Partner", back_populates="transaction")
     accountline = relationship("AccountLine", back_populates="transaction")
-    transaction_payment = relationship("TransactionPayment", back_populates="transaction")
-    payment = relationship("Payment", back_populates="transaction")
+    payment = relationship("Payment", back_populates="loan_transaction",secondary="transaction_payment")
     
     created_at = Column(TIMESTAMP, default=func.current_timestamp())
     updated_at = Column(TIMESTAMP, default=func.current_timestamp())
