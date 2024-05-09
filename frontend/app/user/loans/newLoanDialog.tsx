@@ -30,7 +30,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { SelectField } from "@/components/selectfield";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/context/AuthContex";
 import { ContactInterface } from "../contacts/contactItems";
 import { ContactData } from "../contacts/page";
@@ -104,6 +104,7 @@ export const NewLoanDialog = ({
     });
     return response.data;
   };
+  const queryClient = useQueryClient();
   const { data: bank_accounts, isLoading } = useQuery<Account[]>({
     queryKey: ["bank_account"],
     queryFn: get_bank_account,
@@ -126,6 +127,9 @@ export const NewLoanDialog = ({
       return response.data;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["loans","loansReport"],
+      });
       handleClose();
     },
     onError: (error: AxiosError) => {

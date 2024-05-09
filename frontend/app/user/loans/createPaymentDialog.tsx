@@ -68,6 +68,10 @@ export const CreatePaymentDialog = ({
       handleError(error);
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["loans","loansReport"],
+      
+      });
       handleClose();
     },
   });

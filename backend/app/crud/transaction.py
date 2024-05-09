@@ -148,7 +148,7 @@ def get_all_loan_transaction(db: Session, user_id: int, meta: schemas.MetaReques
         next = meta.page+1
     for line in db_accountline:
         transaction = line.transaction
-        remaining_payment =  line.balance
+        remaining_payment =  abs(line.balance)
         for payment_Obj in transaction.payment:
             remaining_payment -=payment_Obj.amount
 

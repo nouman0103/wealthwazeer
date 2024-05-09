@@ -41,7 +41,7 @@ export type Loan = {
   description: string;
   partner: string;
   type: "payable" | "receivable";
-  remaining_payment:number;
+  remaining_payment: number;
 };
 export interface LoansList {
   transactions: Loan[];
@@ -58,7 +58,7 @@ export default function Home() {
   const [createPaymentDialogOpen, setCreatePaymentDialogOpen] =
     React.useState(false);
   const [selectedloanid, setSelectedLoanId] = React.useState("");
-  const [type,settype] = useState("payable");
+  const [type, settype] = useState("payable");
   const columns: GridColDef[] = useMemo(
     () => [
       {
@@ -142,16 +142,36 @@ export default function Home() {
         flex: 1,
         headerAlign: "center",
         align: "center",
-        renderCell: (params) => (
-          <GlassmorphicButton onClick={() => {
-            setSelectedLoanId(params.row.id)
-            settype(params.row.type);
-            setCreatePaymentDialogOpen(true);
-          }} >
-
-            Pay Now
-          </GlassmorphicButton>
-        ),
+        renderCell: (params) => {
+          if (params.row.remaining_payment === 0) {
+            return <GlassmorphicButton>PAID</GlassmorphicButton>;
+          }
+          if (params.row.type === "payable") {
+            return (
+              <GlassmorphicButton
+                onClick={() => {
+                  setSelectedLoanId(params.row.id);
+                  settype(params.row.type);
+                  setCreatePaymentDialogOpen(true);
+                }}
+              >
+                Pay Now
+              </GlassmorphicButton>
+            );
+          } else {
+            return (
+              <GlassmorphicButton
+                onClick={() => {
+                  setSelectedLoanId(params.row.id);
+                  settype(params.row.type);
+                  setCreatePaymentDialogOpen(true);
+                }}
+              >
+                Receive Now
+              </GlassmorphicButton>
+            );
+          }
+        },
       },
     ],
     []
