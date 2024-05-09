@@ -104,7 +104,7 @@ const DashCard: React.FC<{
       onMouseLeave={() => setShowAll(false)}
     >
       <div
-        className={`absolute transition-all z-0 hover:z-10 duration-500 w-60 h-min bg-glassmorphic-gradient hover:bg-glassmorphic-gradient-hover scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
+        className={`absolute transition-all z-0 hover:z-10 duration-500 w-60 h-min bg-glassmorphic-gradient hover:bg-purple-700 hover:bg-opacity-5 scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
       >
         <span className="text-base xl:text-lg font-medium text-white text-opacity-70">
           {title}
