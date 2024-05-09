@@ -89,6 +89,7 @@ export default function Home() {
               .map((account) => {
                 return (
                   <AccountCard
+                    key={account.name}
                     accountName={account.name}
                     money={account.balance}
                   />
@@ -114,6 +115,7 @@ export default function Home() {
                   <AccountCard
                     accountName={account.name}
                     money={account.balance}
+                    key={account.name}
                   />
                 );
               })}
@@ -133,7 +135,7 @@ export default function Home() {
               .filter((account) => account.account_type === "Expenses")
               .map((account) => {
                 return (
-                  <AccountCard
+                  <AccountCard key={account.name}
                     accountName={account.name}
                     money={account.balance}
                   />
