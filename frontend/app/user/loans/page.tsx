@@ -6,7 +6,6 @@ import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import { GlassmorphicDataGrid } from "@/components/datagrid";
 import { NewLoanDialog } from "./newLoanDialog";
 import { CreatePaymentDialog } from "./createPaymentDialog";
-
 import { redirect } from "next/navigation";
 import { MetaResponse } from "@/utls/interface";
 import { useQuery } from "@tanstack/react-query";
