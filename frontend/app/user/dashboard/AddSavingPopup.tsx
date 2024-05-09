@@ -1,5 +1,6 @@
 import { GlassmorphicDialog } from "@/components/dialogs";
 import { SelectField } from "@/components/selectfield";
+import { useAuth } from "@/context/AuthContex";
 // import { useAuth } from "@/context/AuthContex"; 
 // import { handleError } from "@/utls/handleError";
 import {
@@ -10,9 +11,11 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 // import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"; 
 // import { AxiosError } from "axios"; 
 import { useState } from "react";
+import { Account } from "../accounts/page";
 
 export const AddSavingPopup = ({
   open,
@@ -53,6 +56,18 @@ export const AddSavingPopup = ({
     handleClose();
   };
 
+  const api = useAuth().api;
+
+  const get_bank_account = async () => {
+    const response = await api.get("/accounts/bank");
+    return response.data;
+  };
+
+  const { data: bank_accounts, isLoading } = useQuery<Account[]>({
+    queryKey: ["bank_account"],
+    queryFn: get_bank_account,
+  });
+
   return (
     <GlassmorphicDialog open={open} onClose={handleClose}>
       <DialogTitle>Add Saving</DialogTitle>
@@ -75,10 +90,9 @@ export const AddSavingPopup = ({
          <SelectField
           label="Bank Account"
           value="Some Account"
-          valuefield="account_id"
           labelfield="name"
-          onChange={setBankAccount}
-          options={["Some Account", "Another Account"]}
+          onChange={(e) => setBankAccount(e)}
+          options={bank_accounts}
         />
       </DialogContent>
       <DialogActions>

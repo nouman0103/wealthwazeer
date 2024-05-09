@@ -42,7 +42,7 @@ const Transition = React.forwardRef(function Transition(
   return <Zoom ref={ref} {...props} />;
 });
 
-type Account = {
+export type Account = {
   name: string;
   account_type: string;
   account_id: string;
