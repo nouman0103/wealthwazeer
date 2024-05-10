@@ -13,3 +13,6 @@ class User(UserBase):
     is_active: bool
     class Config:
         orm_mode = True
+
+class UserUpdate(BaseModel):
+    name:str

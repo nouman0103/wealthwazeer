@@ -1,5 +1,6 @@
 import { GlassmorphicDialog } from "@/components/dialogs";
 import { SelectField } from "@/components/selectfield";
+import { useAuth } from "@/context/AuthContex";
 // import { useAuth } from "@/context/AuthContex"; 
 // import { handleError } from "@/utls/handleError";
 import {
@@ -10,6 +11,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"; 
 // import { AxiosError } from "axios"; 
 import { useState } from "react";
@@ -21,7 +23,23 @@ export const ProfilePopup = ({
   open: boolean;
   handleClose: () => void;
 }) => {
-  const [name, setName] = useState("");
+  const {user,api} = useAuth();
+  const [name, setName] = useState(user?.name);
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const response = await api.put("/users", {
+        name: name,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["user"],
+      });
+      handleClose();
+    }
+  })
   // const { api } = useAuth(); 
   // const add_saving = async () => { 
   //   const response = await api.post("/partners", {
@@ -71,7 +89,7 @@ export const ProfilePopup = ({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Save</Button>
+        <Button onClick={()=>mutation.mutate()}>Save</Button>
         <Button onClick={handleAddSaving}>Cancel</Button>
       </DialogActions>
     </GlassmorphicDialog>

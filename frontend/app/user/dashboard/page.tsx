@@ -20,6 +20,7 @@ import Add from "@mui/icons-material/Add";
 import PriceChangeOutlinedIcon from '@mui/icons-material/PriceChangeOutlined';
 import { AddGoalPopup } from "./AddGoalPopup";
 import { AddSavingPopup } from "./AddSavingPopup";
+import { GlassmorphicButton } from "@/components/buttons";
 
 type GraphData = {
   income: number[];
@@ -151,46 +152,46 @@ const SavingsCard: React.FC<{
   goalExists?: boolean;
   handleAddGoalPopupOpen?: () => void;
   handleAddSavingPopupOpen?: () => void;
-}> = ({ savedAmount, targetAmount, goalExists, handleAddGoalPopupOpen, handleAddSavingPopupOpen}) => {
+}> = ({ savedAmount, targetAmount, goalExists, handleAddGoalPopupOpen, handleAddSavingPopupOpen }) => {
 
   return (!goalExists) ? (
-      <div
-        className={`h-44 lg:h-48 transition-all z-0 hover:z-10 w-60 bg-glassmorphicPrimary hover:bg-glassmorphic-gradient-hover active:bg-black active:bg-opacity-20 rounded-3xl border-4 border-dashed scale-100 hover:scale-105 active:scale-100 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover border-opacity-5 border-white p-6 flex flex-col gap-3`}
-        onClick={handleAddGoalPopupOpen}
-      >
-        <span className="mt-auto text-xl text-white text-opacity-50 text-center">
-          Create a goal
-        </span>
-        <Add className="mb-auto text-2xl text-white text-opacity-50 mx-auto" />
-      </div>
-    ) : (
-      <div
-        className={`h-44 lg:h-48 transition-all z-0 hover:z-10 duration-500 min-w-60 w-auto bg-glassmorphic-gradient hover:bg-purple-700 hover:bg-opacity-5 scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
-      >
-        <div className="flex">
+    <div
+      className={`h-44 lg:h-48 transition-all z-0 hover:z-10 w-60 bg-glassmorphicPrimary hover:bg-glassmorphic-gradient-hover active:bg-black active:bg-opacity-20 rounded-3xl border-4 border-dashed scale-100 hover:scale-105 active:scale-100 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover border-opacity-5 border-white p-6 flex flex-col gap-3`}
+      onClick={handleAddGoalPopupOpen}
+    >
+      <span className="mt-auto text-xl text-white text-opacity-50 text-center">
+        Create a goal
+      </span>
+      <Add className="mb-auto text-2xl text-white text-opacity-50 mx-auto" />
+    </div>
+  ) : (
+    <div
+      className={`h-44 lg:h-48 transition-all z-0 hover:z-10 duration-500 min-w-60 w-auto bg-glassmorphic-gradient hover:bg-purple-700 hover:bg-opacity-5 scale-100 hover:scale-105 backdrop-blur-lg shadow-glassmorphic hover:glassmorphic-hover rounded-3xl border border-opacity-5 border-white p-6 flex flex-col gap-3`}
+    >
+      <div className="flex">
         <span className="text-base xl:text-lg font-medium text-white text-opacity-70">
           Saving Goal
         </span>
         <div className="transition-all ml-auto p-1 bg-glassmorphic-gradient rounded-md shadow-glassmorphic border border-opacity-5 border-white scale-100 hover:scale-105 active:scale-100 hover:bg-glassmorphic-gradient-hover" onClick={handleAddSavingPopupOpen}>
-          <PriceChangeOutlinedIcon className="text-white text-opacity-50 " fontSize="small"/>
+          <PriceChangeOutlinedIcon className="text-white text-opacity-50 " fontSize="small" />
         </div>
-        </div>
-
-        <div className="mb-1">
-          <span className="text-xs xl:text-xl mr-3 text-white text-opacity-70">
-            RS
-          </span>
-          <span className="text-xl xl:text-2xl font-semibold">
-            {savedAmount?.toLocaleString()} / {targetAmount?.toLocaleString()}
-          </span>
-        </div>
-          <GlassmorphicProgressBar
-            progressTitle={"New Phone"}
-            progress={67}
-            progressColor={"goalYellow"}
-          />
       </div>
-    )
+
+      <div className="mb-1">
+        <span className="text-xs xl:text-xl mr-3 text-white text-opacity-70">
+          RS
+        </span>
+        <span className="text-xl xl:text-2xl font-semibold">
+          {savedAmount?.toLocaleString()} / {targetAmount?.toLocaleString()}
+        </span>
+      </div>
+      <GlassmorphicProgressBar
+        progressTitle={"New Phone"}
+        progress={67}
+        progressColor={"goalYellow"}
+      />
+    </div>
+  )
 };
 
 type DashCard_Data = {
@@ -312,8 +313,8 @@ export default function Home() {
 
   return (
     <div className="p-2 lg:p-4 2xl:p-8 overflow-x-hidden flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap flex-grow">
-      <div className="flex flex-col gap-2 lg:gap-4 2xl:gap-8 flex-wrap">
-        <div className="flex gap-2 lg:gap-4 2xl:gap-8 flex-wrap">
+      <div className="flex flex-col gap-2 lg:gap-4 2xl:gap-8 flex-wrap w-full">
+        <div className="flex-grow flex flex-wrap gap-2 lg:gap-4 2xl:gap-8">
           <DashCard
             title="Net Savings"
             value={net_sum}
@@ -362,13 +363,21 @@ export default function Home() {
                 }) ?? []),
             ]}
           />
-          <SavingsCard
+          <div className="flex flex-col gap-4 py-3">
+            <Link href={"./transactions"} className="text-center cursor-pointer transition-all bg-glassmorphic-gradient border border-white border-opacity-5 shadow-glassmorphic p-6 rounded-xl hover:bg-glassmorphic-gradient-hover scale-100 active:scale-95">
+              Manage Transactions
+            </Link>
+            <Link href={"./loans"}  className="text-center cursor-pointer transition-all bg-glassmorphic-gradient border border-white border-opacity-5 shadow-glassmorphic p-6 rounded-xl hover:bg-glassmorphic-gradient-hover scale-100 active:scale-95">
+              Manage Loans
+            </Link>
+          </div>
+          {/* <SavingsCard
             savedAmount={3190}
             targetAmount={90000}
             goalExists={true}
             handleAddGoalPopupOpen={handleAddGoalPopupOpen}
             handleAddSavingPopupOpen={handleAddSavingPopupOpen}
-          />
+          /> */}
         </div>
         <div className="bg-glassmorphic-gradient shadow-glassmorphic rounded-3xl border border-opacity-5 border-white p-2 xl:p-4 flex flex-col gap-2 xl:gap-3">
           <p className="ml-2 text-base xl:text-lg font-medium text-white text-opacity-70">

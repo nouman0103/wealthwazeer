@@ -41,3 +41,13 @@ def authenticate_user(db: Session, email: str, password: str):
     if user:
         return schemas.Token(access_token=security.create_access_token(user), token_type="bearer")
     raise HTTPException(status_code=400, detail="Incorrect email or password")
+
+def update_user(db: Session, user: schemas.UserUpdate, user_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user.name:  # Check if user.name is not None before assigning it
+        db_user.name = user.name
+    db.commit()
+    db.refresh(db_user)
+    return schemas.User(id=db_user.id, email=db_user.email, is_active=db_user.is_active, name=db_user.name)
