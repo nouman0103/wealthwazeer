@@ -77,10 +77,10 @@ const Header: React.FC = () => {
             Developers:
           </p>
           <ul className="ml-3">
-            <li>Shivam Kumar</li>
-            <li>Shubham Kumar</li>
-            <li>Shubham Kumar</li>
-            <li>Shubham Kumar</li>
+            <li>Mian Abdullah</li>
+            <li>M. Nouman Iqbal</li>
+            <li>Mah Rukh</li>
+            <li>M. Abdul Rehman Khan</li>
           </ul>
         </div>
       </Modal>
